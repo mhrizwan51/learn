@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Islamic Banking and Riba: a Quranic review of Murabaha, Ijara and Diminishing Musharaka | Rizwan Zubair</title><meta name="description" content="What the Quran and Hadith mean by Riba, and a plain-language review of Islamic banking products — Murabaha, Ijara and Diminishing Musharaka — compared with conventional bank loans, by Muhammad Rizwan Zubair."><link rel="canonical" href="https://learn.rizwanzubair.net/islamic-banking/en/"><link rel="alternate" hreflang="en" href="https://learn.rizwanzubair.net/islamic-banking/en/"><link rel="alternate" hreflang="ur" href="https://learn.rizwanzubair.net/islamic-banking/ur/"><meta property="og:title" content="Islamic Banking and Riba: a Quranic review of Murabaha, Ijara and Diminishing Musharaka | Rizwan Zubair"><meta property="og:description" content="What the Quran and Hadith mean by Riba, and a plain-language review of Islamic banking products — Murabaha, Ijara and Diminishing Musharaka — compared with conventional bank loans, by Muhammad Rizwan Zubair."><meta property="og:url" content="https://learn.rizwanzubair.net/islamic-banking/en/"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Islamic Banking and Riba: a Quranic review of Murabaha, Ijara and Diminishing Musharaka", "description": "What the Quran and Hadith mean by Riba, and a plain-language review of Islamic banking products — Murabaha, Ijara and Diminishing Musharaka — compared with conventional bank loans, by Muhammad Rizwan Zubair.", "inLanguage": "en", "author": {"@type": "Person", "name": "Muhammad Rizwan Zubair", "url": "https://www.rizwanzubair.net"}, "url": "https://learn.rizwanzubair.net/islamic-banking/en/"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<!-- Fonts for English and Arabic -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+<!-- Hidden SVG defs: Islamic geometric star, arabesque divider -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <!-- 8-pointed star pattern tile -->
+    <pattern id="star-pat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="rgba(0,119,182,0.18)" stroke-width="0.6">
+        <rect x="15" y="15" width="30" height="30" transform="rotate(45,30,30)"/>
+        <rect x="20" y="20" width="20" height="20"/>
+        <line x1="30" y1="5" x2="30" y2="55"/>
+        <line x1="5" y1="30" x2="55" y2="30"/>
+        <line x1="12" y1="12" x2="48" y2="48"/>
+        <line x1="48" y1="12" x2="12" y2="48"/>
+      </g>
+    </pattern>
+    <!-- Arabesque divider path -->
+    <symbol id="arabesque" viewBox="0 0 400 24">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M0,12 Q25,2 50,12 Q75,22 100,12 Q125,2 150,12 Q175,22 200,12 Q225,2 250,12 Q275,22 300,12 Q325,2 350,12 Q375,22 400,12" opacity="0.4"/>
+        <path d="M0,12 Q25,22 50,12 Q75,2 100,12 Q125,22 150,12 Q175,2 200,12 Q225,22 250,12 Q275,2 300,12 Q325,22 350,12 Q375,2 400,12" opacity="0.2"/>
+        <circle cx="200" cy="12" r="3" fill="currentColor" opacity="0.5"/>
+        <circle cx="200" cy="12" r="6" fill="none" opacity="0.3"/>
+        <polygon points="60,12 65,7 70,12 65,17" fill="currentColor" opacity="0.35"/>
+        <polygon points="330,12 335,7 340,12 335,17" fill="currentColor" opacity="0.35"/>
+      </g>
+    </symbol>
+    <!-- 6-pointed hero star -->
+    <symbol id="star6" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor">
+        <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" stroke-width="1" opacity="0.6"/>
+        <circle cx="50" cy="50" r="20" stroke-width="0.8" opacity="0.35"/>
+        <circle cx="50" cy="50" r="30" stroke-width="0.5" opacity="0.2"/>
+        <circle cx="50" cy="50" r="44" stroke-width="0.4" opacity="0.12"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<style>
+/* ═══════════════════════════════════════════
+   RESET & TOKENS (Light Blue Theme)
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* Light Blue Palette */
+  --parch:    #F0F8FF; /* AliceBlue background */
+  --parch2:   #E1EFF8; /* Slightly darker for contrast */
+  --parch3:   #D2E6F2;
+  --ink:      #0A1929; /* Dark text */
+  --ink2:     #132F4C;
+  --muted:    #3E5E7A;
+  --muted2:   #5A7B9A;
+  --gold:     #0077B6; /* Accent 1 */
+  --gold2:    #0096C7; /* Accent 2 */
+  --gold3:    #48CAE4; /* Accent 3 - light */
+  --green:    #023E8A; /* Primary brand color */
+  --green2:   #03045E; /* Dark primary */
+  --greenfg:  #001D3D; /* Dark text for primary elements */
+  --border:   rgba(0,119,182,0.2);
+  --border2:  rgba(0,119,182,0.38);
+  --r:        8px;
+  --shadow:   0 2px 16px rgba(10,25,41,0.08);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--parch);}
+::-webkit-scrollbar-thumb{background:var(--gold);}
+
+body{
+  font-family:'Inter', 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-size:17px;
+  line-height:1.8;
+  color:var(--ink);
+  background:var(--parch);
+  direction:ltr;
+  text-align:left;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* RTL Helpers for Arabic text inside LTR document */
+.rtl-text {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL PROGRESS
+═══════════════════════════════════════════ */
+#progress{
+  position:fixed;top:0;left:0;height:3px;width:0;
+  background:linear-gradient(to right,var(--gold),var(--gold3));
+  z-index:9999;
+  box-shadow:0 0 8px rgba(72,202,228,.6);
+  transition:width .04s linear;
+}
+
+/* ═══════════════════════════════════════════
+   GEOMETRIC STAR BACKGROUND (very subtle)
+═══════════════════════════════════════════ */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='rgba(0,119,182,0.06)' stroke-width='0.6'%3E%3Crect x='15' y='15' width='30' height='30' transform='rotate(45,30,30)'/%3E%3Crect x='20' y='20' width='20' height='20'/%3E%3Cline x1='30' y1='5' x2='30' y2='55'/%3E%3Cline x1='5' y1='30' x2='55' y2='30'/%3E%3Cline x1='12' y1='12' x2='48' y2='48'/%3E%3Cline x1='48' y1='12' x2='12' y2='48'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:1;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero{
+  position:relative;
+  background:var(--green);
+  overflow:hidden;
+  padding:4rem 2rem 3.5rem;
+}
+
+#hero-canvas{
+  position:absolute;inset:0;z-index:0;
+  pointer-events:none;opacity:.35;
+}
+
+.hero::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(to bottom,transparent,var(--parch));
+  z-index:2;pointer-events:none;
+}
+
+.hero-ornament{
+  position:absolute;
+  left:-60px;top:-60px;
+  width:300px;height:300px;
+  opacity:.12;
+  z-index:1;
+  animation:spin-slow 60s linear infinite;
+}
+@keyframes spin-slow{to{transform:rotate(360deg);}}
+
+.hero-ornament-r{
+  position:absolute;
+  right:-40px;bottom:-40px;
+  width:200px;height:200px;
+  opacity:.07;
+  z-index:1;
+  animation:spin-slow 80s linear infinite reverse;
+}
+
+.hero-inner{
+  position:relative;z-index:3;
+  max-width:780px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.bismillah{
+  font-family:'Amiri','Noto Naskh Arabic',serif;
+  font-size:clamp(22px,4vw,34px);
+  color:var(--gold3);
+  margin-bottom:1.2rem;
+  letter-spacing:.02em;
+  opacity:0;
+  transform:translateY(12px);
+  animation:fadeUp .9s ease .2s forwards;
+  text-shadow:0 2px 8px rgba(0,0,0,.4);
+  direction:rtl;
+}
+.hero-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(72,202,228,.8);
+  margin-bottom:1rem;
+  opacity:0;animation:fadeUp .8s ease .4s forwards;
+}
+.hero h1{
+  font-family:'Lora',Georgia,serif;
+  font-size:clamp(32px,6vw,54px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.2;
+  margin-bottom:1rem;
+  text-shadow:0 2px 10px rgba(0,0,0,.45);
+  opacity:0;animation:fadeUp .9s ease .55s forwards;
+}
+.hero h1 span{color:var(--gold3);}
+.hero-sub{
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:400;
+  color:rgba(200,240,250,.9);
+  max-width:580px;
+  margin:0 auto 2rem;
+  line-height:1.8;
+  opacity:0;animation:fadeUp .8s ease .75s forwards;
+}
+.hero-chips{
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .8s ease .9s forwards;
+}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(72,202,228,.3);
+  color:rgba(200,240,250,.9);
+  font-size:12.5px;padding:6px 16px;border-radius:24px;
+  backdrop-filter:blur(4px);
+  font-weight:500;
+}
+
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+
+/* ═══════════════════════════════════════════
+   ARABESQUE DIVIDER
+═══════════════════════════════════════════ */
+.arabesque-div{
+  width:100%;max-width:500px;
+  height:24px;margin:0 auto;
+  color:var(--gold);
+  display:block;
+  opacity:.65;
+}
+
+/* ═══════════════════════════════════════════
+   PAGE LAYOUT
+═══════════════════════════════════════════ */
+.page{
+  position:relative;z-index:1;
+  max-width:820px;
+  margin:0 auto;
+  padding:3rem 2rem 6rem;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════════════ */
+.sec-head{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:1.6rem;
+  margin-top:3.5rem;
+}
+.sec-num{
+  font-family:'Lora',Georgia,serif;
+  font-size:32px;font-weight:700;
+  color:var(--gold);
+  line-height:1;
+  flex-shrink:0;
+}
+.sec-title-text{
+  font-family:'Lora',Georgia,serif;
+  font-size:clamp(20px,3vw,26px);
+  font-weight:700;
+  color:var(--greenfg);
+  line-height:1.4;
+  border-bottom:2px solid var(--gold);
+  padding-bottom:4px;
+  flex:1;
+}
+
+/* ═══════════════════════════════════════════
+   BODY TEXT
+═══════════════════════════════════════════ */
+.prose{
+  font-family:'Inter',Tahoma,sans-serif;
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink2);
+  margin-bottom:1.4rem;
+  text-align:left;
+}
+.prose strong{
+  font-weight:600;color:var(--greenfg);
+}
+
+/* Indented sub-points */
+.prose-sub{
+  padding-left:2rem;
+  border-left:2px solid var(--border2);
+  margin-left:.5rem;
+  margin-bottom:1rem;
+}
+
+/* ═══════════════════════════════════════════
+   QURANIC AYAH BLOCK
+═══════════════════════════════════════════ */
+.ayah-block{
+  position:relative;
+  background:linear-gradient(135deg,rgba(2,62,138,.06),rgba(2,62,138,.02));
+  border:1px solid var(--border2);
+  border-left:4px solid var(--green);
+  border-radius:var(--r) 0 0 var(--r);
+  padding:1.6rem 1.6rem 1.4rem 1.4rem;
+  margin:1.8rem 0;
+  overflow:hidden;
+}
+.ayah-block::before{
+  content:'';
+  position:absolute;
+  right:12px;top:50%;transform:translateY(-50%);
+  width:40px;height:40px;
+  opacity:.06;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35' fill='%23023E8A'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.ayah-arabic{
+  font-family:'Amiri','Noto Naskh Arabic',serif;
+  font-size:clamp(20px,3.5vw,26px);
+  line-height:2.2;
+  color:var(--greenfg);
+  text-align:center;
+  margin-bottom:.8rem;
+  font-weight:400;
+  direction:rtl;
+}
+.ayah-ref{
+  font-family:'Lora',Georgia,serif;
+  font-size:13.5px;
+  color:var(--gold);
+  font-weight:600;
+  text-align:center;
+  margin-bottom:.8rem;
+  display:block;
+  letter-spacing:.5px;
+}
+.ayah-trans{
+  font-family:'Inter',Tahoma,sans-serif;
+  font-size:16px;
+  line-height:1.75;
+  color:var(--muted);
+  text-align:left;
+  font-style:italic;
+}
+
+/* ═══════════════════════════════════════════
+   HADITH BLOCK
+═══════════════════════════════════════════ */
+.hadith-block{
+  background:linear-gradient(135deg,rgba(0,119,182,.07),rgba(0,119,182,.02));
+  border:1px solid var(--border);
+  border-left:4px solid var(--gold);
+  border-radius:var(--r) 0 0 var(--r);
+  padding:1.4rem 1.6rem;
+  margin:1.6rem 0;
+}
+.hadith-arabic{
+  font-family:'Amiri','Noto Naskh Arabic',serif;
+  font-size:clamp(18px,3vw,22px);
+  line-height:2.1;
+  color:var(--greenfg);
+  font-weight:400;
+  text-align:center;
+  margin-bottom:.8rem;
+  direction:rtl;
+}
+.hadith-text{
+  font-family:'Inter',Tahoma,sans-serif;
+  font-size:16px;
+  line-height:1.75;
+  color:var(--ink2);
+  margin-bottom:.6rem;
+  text-align:left;
+}
+.hadith-ref{
+  font-size:13px;
+  color:var(--gold);
+  font-weight:600;
+  text-align:right;
+  display:block;
+  font-family:'Lora',Georgia,serif;
+}
+
+/* ═══════════════════════════════════════════
+   BULLET LIST (English)
+═══════════════════════════════════════════ */
+.en-list{
+  list-style:none;
+  margin: 1rem 0 1.2rem 0;
+  padding:0;
+}
+.en-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-family:'Inter',Tahoma,sans-serif;
+  font-size:16px;line-height:1.8;
+  color:var(--ink2);
+  margin-bottom:.6rem;
+  padding-left:.2rem;
+}
+.en-list li::before{
+  content:'';
+  display:block;flex-shrink:0;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  margin-top:.6em;
+}
+
+/* ═══════════════════════════════════════════
+   FIQH / QUOTE BLOCK
+═══════════════════════════════════════════ */
+.fiqh-block{
+  background:var(--parch2);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:1.4rem 1.6rem;
+  margin:1.4rem 0;
+  font-family:'Inter',Tahoma,sans-serif;
+  font-size:16px;
+  line-height:1.8;
+  color:var(--ink2);
+  font-style:italic;
+}
+.fiqh-source{
+  font-size:13px;color:var(--muted2);
+  font-style:normal;font-weight:600;
+  display:block;margin-top:.8rem;
+  text-align:right;
+  font-family:'Lora',Georgia,serif;
+}
+
+/* ═══════════════════════════════════════════
+   INLINE QUOTE (for transliterated terms / citations)
+═══════════════════════════════════════════ */
+.en-quote{
+  text-align:left;
+  display:block;
+  font-family:'Lora',Georgia,serif;
+  font-size:16px;line-height:1.75;
+  color:var(--muted);
+  font-style:italic;
+  background:rgba(0,119,182,.05);
+  border-left:3px solid var(--gold);
+  padding:1rem 1.2rem;
+  margin:1.2rem 0;
+  border-radius:0 var(--r) var(--r) 0;
+}
+.en-quote-src{
+  font-size:12px;color:var(--gold);
+  display:block;margin-top:.5rem;font-style:normal;
+  font-weight:600;
+  font-family:'Inter',sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   DUA FINALE
+═══════════════════════════════════════════ */
+.dua-block{
+  text-align:center;
+  font-family:'Amiri','Noto Naskh Arabic',serif;
+  font-size:clamp(18px,3vw,26px);
+  font-weight:700;
+  color:var(--green);
+  line-height:2.2;
+  padding:2.5rem 1.5rem;
+  background:linear-gradient(135deg,rgba(2,62,138,.05),rgba(0,119,182,.04));
+  border:1px solid var(--border2);
+  border-radius:var(--r);
+  margin:2.5rem 0 1rem;
+  position:relative;
+  overflow:hidden;
+  direction:rtl;
+}
+.dua-block::before{
+  content:'';
+  position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='rgba(0,119,182,0.08)' stroke-width='0.6'%3E%3Crect x='15' y='15' width='30' height='30' transform='rotate(45,30,30)'/%3E%3Crect x='20' y='20' width='20' height='20'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:40px;
+  pointer-events:none;
+}
+.dua-trans{
+  display:block;
+  font-family:'Inter',sans-serif;
+  font-size:15px;
+  font-style:italic;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:1.2rem;
+  direction:ltr;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .75s cubic-bezier(0.16,1,0.3,1),
+              transform .75s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.in{opacity:1;transform:none;}
+
+/* ═══════════════════════════════════════════
+   BACK TO TOP
+═══════════════════════════════════════════ */
+#btn-top{
+  position:fixed;bottom:24px;right:24px; /* Move to right for LTR */
+  width:44px;height:44px;border-radius:50%;border:none;
+  background:var(--green);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(2,62,138,.3);
+  opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:all .4s cubic-bezier(0.175,.885,.32,1.275);z-index:1000;
+}
+#btn-top.show{opacity:1;visibility:visible;transform:translateY(0);}
+#btn-top:hover{transform:translateY(-3px) scale(1.08);background:var(--green2);}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  border-top:1px solid var(--border);
+  background:var(--parch2);
+  padding:2rem 2rem;
+  text-align:center;
+}
+footer p{font-size:13px;color:var(--muted2);line-height:1.8; font-family:'Inter',sans-serif;}
+footer a{color:var(--green2);text-decoration:none; font-weight:500;}
+footer a:hover{text-decoration:underline;}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:640px){
+  .hero{padding:3rem 1.25rem 2rem;}
+  .page{padding:2rem 1.25rem 5rem;}
+  .hero h1{font-size:32px;}
+  .ayah-arabic{font-size:22px;}
+  footer{padding:1.5rem;}
+  #btn-top{right:16px;bottom:16px;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+
+</style>
+<style>.fs-open{display:none}@media(max-width:640px){.fs-open{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;background:#0a2246;color:#fff;font:600 14px/1.3 system-ui,-apple-system,sans-serif;text-decoration:none;position:sticky;top:0;z-index:9999;letter-spacing:.01em}}</style></head>
+<body><style>.lrn-bar{position:relative;z-index:50;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between;padding:.6rem 1.1rem;background:#fff;border-bottom:1px solid #DDD9CF;font:14px Inter,system-ui,sans-serif;direction:ltr}.lrn-bar a{color:#222;text-decoration:none}.lrn-bar b a{color:#0C2D55;font-size:16px}.lrn-bar nav{display:flex;gap:14px;flex-wrap:wrap}.lrn-bar a:hover{color:#0B5563}</style><div class="lrn-bar"><b><a href="https://www.rizwanzubair.net/">Rizwan Zubair</a></b><nav><a href="/">Learn</a><a href="/islamic-banking/">Islamic Banking</a><a href="/islamic-banking/en/">English</a><a href="/islamic-banking/ur/">اردو</a><a href="/tafsir/">Quran Tafsir</a><a href="/grammar/">Arabic Grammar</a></nav></div>
+
+<div id="progress"></div>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+
+  <!-- Decorative spinning star ornaments -->
+  <svg class="hero-ornament" viewBox="0 0 100 100" fill="none" stroke="rgba(72,202,228,1)">
+    <use href="#star6"/>
+    <polygon points="50,8 58,30 82,30 63,45 70,70 50,56 30,70 37,45 18,30 42,30" stroke-width=".5" opacity=".3"/>
+  </svg>
+  <svg class="hero-ornament-r" viewBox="0 0 100 100" fill="none" stroke="rgba(72,202,228,1)">
+    <use href="#star6"/>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+    <div class="hero-eyebrow">Islamic Economics · Rizwan Zubair</div>
+    <h1>Islamic Banking <br/><span>and Riba</span></h1>
+    <p class="hero-sub">
+      A simple explanation of the Quranic definition of Riba and a review of Islamic banking products for the ordinary person.
+    </p>
+    <div class="hero-chips">
+      <span class="chip">🕌 Quran & Hadith Proofs</span>
+      <span class="chip">📋 Murabaha · Ijara · Musharaka</span>
+      <span class="chip">✦ Fiqh References</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════ -->
+<main class="page">
+
+  <!-- Arabesque divider -->
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- ── 1. Introduction ── -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">1</span>
+      <span class="sec-title-text">Introduction</span>
+    </div>
+
+    <p class="prose">The primary purpose of this article is to explain the definition of riba in simple language and to review the products offered by Islamic banking. An effort has been made to adopt a simple style rather than difficult terminology, so that every reader can easily examine any given product and reach his own personal decision. On any subject, more than one opinion can exist, and any opinion may possibly be mistaken — but, in the end, every individual has to decide for himself how he will act. The purpose of this article, therefore, is not to criticise or endorse any particular school of thought, but rather to improve the ordinary person’s understanding of this important subject, so that it may help him reach the right decision.</p>
+  </div>
+
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- ── 2. The Definition of Riba ── -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <span class="sec-title-text">The Definition of Riba</span>
+    </div>
+
+    <p class="prose">To arrive at a definition of riba, or interest, we first turn to the Book of Allah. Although the Qur’an does not generally give a juristic, legal, or technical definition of terms — for example, to define salah (prayer), zakat, and the like, we have to turn to the Sunnah alongside the Qur’an — in the matter of riba, with a little reflection, we can arrive at a definition from the Qur’an itself.</p>
+    <p class="prose">But before doing so, it is worth revisiting the argument commonly given in favour of riba: that riba originally referred to the kind of interest that moneylenders used to charge poor people at exorbitant rates on personal loans, and that, otherwise, if interest is charged on a loan given for the purpose of trade, it ought to be entirely permissible — since that is no different from making a profit in any business, or from renting out a house, just as one might “rent out” money. Most people are perhaps unaware that such people existed even at the time the Qur’an was being revealed, and they are mentioned in Surah al-Baqarah in these words:</p>
+  </div>
+
+  <div class="reveal">
+    <div class="ayah-block">
+      <p class="ayah-arabic">ٱلَّذِينَ يَأْكُلونَ ٱلرِّبَوَٰٰٰٰٰٰٰ لَا يَقُومونَ إِلَّا كَمَا يَقومُ ٱلَّذِـٰ يَتَخَبَّطُهُ ٱلشَّيْطٰنُ مِنَ ٱلْمَسِّ ۚ ذَٰلِكَ بِأَنَّهُمْ قَالواٱ إِنَّمَا ٱلْبَيْعُ مِثْلُ ٱلرِّبَوَٰ ۗ وَأَحَلَّ ٱللَّهُ ٱلْبَيْعَ وَحَرَّمَ ٱلرِّبَوَٰ ۚ فَمَن جَآَءَهُٰ مَوْعِظَةٌ مِّن رَّبِّهِ فَٱنتَهَٰ فَلَهُ مَا سَلَفَ وَأَمْرُهُٰ إِلَٰ ٱللَّهِ ۖ وَمَنْ عَادَ فَأُوْلَٰئِكَ أَصْحَٰبُ ٱلنَّارِ ۖ هُمْ فِيهَا خَٰلِدونَ</p>
+      <span class="ayah-ref">(al-Baqarah 2:275)</span>
+      <p class="ayah-trans">“Those who consume interest cannot stand [on the Day of Resurrection] except as one stands who is being beaten by Satan into insanity. That is because they say, ‘Trade is [just] like interest.’ But Allah has permitted trade and has forbidden interest. So whoever has received an admonition from his Lord and desists may have what is past, and his affair rests with Allah. But whoever returns [to dealing in interest or usury] – those are the companions of the Fire; they will abide eternally therein.”</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <p class="prose">Keep this warning of the Qur’an in mind, and then consider the following verses of Surah al-Baqarah, which make the definition of riba clear:</p>
+  </div>
+
+  <div class="reveal">
+    <div class="ayah-block">
+      <p class="ayah-arabic">يَٰأَيُّهَا الَّذِينَ ا´مَنوا اتَّقوا اللّهَ وَذَروا مَا بَقِي مِنٔ الرِّبَوٰآ إِن كنتمْ مُّؤْمِنِينَ</p>
+      <span class="ayah-ref">(al-Baqarah 2:278)</span>
+      <p class="ayah-trans">“O you who have believed, fear Allah and give up what remains [due to you] of interest, if you should be believers.”</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="ayah-block">
+      <p class="ayah-arabic">فَإِن لَّم تَفْعَلواٰ فَأْذَنواٰ بِحَرْبِۭ مِّنَ ٱللَّهِ وَرَسولِهِٰ ۖ وَإِن تُبْتُمْ فَلَكُم رُؤوسُ أَمْوَٰلِكُمْ لَا تَظْلِمونَ وَلَا تُظْلَمونَ</p>
+      <span class="ayah-ref">(al-Baqarah 2:279)</span>
+      <p class="ayah-trans">“And if you do not, then be informed of a war [against you] from Allah and His Messenger. But if you repent, you may have your principal – [thus] you do no wrong, nor are you wronged.”</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <p class="prose">In other words, when these verses were revealed, people were engaged in the business of riba, and guidance was given here regarding those very contracts. Verse 278 says that whatever remains outstanding of riba should be given up; verse 279 then adds that you should get back your principal — in this way, you will neither wrong anyone nor be wronged. If we read ‘give up what remains of riba’ together with ‘you may have your principal – you do no wrong, nor are you wronged,’ the following becomes clear:</p>
+
+    <ul class="en-list">
+      <li>(a) Riba will always arise in the context of a loan, because it is only in a loan that the return of the principal is guaranteed. In any other business, both profit and loss are possible, and there is no guarantee of the return of the principal. In exactly the same way, if a house is rented out, there is no guarantee that it will be returned in precisely the same condition.</li>
+      <li>(b) The Qur’an did not permit taking anything beyond the principal, and it used the word riba for that extra amount taken over and above the principal. In other words, in the matter of a loan, whatever profit is taken, in whatever form, is riba. The words ‘you do no wrong, nor are you wronged’ confirm this point still further.</li>
+    </ul>
+
+    <p class="prose">So those who say that riba refers only to the kind of interest taken from poor people — and that profit taken from the wealthy, or interest collected on commercial loans, is not riba — should consider this: had that truly been the case, the Qur’an would instead have said something like, ‘For you is your principal, plus the profit you take from people of means,’ or ‘the profit you take from people engaged in business.’ It should be understood here that Allah could have annulled these contracts entirely, but that would have caused a loss to the lender. Therefore, to remove any possibility of injustice, Allah made it explicit that the principal could be taken back. In exactly the same way, if any kind of profit had been permitted, that too would have been explicitly permitted — otherwise that, too, would amount to an injustice. In other words, if the lender takes interest, that is an injustice; and if he does not get back what is rightfully his, that too is an injustice. Therefore, the only thing rightfully his that can be returned to him is the original amount alone — what is also called the principal.</p>
+    <p class="prose">In exactly the same way, if riba meant only interest charged above a certain rate, the Qur’an would instead have said, ‘For you is your principal, plus a small, reasonable profit.’ Because if a small profit were permissible, then not receiving even that small profit would also amount to an injustice.</p>
+    <p class="prose">It might occur to someone that perhaps every loan at that time was of a purely predatory, money-lending kind, extracted only by bleeding the poor dry. It should be known that this was certainly not the case. The Qur’an itself bears witness that, among the debtors, only a few were in financial hardship, while the rest were not:</p>
+  </div>
+
+  <div class="reveal">
+    <div class="ayah-block">
+      <p class="ayah-arabic">وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَٰ مَيْسَرَةٍ ۚ وَأَن تَصَدَّقواٱ خَيْرٌۭ لَّكُمْ ۖ إِن كُنتُمْ تَعْلَمونَ</p>
+      <span class="ayah-ref">(al-Baqarah 2:280)</span>
+      <p class="ayah-trans">“And if someone is in hardship, then [let there be] postponement until [a time of] ease. But if you give [from your right as] charity, then it is better for you, if you only knew.”</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <p class="prose">The phrase ‘if someone is in hardship’ implies that some among them could be in hardship — not that all of them were. And if one appreciates the subtleties of the Arabic language, it becomes clear that those in hardship were very few, as Maulana Amin Ahsan Islahi explains in his commentary on this verse:</p>
+    <div class="fiqh-block">
+      In Arabic, the word ‘in’ (ان) is not used for ordinary, habitual situations; it is generally reserved for rare and exceptional ones. For ordinary situations, Arabic uses ‘idha’ (اذا). Reflecting on this, it becomes clear from the wording of the verse that, in those days, debtors were generally well-off, but every now and then a situation would arise where a debtor was poor, or became poor after taking the loan — and it is for such a person that this concession was given.
+    </div>
+    <p class="prose">It thus becomes clear that taking any kind of profit in the matter of a loan is riba. If any uncertainty remains in anyone’s mind about establishing this definition of riba from the Qur’an, then for further reassurance we can turn to the hadiths of the Noble Messenger (peace and blessings be upon him), whom Allah sent to explain the Qur’an. Riba is mentioned in a number of hadiths, for example:</p>
+  </div>
+
+  <div class="reveal">
+    <div class="hadith-block">
+      <p class="hadith-text">“It is reported from Abu Hurairah that the Prophet (peace and blessings be upon him) said: ‘If you give gold, take back the same gold — the same quantity and the same quality; if you give silver, take back the same silver — the same quantity and the same quality. Whoever gives more, or wants to take more, that is riba.’”</p>
+      <span class="hadith-ref">(Sahih Muslim 1981)</span>
+    </div>
+
+    <p class="prose">This, too, makes it clear that the Holy Prophet (peace and blessings be upon him) instructed that taking anything more than the original loan is riba; we are permitted to take back only the principal — the same quantity and the same quality, that is, only what was originally given — in other words, the principal amount, and nothing more. Similarly, another hadith is found in Bayhaqi:</p>
+
+    <div class="hadith-block">
+      <p class="hadith-arabic">كُلُّ قَرْضٍ جَرَّ مَنْفَعَةً فَهُوَ وَجْهٌ مِّنْ وُجوهِ الرِّبَوَٰ</p>
+      <p class="hadith-text">“Every loan that draws a benefit is one of the forms of riba.”</p>
+      <span class="hadith-ref">(Bayhaqi)</span>
+    </div>
+
+    <p class="prose">Going further still, the Holy Prophet (peace and blessings be upon him) also instructed that no benefit of any kind — even in a form other than money or wealth — should be taken:</p>
+
+    <div class="hadith-block">
+      <p class="hadith-text">“It is reported from Anas ibn Malik that the Prophet (peace and blessings be upon him) said: ‘If one of you lends someone money and is then offered a gift, or is offered a ride on an animal, he should accept neither the ride nor the gift — unless this was already a customary practice between them before [the loan].’”</p>
+      <span class="hadith-ref">(Sunan Ibn Majah, Hadith 2433)</span>
+    </div>
+
+    <p class="prose">In other words, if you have lent someone money, and that person, feeling morally obliged, offers you a lift somewhere, the Messenger of Allah (peace and blessings be upon him) forbade even this — unless such a relationship already existed between you beforehand. Just consider: if you cannot even accept a lift in a car in exchange for a loan, something that costs the borrower nothing at all, then taking a profit on a loan cannot even be entertained as a possibility.<br/>
+    For this very reason, our jurists were so cautious that, if they lent someone money, they would not even sit in the shade of that person’s wall. Such caution is indeed necessary, for this is precisely what taqwa (God-consciousness) means — and it is this same word that Allah used when annulling the contracts of riba: (yā ayyuhal-ladhīna āmanū ittaqullāh) — O you who believe, hold fast to taqwa of Allah.<br/>
+    The jurists, too, have generally arrived at this same definition of riba in the light of the Qur’an and the Hadith. Maulana Maududi writes on page 192 of his book ‘Sood’ (Interest):</p>
+
+    <div class="fiqh-block">
+      All the jurists of the ummah have unanimously understood the intent of this ruling to be that, in the matter of a loan, whatever is taken in excess of the principal is unlawful.
+    </div>
+
+    <p class="prose">Similarly, he quotes from the work of jurisprudence Nihayah, by Ibn al-Athir:</p>
+
+    <div class="fiqh-block">
+      <strong class="rtl-text" style="display:block; font-family:'Amiri',serif; margin-bottom:.5rem; font-size: 20px;">هُوَ فِي الشَّرْعِ الزِّيادَةُ عَلَٰ أَصْلِ الْمَالِ مِنْ فَير عَقْدٍ تَبَايَعَ</strong>
+      “In Shari’ah, this refers to an addition over and above the principal amount, where no contract of sale is involved.”
+      <span class="fiqh-source">— Ibn al-Athir, Nihayah</span>
+    </div>
+
+    <p class="prose">Dr Imran Ashraf Usmani — son of Maulana Taqi Usmani — gives this same definition of riba on page 47 of his book Meezan Bank’s Guide to Islamic Banking:</p>
+
+    <div class="en-quote">
+      One of the ahadith quoted by Ali ibn at Talib (RAA) has defined Riba An Nasiyah in similar words. The Holy Prophet ﷺsaid: <br/>
+      "Every loan that draws interest is Riba."
+    </div>
+
+    <p class="prose">On this very basis, when the question is raised — if we hold someone’s house as collateral against a loan, and that house is vacant, may we live in it? — the jurists unanimously rule that this would be riba. Even though, in most such cases, the house would otherwise sit empty and be of no use to the debtor, since deriving any kind of benefit in the matter of a loan is riba, the jurists do not permit it.</p>
+    <p class="prose">After all this discussion, we hope that an ordinary person — even one with no particular interest in the field of finance — can easily understand the definition of riba: any kind of profit in the matter of a loan is riba.</p>
+  </div>
+
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- ── 3. An Alternative to Riba ── -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">3</span>
+      <span class="sec-title-text">An Alternative to Riba — A Foundational Point</span>
+    </div>
+
+    <p class="prose">Once the prohibition of riba becomes clear to a person, the question naturally arises of finding an alternative on which to run the economic system. Before searching for an answer to this question, we should first remind ourselves of a couple of basic principles:</p>
+
+    <ul class="en-list">
+      <li>(a) The arrangement of man’s livelihood has been made by the All-Powerful, so trust should be placed in Him, and it should be understood that disobeying Allah cannot be a means of increasing one’s provision. Whatever solution is sought should be sought only in the light of Allah’s commands.</li>
+      <li>(b) Allah’s commands should be implemented in their true spirit. One should not attempt the kind of legal trickery that the Children of Israel resorted to in the matter of the Sabbath, as a result of which they were turned into despised apes.</li>
+    </ul>
+  </div>
+
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- ── 4. Islamic Banking ── -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">4</span>
+      <span class="sec-title-text">Islamic Banking</span>
+    </div>
+    <p class="prose">We will now examine a few Islamic banking products one by one. Of these, the first two — Murabaha and Ijara — account for roughly seventy percent of Islamic banking.</p>
+  </div>
+
+  <!-- Murabaha -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num" style="font-size:22px;color:var(--muted2);">A.</span>
+      <span class="sec-title-text" style="font-size:22px; border-bottom: none;">Murabaha</span>
+    </div>
+    <p class="prose">Let us take a simple example. Suppose you own a spinning mill, which needs to purchase cotton during the cotton season. This cotton has to be stocked during the season and is then used throughout the year. To meet this seasonal need, the mill takes a loan from a bank and uses it to buy and stock cotton. Over the course of the year, the cotton is gradually used, and you repay the bank — the loan amount plus interest — little by little, out of the proceeds from selling yarn.<br/>
+    Now, when this same transaction is conducted with an Islamic bank, an agreement of roughly the following kind is drawn up:</p>
+
+    <ul class="en-list">
+      <li>On paper, the bank designates you as its agent.</li>
+      <li>You, acting as the bank’s agent, purchase the cotton.</li>
+      <li>But even before purchasing the cotton as the bank’s agent, you give the bank a promise that you yourself will, under all circumstances, buy that cotton from the bank.</li>
+      <li>For example, acting as the bank’s agent, you purchase cotton worth ten crore rupees, and you then offer to buy that cotton from the bank.</li>
+      <li>The bank accepts your offer, so, in line with the promise made beforehand, you purchase that cotton for twelve crore rupees.</li>
+      <li>You pay off this twelve crore rupees gradually over the course of the year.</li>
+    </ul>
+
+    <p class="prose">Now, if you look closely, this is exactly the same transaction as the one conducted with a conventional bank. The only difference is that, on paper, it is written that the cotton was actually purchased by the bank — even though the bank has no idea of the price of the cotton, no knowledge of its variety or quality, and never actually purchases any cotton at all. You yourself negotiate the entire deal with the cotton seller, transport it to your own warehouse, and use it; the bank merely provides the money. You make no real offer to the bank to buy the cotton, nor does the bank give any genuine consideration to accepting or rejecting your offer — all of this is simply written down on paper, to satisfy ourselves that the cotton was, in reality, purchased by the bank. It is simply common sense: if the bank had already obtained a promise from you, beforehand, that you would purchase the cotton from the bank under all circumstances, then it clearly means that you were the one who purchased the cotton — the bank has no real connection to the buying and selling of the cotton at all; it has merely provided you with a loan. And as we have already understood well, taking anything extra in the matter of a loan is riba.</p>
+
+    <p class="prose">This is somewhat similar to what the Jews did regarding the Sabbath day. The Jews, at least, made some arrangement so that the forbidden act of fishing was carried out on a Sunday — they probably did not perform the exact, literal act that had been forbidden, even though they trampled on the spirit of the command. Here, by contrast, the exact same act is performed, with not the slightest difference except in the paperwork.<br/>
+    It is also worth considering how this product is described in Meezan Bank’s Guide to Islamic Banking. On page 127, the author sets out five stages of this transaction. The last four stages are as follows (we will come to the first stage afterwards):</p>
+
+    <div class="en-quote">
+      2. An agency agreement is signed by both parties in which the institution appoints the client as his agent for purchasing the commodity on its behalf.<br/><br/>
+      3. The client purchases the commodity on behalf of the institution and takes possession as the agent of the institution.<br/><br/>
+      4. The client informs the institution that it has purchased the commodity and simultaneously makes an offer to purchase it from the institution.<br/><br/>
+      5. The institution accepts the offer and the sale is concluded whereby ownership as well as risk is transferred to the client.
+    </div>
+
+    <p class="prose">On the next page, the author stresses that the single most essential element of this whole arrangement is that, between the third and fifth stages, the commodity must remain at the institution’s risk — and that this, in his own words, is the only thing that distinguishes the transaction from an ordinary interest-based one.</p>
+    
+    <p class="prose">In other words, between the third stage — when the bank, using you as its agent, buys the cotton — and the fifth stage — when it sells the cotton to you — the entire commodity is supposed to remain at the bank’s risk. Otherwise, by the author’s own admission, there is no difference at all between this transaction and an interest-based one. Now consider the first stage:</p>
+
+    <div class="en-quote">
+      1. The client and the institution sign an overall agreement whereby the institution promises to sell and the client promises to buy the commodity from time to time on an agreed ratio of profit added to the cost. This agreement may specify the limit up-to which the facility may be availed.
+    </div>
+
+    <p class="prose">In other words, from after the third stage until the fifth stage, the commodity is supposed to be at the bank’s risk — yet already, at the very first stage, the bank obtained your promise that you would end up buying that commodity regardless. If you are bound to buy that commodity under all circumstances, then at what point did it ever actually pass into the bank’s risk? In that case, it was at your risk from the first stage right through to the fifth. Had there been no such promise clause, the bank would have purchased the cotton and borne its risk; you might or might not then have bought it from the bank, and this would have been a genuine business transaction. But once the bank, through this trick, had already secured your promise beforehand, it bore no risk at all — and in reality, it had simply lent you money. And every loan that draws a benefit is riba.</p>
+  </div>
+
+  <!-- Ijara -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num" style="font-size:22px;color:var(--muted2);">B.</span>
+      <span class="sec-title-text" style="font-size:22px; border-bottom: none;">Ijara</span>
+    </div>
+
+    <p class="prose">The second most widely used product is Ijara — this Arabic word is the equivalent of ‘lease.’ Let us understand this, too, with a simple example. Suppose you want to lease a car. You go to a conventional bank, choose a car, and the bank pays for it; the car’s title remains in the bank’s name as security. You pay some amount to the bank upfront, and you repay the remaining amount, plus interest, to the bank in monthly instalments. This instalment is called the lease rental, and it consists of both principal and interest.<br/>
+    Now, in an Ijara arrangement, the Islamic bank says that it is providing you the car on rent. This is exactly like renting out a house, and there is no issue with this from the standpoint of Islamic Shari’ah, since no lending of money is involved here. If, God forbid, a house is destroyed in some disaster, its market value falls, or it becomes worn through use, the tenant is not obliged to return it in exactly the same condition — almost the entire risk rests with the owner. In an Ijara arrangement, too, the title of the car remains with the bank; the bank receives some amount upfront and continues to receive the rest in the form of rent. On the face of it, there seems to be nothing wrong with this.</p>
+
+    <p class="prose">The problem that arises is that the rent the bank collects under an Ijara arrangement is roughly equal to the lease rental charged by a conventional bank. In a conventional bank, that lease rental consists of both interest and principal; once the principal has been fully repaid, the car is automatically transferred to the customer. In the Islamic bank’s case, there was supposedly no principal at all, since no loan was involved in the first place — that is precisely why it is called rent; otherwise it would have become interest at the very first step. But now a question arises for the customer: why should he pay the same amount of rent if, in the end, he is not even going to get the car? The simple solution would have been for the bank to lower its rent enough to make the deal attractive to the customer. But because, in that case, the bank might suffer a loss when it eventually sells the car returned to it at the end of the Ijara, it rejects this reasonable solution, keeps its rent exactly the same — and, to keep the customer happy, adds one further clause. On reading this clause, one is left genuinely taken aback at what kind of ‘Islamic banking’ this is. The clause states that, at the end of the lease, the bank will give the car to the customer as a gift. Dr Imran Usmani explains the reasoning behind this on page 158:</p>
+
+    <div class="en-quote">
+      As the lessor already recovers his cost along with an addition profit thereon, which is normally equal to the amount of interest which could have been earned on a loan of that amount advanced for that period, the lessor has no further interest in the leased asset...For these reasons the leased asset is generally transferred to the lessee at the end of the lease, either free of any charge or at a nominal token price.
+    </div>
+
+    <p class="prose">In other words, because the bank has already received both its money and its profit, the car is supposedly of no further use to it. First, ask yourself: does this really make sense — that the car is of no use to the bank at all? If we suppose that the car really is useless to the bank, then it should give the car away to a charity such as Edhi — what possible reason is there to give it to the customer, except to make a mockery of Allah’s Shari’ah? In other words, the exact same transaction is constructed as in an ordinary bank’s lease; a few clauses are written down on paper merely to reassure ourselves that, in reality, we had only rented out the car.<br/>
+    If there is nothing wrong with a bank handing out such unmotivated gifts to its customers, then the whole matter becomes very simple. Banks should, at the end of each year, give their depositors ten or fifteen percent of their savings as a ‘gift.’ There is no need for any elaborate research at all — in conventional banks, wherever the word ‘interest’ appears, simply cross it out and write ‘gift’ instead, and within two minutes the entire interest-based business will have been converted into Islamic banking.<br/>
+    It is also worth noting how this product is described in the guidebook. On page 161, the author writes:</p>
+
+    <div class="en-quote">
+      The agreement of Ijarah itself should not be subjected to signing this promise of sale or gift but the promise should be recorded in a separate document.
+    </div>
+
+    <p class="prose">In simple terms, this means the following: if you write on one piece of paper that the bank has rented you this car, and on that same piece of paper also write that the car will be given to you as a gift, then this product is unlawful. But if, instead of one paper, you use two — writing the rental clause on the first and the gift clause on the second — then this very same product becomes lawful. Someone, please tell us what we are supposed to make of that. (koi batlaye keh hum batlain kiya.)</p>
+  </div>
+
+  <!-- Diminishing Musharaka -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num" style="font-size:22px;color:var(--muted2);">C.</span>
+      <span class="sec-title-text" style="font-size:22px; border-bottom: none;">Diminishing Musharaka</span>
+    </div>
+
+    <p class="prose">Musharaka means partnership, and mutanaqisa means something that progressively diminishes. In other words, you acquire a car or a house with the bank’s help, and gradually buy it from the bank in instalments. In this way, the bank’s share in the partnership keeps shrinking until, eventually, you become the sole owner of the asset. This effectively becomes a combined rent-and-purchase arrangement, also known as Hire Purchase. To take an example: suppose you bought a house with the bank’s help and entered into a ten-year Musharaka. Suppose the house was worth one crore rupees; for simplicity, divide this value into 100 shares. At the outset, the house is entirely owned by the bank, so, in exchange for taking possession of the house, you pay the full rent on it; at the same time, you also pay the bank some extra amount so that you can begin to acquire a share in the ownership of the house. As soon as your payments toward the purchase add up to one lakh rupees, you become the owner of one share. For the customer’s convenience, the bank draws up a schedule of equal monthly instalments, each consisting of both rent and a purchase portion. In the early instalments, the rent portion is larger; as ownership gradually transfers, the rent portion of each instalment decreases, with more going toward purchasing the remaining shares — until, over the ten-year period, all one hundred shares have been purchased. In conventional banks, this same principle is used for the repayment of interest, and such a schedule is called an Amortization Schedule.</p>
+
+    <p class="prose">Although this product, too, resembles an interest-based arrangement in which someone takes a loan from a conventional bank to buy a house and repays it according to an amortization schedule, on the face of it there appears to be nothing wrong with it from an Islamic point of view, since Islam permits renting, permits joint ownership — as happens in inheritance — and permits one partner to sell his share to another. The problem arises in a situation such as this: suppose five or six years out of the ten have passed, and by that point the customer has purchased roughly half the house. Now, for some reason, the customer cannot continue with the rent-and-purchase arrangement and wants to end the contract — just as we sometimes rent a house and then, for some reason, give it up. In principle, in such a case the house should be sold, and whatever amount is realised should be split equally between the bank and the customer — and this, in fact, is the one thing that could distinguish this arrangement from an ordinary interest-based one. But here the bank says: no, we will sell the house, and from the proceeds we will first recover our principal plus our profit; if anything remains, we will give it to the customer — otherwise not. This is because the bank had already secured a promise that the customer would buy this house under all circumstances. Now the question arises: if the customer is bound to buy the house under all circumstances, the basic implication is that the customer has already entered into a contract to purchase the house and is simply taking its price on credit, which he will pay off in instalments. In other words, the customer has bought the house on credit, and the house is now his — and if the customer has already bought the house (even if on credit), how can he be paying rent on something that already belongs to him? This is nothing but a credit arrangement, and in a credit arrangement, taking any profit at all is riba. In this product, too, we are offered the same baffling formula: if one piece of paper is used, the product is unlawful; if two pieces of paper are used instead, it becomes lawful —</p>
+
+    <div class="en-quote">
+      The agreement of joint purchase, leasing and selling different units of the share of the financier should not be tied-up together in one single contract. <span class="en-quote-src">— PAGE 121</span>
+    </div>
+  </div>
+
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- ── 5. The Arguments Given in Its Defence ── -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">5</span>
+      <span class="sec-title-text">The Arguments Given in Its Defence</span>
+    </div>
+
+    <p class="prose">It seems worthwhile to take a brief look at the arguments that Islamic bankers commonly put forward.</p>
+
+    <p class="prose">You will often hear it argued: yes, it is true that, in practice, there is no difference between a conventional bank’s transaction and an Islamic bank’s transaction — the only real difference lies in the paperwork that is drawn up. Look, they say, ritual slaughter (zabihah) works the same way: if you recite Bismillah, the animal becomes lawful; if you do not, it remains unlawful. Likewise, the only difference between a valid marriage (nikah) and an unlawful relationship is simply the signing of a piece of paper. What needs to be understood here is that the animal Allah has created as food for us is, in itself, lawful. Similarly, the relationship between husband and wife is, in itself, lawful. These things are fundamentally lawful, but they carry an aspect that needs to be addressed, and Allah’s Messenger (peace and blessings be upon him) taught us how to address it — for example, by letting the blood flow out, or by reciting Bismillah. Riba, by contrast, is unlawful in itself. You cannot make riba lawful by reciting Bismillah, just as you cannot make pork lawful by reciting Bismillah.</p>
+
+    <p class="prose">The second argument they give is: yes, there are problems with these products, but they are part of an effort through which, one day, we will arrive at proper, correct products. This argument, too, is beyond our comprehension. If you genuinely wish to make such an effort, then introduce proper products from the very start, and pray to Allah to grant them acceptance — it makes no sense to simply rename riba, put it into circulation, and then sit back hoping that people will, one day, give up riba on their own. Similar products, known as Contractum Trinius, were introduced by Christians in the fifteenth century CE, and as people gradually realised that there was no real difference between these devices and ordinary interest, they eventually made ordinary interest lawful as well. It should therefore be understood clearly: if Muslim scholars, too, legitimise such devices, people will, on their own, end up legitimising the rest of riba as well.</p>
+  </div>
+
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- Conclusion / Dua -->
+  <div class="reveal">
+    <p class="prose" style="text-align:center;">As stated at the outset, this entire analysis represents our own opinion, and it is just as possible for it to be mistaken as it is for Islamic banking to be mistaken. Readers are therefore requested to consider both viewpoints and then reach their own personal decision.</p>
+
+    <div class="dua-block reveal">
+      اللّهُمَّ أَرِنَا الْحَقَّ حَقّاً وَارْزُقْنَا اتِّبَاعَهُ وَأَرِنَا الْبَاطِلَ بَاطِلاً وَارْزُقْنَا اجْتِنَابَهُ
+      <span class="dua-trans">“O Allah, show us the truth as truth and grant us the ability to follow it, and show us falsehood as falsehood and grant us the ability to avoid it.”</span>
+    </div>
+  </div>
+
+  <svg class="arabesque-div reveal" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+
+  <!-- ── Note: The Account of the People of the Sabbath ── -->
+  <div class="reveal">
+    <div class="sec-head">
+      <span class="sec-num" style="font-size:20px;color:var(--muted2);">Note</span>
+      <span class="sec-title-text" style="font-size:24px; border-bottom:none;">The Account of the People of the Sabbath</span>
+    </div>
+
+    <p class="prose">The Holy Qur’an narrates in Surah al-Baqarah:</p>
+    <div class="ayah-block">
+      <p class="ayah-arabic">وَلَقَدْ عَلِمتُمُ الَّذِينَ اعْتَدَوْاٱ مِنكُمْ فِٰ السَّبتِ فَقلْنَا لَهُمْ كونوٱ قِرَدَةً خَٰسِئِينَ فَجَعَلْنَٰهَا نَكَٰلاً لِّمَا بَيْنَ يَدَيْهَا وَمَا خَلْفَهَا وَمَوْعِظَةً لِّلْمُتَّقِينَ</p>
+      <span class="ayah-ref">(al-Baqarah 2:65–66)</span>
+      <p class="ayah-trans">“And you had already known about those who transgressed among you concerning the Sabbath, and We said to them, ‘Be apes, despised.’ And We made it a deterrent punishment for those who were present and those who succeeded [them], and a lesson for those who fear Allah.”</p>
+    </div>
+
+    <p class="prose">It further states in Surah al-A’raf:</p>
+    <div class="ayah-block">
+      <p class="ayah-arabic">وَسْأَلْهُم عَنِ الْقَرْيَةِ الَّتِي كَانَتْ حَاضِرَةَ الْبَحْرِ إِذْ يَعْدونَ فِي السَّبتِ إِذْ تَأْتِيهِم حِيتَانُهُم يَوْمَ سَبتِهِم شُرَّعًا وَيَوْمَ لَا يَسْبِتونَ لَا تَأْتِيهِم ۛ كَذَٰلِكَ نَبْلوهُم بِمَا كَانوا يَفْسُقونَ</p>
+      <span class="ayah-ref">(al-A’raf 7:163)</span>
+      <p class="ayah-trans">“And ask them about the town that was by the sea — when they transgressed in [the matter of] the Sabbath — when their fish came to them openly on their Sabbath day, and the day they had no Sabbath they did not come to them. Thus did We give them trial because they were defiantly disobedient.”</p>
+    </div>
+
+    <p class="prose">In this event, the Jews faced a great trial: how were they to ignore such an enticing catch? In exactly the same way, today we face the trial of whether to give up riba or not.<br/>
+    The details given of this event in Tafsir Ibn Kathir can be briefly summarised as follows:</p>
+
+    <div class="fiqh-block">
+      As a mark of the sanctity of that day, hunting and similar activities were declared forbidden to them on the Sabbath. Now, as part of Allah’s test, on the Sabbath all the fish would come right up to the surface, jumping and leaping about, while on the other days none could be seen at all. For some time the people remained obedient and refrained from hunting. Eventually, one of them devised a trick: on the Sabbath he would catch a fish, trap it on a line, and tie the other end of the line to something on the riverbank; then, on Sunday, he would go and pull it out, cook it, and eat it. When others noticed the smell and asked him about it, he said he had caught it that day — on Sunday. Eventually the secret came out, and the others, too, took a liking to this device, and so they all began catching fish in this way. Some even dug pits near the river: on the Sabbath, when fish entered these pits, they would close them off, and on Sunday they would take the fish out. Some among them, who were sincere and righteous believers, tried to stop them and forbade them from doing this, but the reply they always received was, ‘We are not hunting on the Sabbath — we only catch them on Sunday.’ Eventually, this group of believers boycotted those who relied on this device entirely and separated themselves from them. They built a wall through the middle of the town, keeping one gate for their own use and another for those who relied on this device to disobey Allah. A further period of time passed in this way. Then, one morning, the believers awoke, and the day went on, but the others had still not opened their gate, and no sound was coming from their side. The believers wondered what had happened. Eventually, when a long time had passed, they climbed onto the wall to look — and there they saw an extraordinary sight: all those people, including the women and children, had turned into apes. Their houses, which had been shut for the night, remained shut just as before, but inside, all those people were now in the form of apes, with tails protruding from them.
+      <span class="fiqh-source">— (Tafsir of Surah al-Baqarah, verses 63–64)</span>
+    </div>
+
+    <p class="prose">As far as the Qur’an’s own account is concerned, it is conclusive; as for the rest of this commentary, the most likely possibility is that this event occurred in this form, or in some similar form. As Allah Himself has said, this event holds both a lesson and a warning for us. We should therefore avoid such devices under all circumstances, and we should urge others to do the same. Imam Ibn Kathir also relates a hadith in this connection:</p>
+
+    <div class="hadith-block">
+      <p class="hadith-text">The Messenger of Allah (peace and blessings be upon him) said: do not, like the Jews, use tricks to make what Allah has forbidden lawful, even for a short while. This hadith is related by Imam Abdullah ibn Battah, and its chain of transmission is excellent; its narrator, Ahmad ibn Muhammad ibn Salm, is mentioned by Imam al-Khatib in his history, who described him as reliable, while all the remaining narrators are very well known and all of them reliable. Imam al-Tirmidhi, too, judged a number of such chains to be sound.</p>
+      <span class="hadith-ref" style="text-align: right;">(Tafsir of Surah al-A’raf, verses 164–166)</span>
+    </div>
+  </div>
+
+</main>
+
+<button id="btn-top">↑</button>
+
+<footer>
+  <svg class="arabesque-div" style="max-width:300px;margin:0 auto 1rem;" viewBox="0 0 400 24"><use href="#arabesque"/></svg>
+  <p>© Rizwan Zubair · Islamic Banking and Riba · A Free Educational Resource</p>
+  <p style="margin-top:.3rem;"><a href="mailto:rizwan@rizwanzubair.net">rizwan@rizwanzubair.net</a></p>
+</footer>
+
+<script>
+/* ── SCROLL PROGRESS ─────────────────────── */
+const pb=document.getElementById('progress');
+addEventListener('scroll',()=>{
+  pb.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
+},{passive:true});
+
+/* ── HERO CANVAS: slow-spinning geometric stars ── */
+(function(){
+  const c=document.getElementById('hero-canvas');
+  const ctx=c.getContext('2d');
+  let W,H;
+  function rsz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  new ResizeObserver(rsz).observe(c);rsz();
+  
+  function starPath(ctx,cx,cy,r,pts,inner,rot){
+    ctx.beginPath();
+    for(let i=0;i<pts*2;i++){
+      const a=(i*Math.PI/pts)+rot;
+      const rad=i%2===0?r:inner;
+      i===0?ctx.moveTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad)
+           :ctx.lineTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad);
+    }
+    ctx.closePath();
+  }
+
+  const stars=[];
+  for(let i=0;i<8;i++){
+    stars.push({
+      x:Math.random()*1.2-.1,y:Math.random()*1.2-.1,
+      r:20+Math.random()*50,
+      spd:(.002+Math.random()*.003)*(Math.random()>.5?1:-1),
+      rot:Math.random()*Math.PI*2,
+      alpha:.04+Math.random()*.08,
+      pts:Math.random()>.5?8:6,
+    });
+  }
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    t+=.003;
+    stars.forEach(s=>{
+      s.rot+=s.spd;
+      const cx=s.x*W, cy=s.y*H;
+      starPath(ctx,cx,cy,s.r,s.pts,s.r*.4,s.rot);
+      ctx.strokeStyle=`rgba(72,202,228,${s.alpha})`;
+      ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.arc(cx,cy,s.r*1.3,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(72,202,228,${s.alpha*.4})`;
+      ctx.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── SCROLL REVEAL ───────────────────────── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+    }
+  });
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ── BACK TO TOP ─────────────────────────── */
+const bt=document.getElementById('btn-top');
+addEventListener('scroll',()=>bt.classList.toggle('show',scrollY>350),{passive:true});
+bt.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+</script>
+</body>
+</html>
