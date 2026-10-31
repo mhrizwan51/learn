@@ -94,3 +94,10 @@ h1 .tr{font-family:var(--latin);font-style:italic;color:#7a6a4f;font-size:.7em;f
   .q{background:#15271d}.root{color:#7fd0dd}a{color:#7fd0dd}
   .hero{background:#0b1d36}
 }
+body.ur{font-size:20px}
+.ur .body{font-size:22px;line-height:2.2}
+.ur .a{font-size:1.02em}
+.ur .q{font-size:1.05em;line-height:1.75}
+.ur .rlist .gl{font-size:15px}
+.ur .crumbs,.ur .sub{font-size:16px}
+@media(max-width:640px){.ur .body{font-size:20px}}
