@@ -134,6 +134,7 @@ body.wc{--acc:var(--wc);--acc2:var(--wc2)}
 body.tc .lhead{background:linear-gradient(135deg,#0f766e,#134e4a)}
 body.fd .lhead{background:linear-gradient(135deg,#4338ca,#312e81)}
 body.wc .lhead{background:linear-gradient(135deg,#b45309,#78350f)}
+@media(min-width:901px){#menubtn{display:inline-block}body.tc #side,body.fd #side,body.wc #side{display:none}body.tc #side.open,body.fd #side.open,body.wc #side.open{display:flex}body:not(.tc):not(.fd):not(.wc) #side.open{display:none}body.tc #page,body.fd #page,body.wc #page{max-width:1240px}}
 @media(max-width:900px){
   body{flex-direction:column}
   #side{position:fixed;left:-320px;top:0;transition:left .2s;z-index:20;width:300px}
