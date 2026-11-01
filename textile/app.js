@@ -2,7 +2,7 @@
 /* ---------- registry ---------- */
 const COURSES={
   tc:{name:'Textile Costing',short:'Costing',color:'#0f766e',desc:'Financial and managerial accounting applied to spinning, weaving, dyeing, printing and stitching — from the accounting equation to a full product costing.',meta:'26 lectures · 40 live worksheets'},
-  fd:{name:'Fabric Design',short:'Fabric Design',color:'#4338ca',desc:'Woven structures on point paper: plain, twill, satin and their derivatives, drafting, hexadecimal design notation, cords, piqué, double cloth, colour-and-weave and fabric analysis.',meta:'21 lectures · 70 weave diagrams'},
+  fd:{name:'Fabric Design',short:'Fabric Design',color:'#4338ca',desc:'Woven structures on point paper: plain, twill, satin and their derivatives, drafting, hexadecimal design notation, cords, piqué, double cloth, colour-and-weave and fabric analysis.',meta:'21 lectures · 72 weave diagrams'},
   wc:{name:'Weaving Calculations',short:'Weaving Calc.',color:'#b45309',desc:'Yarn counts, fabric weight, warping, sizing, beams, reeds, cover factor, crimp, loom production, planning and feasibility of a weaving plant.',meta:'21 pages covering 28 lectures · 30 live worksheets'}
 };
 const L=[]; // lectures in order
@@ -48,7 +48,7 @@ function mountSheet(id,spec){
       if(cell.in!==undefined){
         v[cell.in]=cell.v;
         if(cell.opts){h+=`<td class="in" data-ref="${ref}"><select data-in="${cell.in}">${cell.opts.map(o=>`<option value="${esc(o)}"${o==cell.v?' selected':''}>${esc(o)}</option>`).join('')}</select></td>`;}
-        else h+=`<td class="in" data-ref="${ref}"><input data-in="${cell.in}" data-fmt="${cell.fmt||''}" value="${cell.fmt&&cell.fmt.endsWith('%')?(cell.v*100):cell.v}"${cell.step?` step="${cell.step}"`:''}></td>`;
+        else h+=`<td class="in" data-ref="${ref}"><input data-in="${cell.in}" data-fmt="${cell.fmt||''}" value="${cell.fmt&&cell.fmt.endsWith('%')?parseFloat((cell.v*100).toPrecision(12)):cell.v}"${cell.step?` step="${cell.step}"`:''}></td>`;
         continue;}
       if(cell.f){h+=`<td class="num fx${cell.tot?' tot':''}" data-ref="${ref}" data-fx="${esc(cell.fx||'')}" id="${id}_c${ri}_${c}"></td>`;fxCells.push({ri,c,cell});continue;}
       h+='<td></td>';
@@ -300,15 +300,15 @@ ${S({title:'Accounting equation worksheet (Rs)',cols:[40,230,90,90,90,90,90,90],
 ['a','Ahmed deposits capital in the bank',{in:'a',v:19000},null,null,null,null,{f:v=>v.a,fx:'=C2',fmt:'#,##0'}],
 ['b','Buys kitchen equipment for cash',{f:v=>-v.b,fx:'=-E3',fmt:'#,##0'},null,{in:'b',v:17400},null,null,null],
 ['c','Buys food supplies on credit',null,{in:'c',v:650},null,null,{f:v=>v.c,fx:'=D4',fmt:'#,##0'},null],
-['d','Pays part of the creditors',{f:v=>-v.d,fx:'=-G5',fmt:'#,##0'},null,null,null,{in:'d',v:-300},null],
+['d','Pays part of the creditors',{f:v=>v.d,fx:'=G5',fmt:'#,##0'},null,null,null,{in:'d',v:-300},null],
 ['e','Sales for the month (cash)',{in:'e',v:2000},null,null,null,null,{f:v=>v.e,fx:'=C6 (Sales)',fmt:'#,##0'}],
-['f','Wages 550, rent 50, utilities 25, misc 75',{f:v=>-(v.wg+v.rt+v.ut+v.ms),fx:'=-(550+50+25+75)',fmt:'#,##0'},null,null,null,null,{f:v=>-(v.wg+v.rt+v.ut+v.ms),fx:'= expenses reduce capital',fmt:'#,##0'}],
+['f','Wages 550, rent 50, utilities 25, misc 75',{f:v=>-(v.wg+v.rt+v.ut+v.ms),fx:'=-SUM(C8:F8)',fmt:'#,##0'},null,null,null,null,{f:v=>-(v.wg+v.rt+v.ut+v.ms),fx:'= expenses reduce capital',fmt:'#,##0'}],
 ['','   wages / rent / utilities / misc',{in:'wg',v:550},{in:'rt',v:50},{in:'ut',v:25},{in:'ms',v:75},null,null],
-['g','Supplies used (650 bought, 250 left)',null,{f:v=>-(v.c-v.sl),fx:'=-(D4-250)',fmt:'#,##0'},null,null,null,{f:v=>-(v.c-v.sl),fx:'= supplies expense',fmt:'#,##0'}],
+['g','Supplies used (bought less left at month end)',null,{f:v=>-(v.c-v.sl),fx:'=-(D4-D10)',fmt:'#,##0'},null,null,null,{f:v=>-(v.c-v.sl),fx:'= supplies expense',fmt:'#,##0'}],
 ['','   supplies left at month end',null,{in:'sl',v:250},null,null,null,null],
 ['h','Depreciation of equipment',null,null,null,{in:'dp',v:-200},null,{f:v=>v.dp,fx:'=F11',fmt:'#,##0'}],
 ['i','Ahmed withdraws cash (drawings)',{in:'dw',v:-500},null,null,null,null,{f:v=>v.dw,fx:'=C12',fmt:'#,##0'}],
-[{t:'',cls:''},{t:'<b>Balances</b>'},{f:v=>v.a-v.b-v.d+v.e-(v.wg+v.rt+v.ut+v.ms)+v.dw,n:'cash',fx:'=SUM(C2:C12)',fmt:'#,##0',tot:true},{f:v=>v.sl,n:'sup',fx:'=SUM(D2:D12)',fmt:'#,##0',tot:true},{f:v=>v.b,n:'eq',fx:'=SUM(E2:E12)',fmt:'#,##0',tot:true},{f:v=>v.dp,n:'ad',fx:'=SUM(F2:F12)',fmt:'#,##0',tot:true},{f:v=>v.c+v.d,n:'cr',fx:'=SUM(G2:G12)',fmt:'#,##0',tot:true},{f:v=>v.a+v.e-(v.wg+v.rt+v.ut+v.ms)-(v.c-v.sl)+v.dp+v.dw,n:'cap',fx:'=SUM(H2:H12)',fmt:'#,##0',tot:true}],
+[{t:'',cls:''},{t:'<b>Balances</b>'},{f:v=>v.a-v.b+v.d+v.e-(v.wg+v.rt+v.ut+v.ms)+v.dw,n:'cash',fx:'=SUM(C2:C12)',fmt:'#,##0',tot:true},{f:v=>v.sl,n:'sup',fx:'=SUM(D2:D12)',fmt:'#,##0',tot:true},{f:v=>v.b,n:'eq',fx:'=SUM(E2:E12)',fmt:'#,##0',tot:true},{f:v=>v.dp,n:'ad',fx:'=SUM(F2:F12)',fmt:'#,##0',tot:true},{f:v=>v.c+v.d,n:'cr',fx:'=SUM(G2:G12)',fmt:'#,##0',tot:true},{f:v=>v.a+v.e-(v.wg+v.rt+v.ut+v.ms)-(v.c-v.sl)+v.dp+v.dw,n:'cap',fx:'=SUM(H2:H12)',fmt:'#,##0',tot:true}],
 ['', 'Assets = Cash + Supplies + Equipment − Acc. Dep.',{f:v=>v.cash+v.sup+v.eq+v.ad,fx:'=C13+D13+E13+F13',fmt:'#,##0',tot:true},null,null,null,{t:'Liabilities + Capital'},{f:v=>v.cr+v.cap,fx:'=G13+H13',fmt:'#,##0',tot:true}]
 ]})}
 <div class="note">Notice how expenses, supplies used, depreciation and drawings all <em>reduce capital</em>, while sales increase it. That is the whole logic of the profit and loss account, which Lecture 2 builds from these same figures.</div></div>
@@ -336,7 +336,7 @@ lecture({id:'tc02',course:'tc',n:'02',title:'Financial Statements',sub:'Balance 
 <div class="card"><h2>Two statements, two questions</h2>
 <dl class="def"><dt>Profit &amp; Loss account</dt><dd>Shows the net profit or net loss resulting from transactions <em>during a period</em> — “how did we do this month?”</dd>
 <dt>Balance sheet</dt><dd>Shows the financial position of the business <em>on a fixed date</em> — “what do we own and owe tonight?”</dd></dl>
-<p>Both are built from the trial balance of Lecture 1. Change any blue figure and both statements update together — the balance sheet must still balance.</p>
+<p>Both are built from the trial balance of Lecture 1. Each statement recalculates when its own blue figures change; the net profit of the first (700) is entered in the second as “add profit for the month”, and with the lecture’s figures both sides of the balance sheet total 19,550.</p>
 <div class="grid2">
 ${S({title:'Ahmed Inc. — Profit & Loss for the month',cols:[190,90,90],rows:[
 ['Sales',null,{in:'sales',v:2000}],
@@ -365,7 +365,7 @@ ${S({title:'Ahmed Inc. — Balance Sheet as at month end',cols:[200,90,90],rows:
 ]})}
 </div></div>
 <div class="card"><h2>Debit and credit — the only four rules you need</h2>
-<table class="plain"><tr><th></th><th>Increase</th><th>Decrease</th></tr><tr><td>Property (assets, expenses, drawings)</td><td><b>Debit</b></td><td>Credit</td></tr><tr><td>Right to property (liabilities, capital, income)</td><td>Credit</td><td><b>Debit</b></td></tr></table>
+<table class="plain"><tr><th></th><th>Increase</th><th>Decrease</th></tr><tr><td>Property (assets)</td><td><b>Debit</b></td><td>Credit</td></tr><tr><td>Right to property (liabilities, capital — income increases it; expenses and drawings decrease it)</td><td>Credit</td><td><b>Debit</b></td></tr></table>
 <p>Every entry has a debit and an equal credit. The <b>journal</b> records them in date order; the <b>ledger</b> collects them account by account (the “T-accounts”); the <b>trial balance</b> checks that total debits equal total credits.</p>
 <h3>Journal of Ahmed Inc. (December)</h3>
 <table class="plain"><tr><th>Date</th><th>Description</th><th class="r">Debit</th><th class="r">Credit</th></tr>
@@ -451,7 +451,7 @@ ${S({title:'Straight-line depreciation',cols:[260,110],rows:[
 <div class="card"><h2>Declining balance — heavy early use</h2>
 <p>A fixed rate is applied to the written-down value, ignoring the residual value — but depreciation should not take the book value below the expected residual. It suits assets whose productivity declines proportionately more in early years; the smaller later charges are offset by rising maintenance costs. <b>Double declining</b> simply uses twice the straight-line rate (40% for a 5-year life) and stops at the residual value.</p>
 <div class="grid2">
-${S({title:'Declining balance (20%)',cols:[40,70,90,90,90],rows:[
+${S({title:'Declining balance',cols:[40,70,90,90,90],rows:[
 [{h:'Yr'},{h:'Rate'},{h:'Book value'},{h:'Depreciation'},{h:'End value'}],
 ['',{t:'Cost'},{in:'c',v:10000},{t:'Rate'},{in:'r',v:0.2,fmt:'0%'}],
 ['1',null,{f:v=>v.c,n:'b1',fx:'=C2',fmt:'#,##0'},{f:v=>v.b1*v.r,n:'d1',fx:'=C3*$E$2',fmt:'#,##0'},{f:v=>v.b1-v.d1,n:'e1',fx:'=C3-D3',fmt:'#,##0'}],
@@ -460,7 +460,7 @@ ${S({title:'Declining balance (20%)',cols:[40,70,90,90,90],rows:[
 ['4',null,{f:v=>v.e3,n:'b4',fx:'=E5',fmt:'#,##0'},{f:v=>v.b4*v.r,n:'d4',fx:'=C6*$E$2',fmt:'#,##0'},{f:v=>v.b4-v.d4,n:'e4',fx:'=C6-D6',fmt:'#,##0'}],
 ['5',null,{f:v=>v.e4,n:'b5',fx:'=E6',fmt:'#,##0'},{f:v=>v.b5*v.r,n:'d5',fx:'=C7*$E$2',fmt:'#,##0'},{f:v=>v.b5-v.d5,fx:'=C7-D7',fmt:'#,##0'}]
 ]})}
-${S({title:'Double declining balance (40%, floor at residual)',cols:[40,70,90,90,90],rows:[
+${S({title:'Double declining balance (floor at residual)',cols:[40,70,90,90,90],rows:[
 [{h:'Yr'},{h:''},{h:'Book value'},{h:'Depreciation'},{h:'End value'}],
 ['',{t:'Cost'},{in:'c',v:10000},{t:'Residual'},{in:'res',v:2000}],
 ['',{t:'Rate'},{in:'r',v:0.4,fmt:'0%'}],
@@ -479,7 +479,7 @@ ${S({title:'Double declining balance (40%, floor at residual)',cols:[40,70,90,90
 <tr><td>10 Sep 2005</td><td>Traded in on a new truck priced 497,000; allowance 50,000</td><td>Depreciation to date 24,956; disposal account closes with a loss of 31,150</td></tr>
 <tr><td>31 Dec 2005</td><td>Depreciation on new truck (life 5 yrs, residual 80,000, DDB)</td><td>497,000 × 40% × 4/12 = 66,267</td></tr>
 <tr><td>28 Aug 2006</td><td>Another new truck bought for 570,000</td><td>Delivery Equipment</td></tr>
-<tr><td>29 Oct 2006</td><td>2005 truck sold for 260,000</td><td>Depreciation to date 152,413; book value 278,320 → loss 18,320</td></tr>
+<tr><td>29 Oct 2006</td><td>2005 truck sold for 260,000</td><td>Depreciation to date 152,413 (132,533 for 8 months + 19,880 for 2 months); book value 278,320 → loss 18,320</td></tr>
 <tr><td>31 Dec 2006</td><td>Depreciation on remaining truck (life 4 yrs, residual 90,000, DDB)</td><td>570,000 × 50% × 4/12 = 95,000</td></tr></table>
 ${S({title:'Disposal of the 2005 truck — gain or loss',cols:[260,110],rows:[
 ['Cost of truck',{in:'c',v:497000}],['Accumulated depreciation to date of sale',{in:'ad',v:218680}],['Book value',{f:v=>v.c-v.ad,n:'bv',fx:'=B1-B2',fmt:'#,##0'}],['Cash received',{in:'p',v:260000}],[{t:'<b>Gain / (loss) on disposal</b>'},{f:v=>v.p-v.bv,fx:'=B4-B3',fmt:'#,##0',tot:true}]
@@ -488,7 +488,7 @@ ${S({title:'Disposal of the 2005 truck — gain or loss',cols:[260,110],rows:[
 
 lecture({id:'tc05',course:'tc',n:'05',title:'Managerial Accounting – Introduction',sub:'Cost objects, cost accumulation and assignment, and the difference between direct and indirect cost.',chips:['Cost object','Direct cost','Indirect cost'],body:()=>`
 <div class="card"><h2>From keeping records to making decisions</h2>
-<p>Financial accounting looks backwards and outwards — it reports to owners, banks and the tax authority. Managerial accounting looks inwards: it measures the cost of the things managers decide about. Five words carry the whole subject.</p>
+<p>Financial accounting looks backwards and outwards — it reports to owners, banks and the tax authority. Managerial accounting looks inwards: it measures the cost of the things managers decide about. Five terms carry the whole subject.</p>
 <dl class="def">
 <dt>Cost object</dt><dd>A product, machine, service or process for which a separate measurement of cost is desired — a lot of fabric, a loom, a dyeing route, a customer order.</dd>
 <dt>Cost accumulation</dt><dd>Collecting cost data in some organised way (by department, by machine, by account).</dd>
@@ -552,8 +552,8 @@ ${S({title:'Break-even and target-profit calculator',cols:[260,110],rows:[
 ]})}
 ${CH({w:600,h:280,xl:'Units sold',yl:'Rupees',xmax:2500,ymax:25000,series:[{pts:[[0,0],[2500,25000]],color:'#0f766e',label:'Revenue'},{pts:[[0,5000],[2500,20000]],color:'#b45309',label:'Total cost'},{pts:[[0,5000],[2500,5000]],color:'#9ca3af',label:'Fixed cost'}],marks:[{x:1250,y:12500,label:'Break-even 1,250'}]})}</div>
 <div class="card"><h2>Sensitivity analysis — units needed for different fixed costs, variable costs and profit targets</h2>
-<p>The lecture left blanks to fill in; here the whole table is live. Rows are combinations of fixed cost and unit variable cost at a selling price of Rs 10.</p>
-${S({title:'Units to be sold at USP of Rs 10',cols:[100,80,90,90,90,90],rows:[
+<p>The lecture left blanks to fill in; here the whole table is live. Rows are combinations of fixed cost and unit variable cost at the selling price entered in row 2 (Rs 10 in the lecture).</p>
+${S({title:'Units to be sold at the selling price in row 2',cols:[100,80,90,90,90,90],rows:[
 [{h:'Fixed cost'},{h:'UVC'},{h:'Profit 0'},{h:'Profit 1,000'},{h:'Profit 1,500'},{h:'Profit 2,000'}],
 ['Selling price',{in:'p',v:10}],
 ...[[4000,5],[4000,6],[4000,7],[5000,5],[5000,6],[5000,7],[6000,5],[6000,6],[6000,7]].map(([f,c],i)=>[{in:'f'+i,v:f},{in:'c'+i,v:c},{f:v=>v['f'+i]/(v.p-v['c'+i]),fx:'=(A+0)/(price−B)',fmt:'#,##0'},{f:v=>(v['f'+i]+1000)/(v.p-v['c'+i]),fx:'=(A+1000)/(price−B)',fmt:'#,##0'},{f:v=>(v['f'+i]+1500)/(v.p-v['c'+i]),fx:'=(A+1500)/(price−B)',fmt:'#,##0'},{f:v=>(v['f'+i]+2000)/(v.p-v['c'+i]),fx:'=(A+2000)/(price−B)',fmt:'#,##0'}])
@@ -587,7 +587,7 @@ ${S({title:'Weaving shed — per loom and per unit',cols:[280,120,120],rows:[
 [{t:'<b>Profit / (loss) per day per loom</b>'},null,{f:v=>v.dcl-v.fl,n:'ppl',fx:'=C14-C10',fmt:'#,##0',tot:true}],
 ['Profit / (loss) per day',null,{f:v=>v.ppl*v.n,n:'pd',fx:'=C15*B2',fmt:'#,##0'}],
 ['Profit / (loss) per month',null,{f:v=>v.pd*30,fx:'=C16*30',fmt:'#,##0'}],
-['Break-even metres per loom per day',null,{f:v=>v.fl/v.c,fx:'=C10/B13',fmt:'#,##0'}]
+['Break-even metres per loom per day',null,{f:v=>v.fl/v.c,fx:'=C10/B13',fmt:'#,##0.0'}]
 ]})}</div>
 <div class="card"><h2>Dyeing — commission finishing of 50,000 m a day (medium colours)</h2>
 ${S({title:'Dyeing plant — commission finishing',cols:[280,120,120],rows:[
@@ -602,7 +602,7 @@ ${S({title:'Dyeing plant — commission finishing',cols:[280,120,120],rows:[
 ['Profit / (loss) per month',null,{f:v=>v.p*30,fx:'=C10*30',fmt:'#,##0'}],
 ['Break-even metres per day',null,{f:v=>v.fd/v.c,fx:'=C3/B8',fmt:'#,##0'}]
 ]})}
-<div class="note">Exercise from the lecture: find the break-even point for each plant. The last row of each sheet now answers it — and shows how thin the margin is in weaving, where one rupee per metre on yarn price swings the shed from profit to loss.</div></div>`});
+<div class="note">Exercise from the lecture: find the break-even point for each plant. The last row of each sheet now answers it — and shows how thin the margin is in weaving, where one rupee per metre on yarn price wipes out the shed’s entire profit (contribution 9 → 8 × 500 m = 4,000 = the daily fixed cost per loom).</div></div>`});
 
 lecture({id:'tc09',course:'tc',n:'09',title:'Costing Systems I — Job Costing',sub:'Assigning costs to a distinct job, batch or lot: the six steps, with a 10,000 m printing job.',chips:['Job costing','Allocation base','Actual vs normal costing'],body:()=>`
 <div class="card"><h2>When a job is the cost object</h2>
@@ -690,15 +690,15 @@ ${S({title:'Conventional (volume-based) costing vs ABC',cols:[220,90,90,90,90],r
 [{s:'Conventional process costing',span:5}],
 ['Material + labour per lot',{f:v=>v.ka*(v.mc+v.lc),n:'pa',fx:'=B10*(mat+lab)',fmt:'#,##0'},{f:v=>v.kb*(v.mc+v.lc),n:'pb',fx:'=C10*(mat+lab)',fmt:'#,##0'},{f:v=>v.kc*(v.mc+v.lc),n:'pc',fx:'=D10*(mat+lab)',fmt:'#,##0'},{f:v=>v.kd*(v.mc+v.lc),n:'pd',fx:'=E10*(mat+lab)',fmt:'#,##0'}],
 ['Allocated fixed cost per lot (on kg)',{f:v=>v.tf/v.kt*v.ka,n:'fa',fx:'=B6/B11*B10',fmt:'#,##0'},{f:v=>v.tf/v.kt*v.kb,n:'fb',fx:'=B6/B11*C10',fmt:'#,##0'},{f:v=>v.tf/v.kt*v.kc,n:'fc',fx:'=B6/B11*D10',fmt:'#,##0'},{f:v=>v.tf/v.kt*v.kd,n:'fd',fx:'=B6/B11*E10',fmt:'#,##0'}],
-['Total cost per unit',{f:v=>(v.pa+v.fa)/v.ua,n:'ca',fx:'=(B13+B14)/B9',fmt:'0.00'},{f:v=>(v.pb+v.fb)/v.ub,n:'cb',fx:'=(C13+C14)/C9',fmt:'0.00'},{f:v=>(v.pc+v.fc)/v.uc,n:'cc',fx:'=(D13+D14)/D9',fmt:'0.00'},{f:v=>(v.pd+v.fd)/v.ud,n:'cd',fx:'=(E13+E14)/E9',fmt:'0.00'}],
-['Selling price (cost + 10%)',{f:v=>v.ca*1.1,n:'sa',fx:'=B15*1.1',fmt:'0.00'},{f:v=>v.cb*1.1,n:'sb',fx:'=C15*1.1',fmt:'0.00'},{f:v=>v.cc*1.1,n:'sc',fx:'=D15*1.1',fmt:'0.00'},{f:v=>v.cd*1.1,n:'sd',fx:'=E15*1.1',fmt:'0.00'}],
+['Total cost per unit',{f:v=>(v.pa+v.fa)/v.ua,n:'ca',fx:'=(B13+B14)/B9',fmt:'#,##0.00'},{f:v=>(v.pb+v.fb)/v.ub,n:'cb',fx:'=(C13+C14)/C9',fmt:'#,##0.00'},{f:v=>(v.pc+v.fc)/v.uc,n:'cc',fx:'=(D13+D14)/D9',fmt:'#,##0.00'},{f:v=>(v.pd+v.fd)/v.ud,n:'cd',fx:'=(E13+E14)/E9',fmt:'#,##0.00'}],
+['Selling price (cost + 10%)',{f:v=>v.ca*1.1,n:'sa',fx:'=B15*1.1',fmt:'#,##0.00'},{f:v=>v.cb*1.1,n:'sb',fx:'=C15*1.1',fmt:'#,##0.00'},{f:v=>v.cc*1.1,n:'sc',fx:'=D15*1.1',fmt:'#,##0.00'},{f:v=>v.cd*1.1,n:'sd',fx:'=E15*1.1',fmt:'#,##0.00'}],
 [{s:'Activity based costing',span:5}],
 ['Set-up cost per lot',{f:v=>v.su,fx:'=B3',fmt:'#,##0'},{f:v=>v.su,fx:'=B3',fmt:'#,##0'},{f:v=>v.su,fx:'=B3',fmt:'#,##0'},{f:v=>v.su,fx:'=B3',fmt:'#,##0'}],
 ['Other fixed cost per lot (on kg)',{f:v=>v.of/v.kt*v.ka,n:'oa',fx:'=B5/B11*B10',fmt:'#,##0'},{f:v=>v.of/v.kt*v.kb,n:'ob',fx:'=B5/B11*C10',fmt:'#,##0'},{f:v=>v.of/v.kt*v.kc,n:'oc',fx:'=B5/B11*D10',fmt:'#,##0'},{f:v=>v.of/v.kt*v.kd,n:'od',fx:'=B5/B11*E10',fmt:'#,##0'}],
-['Total cost per unit (ABC)',{f:v=>(v.pa+v.su+v.oa)/v.ua,n:'xa',fx:'=(B13+B18+B19)/B9',fmt:'0.00'},{f:v=>(v.pb+v.su+v.ob)/v.ub,n:'xb',fx:'=(C13+C18+C19)/C9',fmt:'0.00'},{f:v=>(v.pc+v.su+v.oc)/v.uc,n:'xc',fx:'=(D13+D18+D19)/D9',fmt:'0.00'},{f:v=>(v.pd+v.su+v.od)/v.ud,n:'xd',fx:'=(E13+E18+E19)/E9',fmt:'0.00'}],
+['Total cost per unit (ABC)',{f:v=>(v.pa+v.su+v.oa)/v.ua,n:'xa',fx:'=(B13+B18+B19)/B9',fmt:'#,##0.00'},{f:v=>(v.pb+v.su+v.ob)/v.ub,n:'xb',fx:'=(C13+C18+C19)/C9',fmt:'#,##0.00'},{f:v=>(v.pc+v.su+v.oc)/v.uc,n:'xc',fx:'=(D13+D18+D19)/D9',fmt:'#,##0.00'},{f:v=>(v.pd+v.su+v.od)/v.ud,n:'xd',fx:'=(E13+E18+E19)/E9',fmt:'#,##0.00'}],
 [{t:'<b>Profit per unit at the conventional price</b>'},{f:v=>v.sa-v.xa,fx:'=B16-B20',fmt:'0.00',tot:true},{f:v=>v.sb-v.xb,fx:'=C16-C20',fmt:'0.00',tot:true},{f:v=>v.sc-v.xc,fx:'=D16-D20',fmt:'0.00',tot:true},{f:v=>v.sd-v.xd,fx:'=E16-E20',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">Conventional costing says every product earns 10%. ABC shows the two small lots (A and C) are sold far below cost and the large lots subsidise them. Marketing that quotes “cost plus 10%” from the conventional sheet is quietly losing money on every small order.</div></div>`});
+<div class="note">Conventional costing says every product earns 10%. ABC shows the two low-volume lots (A and C, 100 units each) are sold far below cost and the large lots subsidise them. Marketing that quotes “cost plus 10%” from the conventional sheet is quietly losing money on every small order.</div></div>`});
 
 lecture({id:'tc12',course:'tc',n:'12',title:'ABC Uses in Textiles',sub:'Set-up cost versus running cost in dyeing and printing, screen costs, colour wastage, and the true cost of short runs.',chips:['Set-up vs running','Screens','Colour wastage','Short runs'],body:()=>`
 <div class="card"><h2>Two kinds of machine cost</h2>
@@ -746,16 +746,25 @@ lecture({id:'tc13',course:'tc',n:'13',title:'Budgets & Variances',sub:'The budge
 <p>A <b>variance</b> is the difference between an actual result and a budgeted amount. A <b>standard</b> is a carefully predetermined amount, usually per unit. A <b>static budget</b> is based on one level of output and is not altered afterwards; a <b>flexible budget</b> is adjusted to the actual output, which lets managers compute a richer set of variances. A variance is <b>favourable (F)</b> if it increases operating income relative to budget and <b>unfavourable (U)</b> if it decreases it.</p></div>
 <div class="card"><h2>Webb Company — April 2007</h2>
 <p>Webb makes a jacket sold to clothing stores. Budgeted selling price 180; budgeted variable cost 99 per jacket (materials 60, direct manufacturing labour 16, variable manufacturing overhead 12, direct marketing labour 6, variable marketing overhead 5); budgeted fixed costs 710,000 (276,000 manufacturing, 434,000 marketing). The static budget assumed 12,000 jackets; 10,000 were actually made and sold.</p>
-${S({title:'Level 0, 1 and 2 variance analysis',cols:[180,100,110,100,110,100],rows:[
+${S({title:'Level 0, 1 and 2 variance analysis',cols:[180,100,110,100,110,100],note:'Variances: positive = F (favourable), negative = U (unfavourable)',rows:[
 [{h:''},{h:'Actual results'},{h:'Flexible-budget variance'},{h:'Flexible budget'},{h:'Sales-volume variance'},{h:'Static budget'}],
 ['Units sold',{in:'au',v:10000},{f:v=>0,fx:'=B2-D2',fmt:'#,##0'},{f:v=>v.au,n:'fu',fx:'=B2 (actual volume)',fmt:'#,##0'},{f:v=>v.au-v.su,fx:'=D2-F2',fmt:'#,##0'},{in:'su',v:12000}],
-['Budgeted price / unit variable cost / fixed cost',{in:'bp',v:180},{in:'bv',v:99},{in:'bf',v:710000}],
-['Revenues',{in:'ar',v:1850000},{f:v=>v.ar-v.fu*v.bp,fx:'=B4-D4',fmt:'#,##0'},{f:v=>v.fu*v.bp,n:'fr',fx:'=D2*B3',fmt:'#,##0'},{f:v=>v.fu*v.bp-v.su*v.bp,fx:'=D4-F4',fmt:'#,##0'},{f:v=>v.su*v.bp,n:'sr',fx:'=F2*B3',fmt:'#,##0'}],
-['Variable costs',{in:'av',v:1120000},{f:v=>v.av-v.fu*v.bv,fx:'=B5-D5',fmt:'#,##0'},{f:v=>v.fu*v.bv,n:'fv',fx:'=D2*C3',fmt:'#,##0'},{f:v=>v.fu*v.bv-v.su*v.bv,fx:'=D5-F5',fmt:'#,##0'},{f:v=>v.su*v.bv,n:'sv',fx:'=F2*C3',fmt:'#,##0'}],
-['Contribution margin',{f:v=>v.ar-v.av,n:'acm',fx:'=B4-B5',fmt:'#,##0'},{f:v=>v.acm-(v.fr-v.fv),fx:'=B6-D6',fmt:'#,##0'},{f:v=>v.fr-v.fv,n:'fcm',fx:'=D4-D5',fmt:'#,##0'},{f:v=>v.fcm-(v.sr-v.sv),fx:'=D6-F6',fmt:'#,##0'},{f:v=>v.sr-v.sv,n:'scm',fx:'=F4-F5',fmt:'#,##0'}],
-['Fixed costs',{in:'af',v:705000},{f:v=>v.af-v.bf,fx:'=B7-D7',fmt:'#,##0'},{f:v=>v.bf,fx:'=D3',fmt:'#,##0'},{f:v=>0,fx:'=D7-F7',fmt:'#,##0'},{f:v=>v.bf,fx:'=D3',fmt:'#,##0'}],
-[{t:'<b>Operating income</b>'},{f:v=>v.acm-v.af,n:'aoi',fx:'=B6-B7',fmt:'#,##0',tot:true},{f:v=>v.aoi-(v.fcm-v.bf),fx:'=B8-D8 (flexible-budget variance)',fmt:'#,##0',tot:true},{f:v=>v.fcm-v.bf,n:'foi',fx:'=D6-D7',fmt:'#,##0',tot:true},{f:v=>v.foi-(v.scm-v.bf),fx:'=D8-F8 (sales-volume variance)',fmt:'#,##0',tot:true},{f:v=>v.scm-v.bf,n:'soi',fx:'=F6-F7',fmt:'#,##0',tot:true}],
-['Static-budget variance (Level 0)',{f:v=>v.aoi-v.soi,fx:'=B8-F8',fmt:'#,##0'}]
+[{t:''},{h:'Budgeted price'},{h:'Budgeted unit variable cost'},{h:'Budgeted fixed cost'}],
+['Budget inputs',{in:'bp',v:180},{in:'bv',v:99},{in:'bf',v:710000}],
+['Revenues',{in:'ar',v:1850000},{f:v=>v.ar-v.fu*v.bp,fx:'=B5-D5',fmt:'#,##0'},{f:v=>v.fu*v.bp,n:'fr',fx:'=D2*B4',fmt:'#,##0'},{f:v=>v.fu*v.bp-v.su*v.bp,fx:'=D5-F5',fmt:'#,##0'},{f:v=>v.su*v.bp,n:'sr',fx:'=F2*B4',fmt:'#,##0'}],
+['Variable costs',{in:'av',v:1120000},{f:v=>v.fu*v.bv-v.av,fx:'=D6-B6 (cost: budget − actual)',fmt:'#,##0'},{f:v=>v.fu*v.bv,n:'fv',fx:'=D2*C4',fmt:'#,##0'},{f:v=>v.su*v.bv-v.fu*v.bv,fx:'=F6-D6 (cost: budget − flexible)',fmt:'#,##0'},{f:v=>v.su*v.bv,n:'sv',fx:'=F2*C4',fmt:'#,##0'}],
+['Contribution margin',{f:v=>v.ar-v.av,n:'acm',fx:'=B5-B6',fmt:'#,##0'},{f:v=>v.acm-(v.fr-v.fv),fx:'=B7-D7',fmt:'#,##0'},{f:v=>v.fr-v.fv,n:'fcm',fx:'=D5-D6',fmt:'#,##0'},{f:v=>v.fcm-(v.sr-v.sv),fx:'=D7-F7',fmt:'#,##0'},{f:v=>v.sr-v.sv,n:'scm',fx:'=F5-F6',fmt:'#,##0'}],
+['Fixed costs',{in:'af',v:705000},{f:v=>v.bf-v.af,fx:'=D8-B8 (cost: budget − actual)',fmt:'#,##0'},{f:v=>v.bf,fx:'=D4',fmt:'#,##0'},{f:v=>0,fx:'=F8-D8',fmt:'#,##0'},{f:v=>v.bf,fx:'=D4',fmt:'#,##0'}],
+[{t:'<b>Operating income</b>'},{f:v=>v.acm-v.af,n:'aoi',fx:'=B7-B8',fmt:'#,##0',tot:true},{f:v=>v.aoi-(v.fcm-v.bf),fx:'=B9-D9 (flexible-budget variance)',fmt:'#,##0',tot:true},{f:v=>v.fcm-v.bf,n:'foi',fx:'=D7-D8',fmt:'#,##0',tot:true},{f:v=>v.foi-(v.scm-v.bf),fx:'=D9-F9 (sales-volume variance)',fmt:'#,##0',tot:true},{f:v=>v.scm-v.bf,n:'soi',fx:'=F7-F8',fmt:'#,##0',tot:true}],
+['Static-budget variance (Level 0)',{f:v=>v.aoi-v.soi,fx:'=B9-F9',fmt:'#,##0'}]
+]})}
+${S({title:'Level 1 analysis — static-budget variance line by line',cols:[180,100,120,100],note:'Variances: positive = F (favourable), negative = U (unfavourable)',rows:[
+[{h:''},{h:'Actual results'},{h:'Static-budget variance'},{h:'Static budget'}],
+['Units sold',{in:'au',v:10000},{f:v=>v.au-v.su,fx:'=B2-D2',fmt:'#,##0'},{in:'su',v:12000}],
+['Revenues',{in:'ar',v:1850000},{f:v=>v.ar-v.sr,fx:'=B3-D3',fmt:'#,##0'},{in:'sr',v:2160000}],
+['Variable costs',{in:'av',v:1120000},{f:v=>v.sv-v.av,fx:'=D4-B4 (cost: budget − actual)',fmt:'#,##0'},{in:'sv',v:1188000}],
+['Fixed costs',{in:'af',v:705000},{f:v=>v.sf-v.af,fx:'=D5-B5 (cost: budget − actual)',fmt:'#,##0'},{in:'sf',v:710000}],
+[{t:'<b>Operating income</b>'},{f:v=>v.ar-v.av-v.af,n:'aoi',fx:'=B3-B4-B5',fmt:'#,##0',tot:true},{f:v=>v.aoi-(v.sr-v.sv-v.sf),fx:'=B6-D6',fmt:'#,##0',tot:true},{f:v=>v.sr-v.sv-v.sf,n:'soi',fx:'=D3-D4-D5',fmt:'#,##0',tot:true}]
 ]})}
 <p>Reading the sheet: the static-budget variance of operating income is 237,000 U (Level 0). Level 1 splits it line by line against the static budget. Level 2 inserts the flexible budget at 10,000 units: the <b>sales-volume variance</b> (162,000 U) comes purely from selling 2,000 fewer jackets, while the <b>flexible-budget variance</b> (75,000 U) is what the operating managers can really be held to — revenue 50,000 F (price higher than budget), variable cost 130,000 U, fixed cost 5,000 F.</p>
 <h3>The five steps of a flexible budget</h3>
@@ -780,7 +789,7 @@ ${S({title:'Price and efficiency variances',cols:[220,110,110,110,110],rows:[
 ['Direct manufacturing labour',{f:v=>v.u*v.sl*v.pl,n:'fbl',fx:'=B5*B3*C3',fmt:'#,##0'},{f:v=>v.al-v.fbl,fx:'=B8-B12',fmt:'#,##0'},{f:v=>(v.apl-v.pl)*v.ql,fx:'=(D8-C3)*C8',fmt:'#,##0'},{f:v=>(v.ql-v.u*v.sl)*v.pl,fx:'=(C8-B5*B3)*C3',fmt:'#,##0'}],
 ['Direct marketing labour',{f:v=>v.u*v.sk*v.pk,n:'fbk',fx:'=B5*B4*C4',fmt:'#,##0'},{f:v=>v.ak-v.fbk,fx:'=B9-B13',fmt:'#,##0'},{f:v=>(v.apk-v.pk)*v.qk,fx:'=(D9-C4)*C9',fmt:'#,##0'},{f:v=>(v.qk-v.u*v.sk)*v.pk,fx:'=(C9-B5*B4)*C4',fmt:'#,##0'}]
 ]})}
-<div class="note">Materials: 88,200 U = 22,200 U price (paid Rs 31 instead of 30) + 66,000 U efficiency (used 2,220 yd more than the 20,000 allowed). Marketing labour shows the opposite pattern — paid more per hour but used fewer hours, so the net variance is 2,400 F. In a spinning mill the same split separates “cotton got dearer” from “we wasted more cotton”.</div></div>`});
+<div class="note">Materials: 88,200 U = 22,200 U price (paid Rs 31 instead of 30) + 66,000 U efficiency (used 2,200 yd more than the 20,000 allowed). Marketing labour shows the opposite pattern — paid more per hour but used fewer hours, so the net variance is 2,400 F. In a spinning mill the same split separates “cotton got dearer” from “we wasted more cotton”.</div></div>`});
 
 lecture({id:'tc15',course:'tc',n:'15',title:'Review of Spinning Calculations',sub:'Count, ounces per spindle, bags per frame, cotton cost per lb and the adjusted cost of carded and combed yarn — the mid-term review.',chips:['OPS','Bags per frame','Yield','Combed vs carded'],body:()=>`
 <div class="card"><h2>Production of a ring frame</h2>
@@ -819,7 +828,7 @@ lecture({id:'tc16',course:'tc',n:'16',title:'Simple Yarn Costing',sub:'Raw mater
 ${S({title:'Yarn export costing — per container and per bag',cols:[280,100,110,110],rows:[
 [{h:''},{h:'Basis'},{h:'Per container'},{h:'Per bag'}],
 ['Bags per container',{in:'bags',v:400}],['Price (US$/kg)',{in:'px',v:2}],['Rs per US$',{in:'fx',v:60}],
-['Price per bag (100 lb)',null,{f:v=>v.px*v.fx,fx:'=B3*B4 (Rs/kg)',fmt:'0.00'},{f:v=>v.px*v.fx/2.204*100,n:'pb',fx:'=C5/2.204*100',fmt:'#,##0.00'}],
+['Price: Rs/kg (Basis) and per bag of 100 lb',{f:v=>v.px*v.fx,fx:'=B3*B4 (Rs/kg)',fmt:'0.00'},null,{f:v=>v.px*v.fx/2.204*100,n:'pb',fx:'=B5/2.204*100',fmt:'#,##0.00'}],
 ['Local freight',null,{in:'lf',v:15000},{f:v=>v.lf/v.bags,n:'c1',fx:'=C6/B2',fmt:'0.00'}],
 ['Export development surcharge',{in:'eds',v:0.0025,fmt:'0.00%'},null,{f:v=>v.eds*v.pb,n:'c2',fx:'=B7*D5',fmt:'0.00'}],
 ['Foreign bank charges (US$)',{in:'fb',v:250},{f:v=>v.fb*v.fx,n:'fbr',fx:'=B8*B4',fmt:'#,##0'},{f:v=>v.fbr/v.bags,n:'c3',fx:'=C8/B2',fmt:'0.00'}],
@@ -836,14 +845,14 @@ ${S({title:'Yarn export costing — per container and per bag',cols:[280,100,110
 ['Fixed cost per frame per day',{in:'ff',v:14000}],
 [{t:'<b>Profit / (loss) per frame per day</b>'},{f:v=>v.cf-v.ff,n:'pf',fx:'=B18-B19',fmt:'#,##0',tot:true}],
 ['Total frames',{in:'nf',v:46}],['Profit / (loss) per day for the mill',{f:v=>v.pf*v.nf,fx:'=B20*B21',fmt:'#,##0'}],
-['Break-even price per bag (Rs)',{f:v=>v.tv+v.ff/v.bf,fx:'=D14+B19/B17',fmt:'#,##0'}],
-['Break-even price (US$/kg)',{f:v=>(v.tv+v.ff/v.bf)/100*2.204/v.fx,fx:'=B23/100*2.204/B4',fmt:'0.000'}]
+['Break-even price per bag (Rs)',{f:v=>(v.tv-v.c2+v.ff/v.bf)/(1-v.eds),fx:'=(D14-D7+B19/B17)/(1-B7)',fmt:'#,##0'}],
+['Break-even price (US$/kg)',{f:v=>(v.tv-v.c2+v.ff/v.bf)/(1-v.eds)/100*2.204/v.fx,fx:'=B23/100*2.204/B4',fmt:'0.000'}]
 ]})}
 <div class="note">At US$ 2 the Ne 20 frame loses about Rs 3,650 a day: the contribution of Rs 1,117 per bag × 9.27 bags does not cover the Rs 14,000 frame cost. Raise the price, the exchange rate or the OPS and watch the break-even line — this is the daily conversation in every spinning mill’s marketing office.</div></div>`});
 
 lecture({id:'tc17',course:'tc',n:'17',title:'Optimal Yarn Mix',sub:'Allocating 46 frames among six counts to maximise contribution, within the limit of 780 bags of daily shipment.',chips:['Product mix','Constraints','Contribution per frame'],body:()=>`
 <div class="card"><h2>The decision</h2>
-<p>A mill has 46 frames and can ship at most 780 bags a day. Coarser counts earn less per bag but produce many more bags per frame; finer counts the reverse. The frame — the scarce resource — must be given to the count that earns the most <em>per frame</em>, subject to the shipping limit. Change the frames allotted to each count (row 2) and watch the totals; the two constraint rows tell you if the plan is feasible.</p>
+<p>A mill has 46 frames and can ship at most 780 bags a day. Coarser counts earn less per bag but produce many more bags per frame; finer counts the reverse. The frame — the scarce resource — must be given to the count that earns the most <em>per frame</em>, subject to the shipping limit. Change the frames allotted to each count (row 2) and watch the totals; compare the frame and bag totals in the last column with their limits (46 frames, 780 bags) to see if the plan is feasible.</p>
 ${S({title:'Yarn mix — contribution per frame per day',cols:[200,80,80,80,80,80,80,100],rows:[
 [{h:'Count (Ne)'},{h:'6'},{h:'8'},{h:'10'},{h:'12'},{h:'16'},{h:'20'},{h:'Total / limit'}],
 ['Frames allotted',{in:'f0',v:6},{in:'f1',v:6},{in:'f2',v:6},{in:'f3',v:6},{in:'f4',v:6},{in:'f5',v:6},{f:v=>v.f0+v.f1+v.f2+v.f3+v.f4+v.f5,n:'ft',fx:'=SUM(B2:G2)  ≤ 46',fmt:'0'}],
@@ -861,11 +870,11 @@ ${S({title:'Yarn mix — contribution per frame per day',cols:[200,80,80,80,80,8
 [{t:'<b>Profit per day</b>'},null,null,null,null,null,null,{f:v=>v.tct-v.fc,n:'pd',fx:'=H12-H13',fmt:'#,##0',tot:true}],
 ['Profit per month',null,null,null,null,null,null,{f:v=>v.pd*30,fx:'=H14×30',fmt:'#,##0'}]
 ]})}
-<div class="note">With six frames on every count the mill earns about Rs 85,000 a day. Ne 8 gives the highest contribution per frame (≈23,750), so the optimum pushes frames towards Ne 8 and Ne 6 until the 780-bag shipping limit binds — then the remaining frames go to the finer counts that use less shipping capacity per frame. Try it: the sheet is a hand-driven linear programme.</div></div>`});
+<div class="note">With six frames on every count only 36 of the 46 frames run and the mill earns about Rs 85,000 a day. Ne 8 gives the highest contribution per frame (≈23,750), but running all 46 frames on coarse counts would ship far more than 780 bags, so the shipping limit binds: the best plan puts about 33.6 frames on Ne 10 and 12.4 on Ne 20, using all 46 frames and exactly 780 bags, for a contribution of about Rs 960,000 and a profit of about Rs 316,000 a day. Try it: the sheet is a hand-driven linear programme.</div></div>`});
 
 lecture({id:'tc18',course:'tc',n:'18',title:'Review of Weaving Calculations I',sub:'Denier, fabric weight and the yarn cost per yard and per metre of grey fabric, including contraction, wastage and B-grade.',chips:['Warp & weft weight','Wastage','Yarn cost per metre'],body:()=>`
 <div class="card"><h2>How much yarn is in a metre of fabric?</h2>
-<p>For a construction written warp × weft / ends × picks, width: the warp weight per yard is the number of ends × (1 + crimp + wastage) ÷ (840 × Ne), grossed up for the B-grade fabric that must still be paid for; the weft weight per yard is picks per inch × 36 × width (yd) × (1 + crimp + wastage) ÷ (840 × Ne). Multiply by the yarn price and you have the biggest single cost of the fabric.</p>
+<p>For a construction written warp × weft / ends × picks, width: the warp weight per yard is the number of ends × (1 + crimp + wastage) ÷ (840 × Ne); the weft weight per yard is picks per inch × 36 × width (yd) × (1 + crimp + wastage) ÷ (840 × Ne). Both are grossed up for the B-grade fabric that must still be paid for (÷ (1 − B-grade)). Multiply by the yarn price and you have the biggest single cost of the fabric.</p>
 ${S({title:'Yarn weight and cost per linear yard / metre — 20×20/60×60, 63″',cols:[300,110,60,110,110],rows:[
 ['Warp count (Ne)',{in:'wp',v:20},null,{t:'Warp price (Rs/10 lb)'},{in:'pw',v:500}],
 ['Weft count (Ne)',{in:'wf',v:20},null,{t:'Weft price (Rs/10 lb)'},{in:'pf',v:500}],
@@ -925,11 +934,11 @@ ${S({title:'Export fabric costing — 20×20/60×60, 63″, 40 ft container',col
 ['Quantity per container (m)',null,{f:v=>v.pl/v.lbm,n:'qm',fx:'=B10/C9',fmt:'#,##0'}],
 [{s:'Variable export cost per metre',span:3}],
 ['Transport to port (Rs per container)',{in:'tr',v:15000},{f:v=>v.tr/v.qm,n:'e1',fx:'=B13/C11',fmt:'0.000'}],
-['Ocean freight (US$)',{in:'of',v:500},{f:v=>v.of*v.fx/v.qm,n:'e2',fx:'=B14*fx/C11',fmt:'0.000'}],
+['Ocean freight (US$)',{in:'of',v:500},{f:v=>v.of*v.fx/v.qm,n:'e2',fx:'=B14*B19/C11',fmt:'0.000'}],
 ['Forwarding charges (Rs)',{in:'fw',v:3500},{f:v=>v.fw/v.qm,n:'e3',fx:'=B15/C11',fmt:'0.000'}],
-['Foreign bank charges (US$)',{in:'fb',v:200},{f:v=>v.fb*v.fx/v.qm,n:'e4',fx:'=B16*fx/C11',fmt:'0.000'}],
+['Foreign bank charges (US$)',{in:'fb',v:200},{f:v=>v.fb*v.fx/v.qm,n:'e4',fx:'=B16*B19/C11',fmt:'0.000'}],
 ['Local bank charges (Rs)',{in:'lb',v:3000},{f:v=>v.lb/v.qm,n:'e5',fx:'=B17/C11',fmt:'0.000'}],
-['Price (US$/m)',{in:'px',v:0.7},{t:'Rs/US$'},],
+['Price (US$/m)',{in:'px',v:0.7}],
 ['Exchange rate',{in:'fx',v:60}],
 ['Export surcharge 0.25% of proceeds',null,{f:v=>0.0025*v.px*v.fx,n:'e6',fx:'=0.25%×B18×B19',fmt:'0.000'}],
 ['Commission (1% of proceeds)',{in:'cm',v:0.01,fmt:'0%'},{f:v=>v.cm*v.px*v.fx,n:'e7',fx:'=B21×B18×B19',fmt:'0.000'}],
@@ -942,11 +951,11 @@ ${S({title:'Export fabric costing — 20×20/60×60, 63″, 40 ft container',col
 ['Loom production per day (m)',null,{in:'lp',v:434.5}],
 [{t:'<b>Contribution per loom per day</b>'},null,{f:v=>v.cmm*v.lp,fx:'=C27*C28',fmt:'#,##0',tot:true}]
 ]})}
-<div class="note">Compare the Rs 5,073 contribution per loom per day with the loom’s daily fixed cost (about Rs 4,000 in Lecture 8) and the order is worth taking — but only just. A one-cent drop in the dollar price removes Rs 0.60 per metre, a quarter of the margin.</div></div>`});
+<div class="note">Compare the Rs 5,073 contribution per loom per day with the loom’s daily fixed cost (about Rs 4,000 in Lecture 8) and the order is worth taking — but only just. A one-cent drop in the dollar price removes Rs 0.60 of proceeds per metre (about Rs 0.59 after commission and surcharge), roughly a twentieth of the Rs 11.67 margin.</div></div>`});
 
 lecture({id:'tc21',course:'tc',n:'21',title:'Simple Dyed Fabric Costing',sub:'From local grey price through wastage, dyeing charges and export costs to the US-dollar price a dyed fabric must fetch.',chips:['Gross grey price','B-grade','Required price'],body:()=>`
 <div class="card"><h2>Working back from cost to the quotation</h2>
-<p>A commission dyer or an exporter who buys grey fabric starts from the local grey price, grosses it up for the wastage and shrinkage of processing, credits the B-grade that can still be sold, adds the dyeing charge and transport, then the variable export cost, a margin on cost, and finally commission and the export surcharge — which are percentages of the <em>proceeds</em> and must therefore be divided out, not added.</p>
+<p>An exporter who buys grey fabric locally and has it dyed starts from the local grey price, grosses it up for the wastage and shrinkage of processing, credits the B-grade that can still be sold, adds the dyeing charge and transport, then the variable export cost, a margin on cost, and finally commission and the export surcharge — which are percentages of the <em>proceeds</em> and must therefore be divided out, not added.</p>
 ${S({title:'Dyed fabric costing — 40 ft container of 20×20/60×60',cols:[320,100,110],rows:[
 ['Local grey price (Rs/m)',null,{in:'gp',v:100}],
 ['Wastage + shrinkage in processing',{in:'ws',v:0.1,fmt:'0%'}],
@@ -959,9 +968,9 @@ ${S({title:'Dyed fabric costing — 40 ft container of 20×20/60×60',cols:[320,
 [{s:'Variable export cost per metre (less EDS & commission)',span:3}],
 ['Metres per 40 ft container',null,{in:'qm',v:107745}],
 ['Transportation 15,000 / container',null,{f:v=>15000/v.qm,n:'x1',fx:'=15000/C11',fmt:'0.000'}],
-['Freight US$ 500 × 60',null,{f:v=>500*v.fx/v.qm,n:'x2',fx:'=500×fx/C11',fmt:'0.000'}],
+['Freight US$ 500 × exchange rate',null,{f:v=>500*v.fx/v.qm,n:'x2',fx:'=500×B17/C11',fmt:'0.000'}],
 ['Forwarding 3,500',null,{f:v=>3500/v.qm,n:'x3',fx:'=3500/C11',fmt:'0.000'}],
-['Foreign bank US$ 200',null,{f:v=>200*v.fx/v.qm,n:'x4',fx:'=200×fx/C11',fmt:'0.000'}],
+['Foreign bank US$ 200 × exchange rate',null,{f:v=>200*v.fx/v.qm,n:'x4',fx:'=200×B17/C11',fmt:'0.000'}],
 ['Local bank 3,000',null,{f:v=>3000/v.qm,n:'x5',fx:'=3000/C11',fmt:'0.000'}],
 ['Exchange rate (Rs/US$)',{in:'fx',v:60}],
 ['Export cost per metre',null,{f:v=>v.x1+v.x2+v.x3+v.x4+v.x5,n:'xc',fx:'=SUM(C12:C16)',fmt:'0.000'}],
@@ -1012,7 +1021,7 @@ ${S({title:'Bleaching — cost per metre build-up',cols:[300,110,70],rows:[
 
 lecture({id:'tc23',course:'tc',n:'23',title:'Plant Machinery Analysis',sub:'Capacity of each machine in a finishing plant: speed, set-up time, efficiency, double passes and the share of fabric that visits it.',chips:['Capacity','Set-up & efficiency','Bottleneck'],body:()=>`
 <div class="card"><h2>Capacity is speed × time × efficiency — and efficiency hides the set-ups</h2>
-<p>For a continuous machine the run of 10,000 m at 50 m/min takes 200 min, but each run also needs cleaning (30 min) and preparation and matching (60 min). The calculated efficiency is run time ÷ (run + set-up); subtract another 10% for miscellaneous losses. A machine that passes the fabric twice (double thermosol, dye + wash) has its capacity halved for that fabric. The plant’s overall capacity is the bottleneck.</p>
+<p>For a continuous machine the run of 10,000 m at 50 m/min takes 200 min, but each run also needs cleaning (30 min) and preparation and matching (60 min). The calculated efficiency is run time ÷ (run + set-up); subtract another 10% for miscellaneous losses. A machine that passes the fabric twice (double thermosol, dye + wash) has its capacity halved for that fabric. The plant’s overall capacity is set by its bottleneck machine.</p>
 ${S({title:'Thermosol dyeing range — capacity for a 10,000 m run',cols:[300,110,70],rows:[
 ['Proposed run size (m)',{in:'run',v:10000}],['Speed (m/min)',{in:'sp',v:50}],
 ['Production time for one run (min)',{f:v=>v.run/v.sp,n:'pt',fx:'=B1/B2',fmt:'0.0'}],
@@ -1041,7 +1050,7 @@ ${S({title:'Thermosol dyeing range — capacity for a 10,000 m run',cols:[300,11
 
 lecture({id:'tc24',course:'tc',n:'24',title:'Final Dyeing Costing',sub:'Fixed cost, utilities and dyes per metre for every process, assembled for an order of a given size and shade depth, and summed by route.',chips:['Per-minute costs','Order size','Shade depth','Route cost'],body:()=>`
 <div class="card"><h2>Costs per minute, applied to an order</h2>
-<p>Every machine has a fixed cost per minute (depreciation, finance, labour) and a utilities cost per minute. An order of L metres occupies the machine for L ÷ speed minutes of running plus the set-up minutes; fixed cost applies to both, utilities only to running. Dyes and chemicals depend on the shade: Rs 3, 8, 15 or 25 per metre of running cost for light, medium, dark and extra dark, plus a set-up quantity of 300 m worth of colour.</p>
+<p>Every machine has a fixed cost per minute (depreciation, finance, labour) and a utilities cost per minute. An order of L metres occupies the machine for L ÷ speed minutes of running plus the set-up minutes; fixed cost applies to both, utilities only to running. Dyes and chemicals depend on the shade: Rs 3, 8, 15 or 25 per metre run for light, medium, dark and extra dark, plus a set-up quantity of colour worth 300 m (Rs 900, 2,400, 4,500 or 7,500).</p>
 ${S({title:'Dyeing cost per metre by process — order size and shade',cols:[160,70,70,70,80,80,80,90,90],rows:[
 ['Order size (m)',{in:'L',v:10000},null,{t:'Shade'},{in:'sh',v:'Extra Dark',opts:['Light','Medium','Dark','Extra Dark']}],
 ['Dyes running Rs/m by shade: light / medium / dark / extra dark',{in:'d1',v:3},{in:'d2',v:8},{in:'d3',v:15},{in:'d4',v:25},{t:'set-up = 300 m worth'}],
@@ -1076,9 +1085,9 @@ ${S({title:'Fitted sheets and pillow cases',cols:[170,90,90,70,80,70,70,80,90,90
 ...[['Single fitted','91x190',10,1,0.5],['Double fitted','137x190',10,1,0.5],['5 ft fitted','152x200',10,1,0.5],['6 ft fitted','183x200',10,1,0.5]].map((r,i)=>{const k='g'+i;const [wcm,lcm]=r[1].split('x').map(Number);
  return [r[0],{t:r[1]},{in:k+'w',v:+(wcm/2.54).toFixed(2)},{in:k+'l',v:+(lcm/2.54).toFixed(2)},{in:k+'p',v:r[2]},{in:k+'h',v:r[3]},{in:k+'s',v:r[4]},
  {f:v=>v[k+'w']+2*v[k+'p']+2*v[k+'s'],n:k+'c',fx:'=width+2×pocket+2×side (cut across width)',fmt:'0.00'},{f:v=>Math.ceil(v[k+'c']/39.37*100)/100,n:k+'r',fx:'=ROUNDUP(cut/39.37,2)',fmt:'0.00'},{in:k+'x',v:0.05,fmt:'0%'},{f:v=>v[k+'r']*(1+v[k+'x']),fx:'=rating×(1+wastage)',fmt:'0.000',tot:true}];}),
-['Standard pillow case (3 across, U-shape)',{t:'76x48'},{in:'pw',v:29.92},{in:'pl',v:18.9},{in:'pf',v:0},{in:'ph',v:12},{in:'ps',v:12},{f:v=>v.pf+v.ph+v.ps*0+2*v.pl+12,n:'pc',fx:'=flap+hems+2×length (folded U)',fmt:'0.00'},{f:v=>Math.ceil(v.pc/39.37*100)/100/3,n:'pr',fx:'=ROUNDUP(cut/39.37,2)/3 pieces',fmt:'0.000'},{in:'px',v:0.05,fmt:'0%'},{f:v=>v.pr*(1+v.px),fx:'=rating×(1+wastage)',fmt:'0.000',tot:true}]
+['Standard pillow case (3 across, U-shape)',{t:'76x48'},{in:'pw',v:29.92},{in:'pl',v:18.9},{in:'pf',v:0},{in:'ph',v:12},{in:'ps',v:12},{f:v=>v.pf+2*v.ph+1+2*v.pl,n:'pc',fx:'=flap+top hem+1″ top margin+bottom 12″+2×length (folded U)',fmt:'0.00'},{f:v=>Math.ceil(v.pc/39.37*100)/100/3,n:'pr',fx:'=ROUNDUP(cut/39.37,2)/3 pieces',fmt:'0.000'},{in:'px',v:0.05,fmt:'0%'},{f:v=>v.pr*(1+v.px),fx:'=rating×(1+wastage)',fmt:'0.000',tot:true}]
 ]})}
-<div class="note">The original worksheet chooses between four cutting layouts with nested IF formulas (inverted or not, selvedge allowance or not). The rule of thumb survives every layout: linear rating = cut length along the roll ÷ 39.37, rounded up to the cent, plus wastage.</div></div>`});
+<div class="note">The original worksheet chooses between four cutting layouts with nested IF formulas (inverted or not, selvedge allowance or not). The rule of thumb survives every layout: linear rating = cut length along the roll ÷ 39.37, rounded up to the next centimetre (two decimals of a metre), plus wastage.</div></div>`});
 
 lecture({id:'tc26',course:'tc',n:'26',title:'Stitching Costing II — Order Costing',sub:'A made-up order from fabric consumption to profit: linear rating, B-grade and rag proceeds, accessories, labour, loading and allocated fixed cost.',chips:['Fabric cost','Accessories','Direct labour','Profitability'],body:()=>`
 <div class="card"><h2>One line of a stitching order</h2>
@@ -1087,7 +1096,7 @@ ${S({title:'Stitching order costing — pillow case 20×32, 40×40/110×100',col
 ['A-grade pieces',{in:'a',v:1776}],['B-grade pieces',{in:'b',v:10}],['Linear rating (m per piece)',{in:'lr',v:0.43}],
 ['Fabric in A-grade pieces (m)',{f:v=>v.a*v.lr,n:'fa',fx:'=B1*B3',fmt:'0.00'}],['Fabric in B-grade pieces (m)',{f:v=>v.b*v.lr,n:'fb',fx:'=B2*B3',fmt:'0.00'}],['Rags (m)',{in:'rg',v:25}],
 ['Fabric consumed (m)',{f:v=>v.fa+v.fb+v.rg,n:'fc',fx:'=B4+B5+B6',fmt:'0.00'}],
-['Yield (A-grade share)',{f:v=>v.fa/v.fc,fx:'=B4/B7',fmt:'0.0%'},{t:'wastage'},],
+['Yield (A-grade share) / wastage',{f:v=>v.fa/v.fc,fx:'=B4/B7',fmt:'0.0%'},{f:v=>1-v.fa/v.fc,fx:'=1-B8',fmt:'0.0%'}],
 ['Fabric rate (Rs per linear metre)',{in:'rt',v:167}],
 ['Fabric cost',{f:v=>v.fc*v.rt,n:'cf',fx:'=B7*B9',fmt:'#,##0.00'},{f:v=>v.cf/v.a,fx:'per A-grade piece',fmt:'0.00'}],
 ['B-grade proceeds (Rs per piece)',{in:'bp',v:15},{f:v=>v.b*v.bp,n:'bpr',fx:'=B2*B11',fmt:'#,##0.00'}],
@@ -1102,7 +1111,7 @@ ${S({title:'Stitching order costing — pillow case 20×32, 40×40/110×100',col
 ['Sales price per piece',{in:'sp',v:80}],
 [{t:'<b>Profit / (loss) per piece</b>'},{f:v=>v.sp-v.cpp,n:'pp',fx:'=B20-B19',fmt:'0.00',tot:true},{f:v=>(v.sp-v.cpp)*v.a,fx:'=B21*B1',fmt:'#,##0.00',tot:true}]
 ]})}
-<h3>The full order sheet (eight items, two customers)</h3>
+<h3>The full order sheet (eight items, two order codes)</h3>
 <table class="plain"><tr><th>#</th><th>Item</th><th>Size</th><th>Shade</th><th>Construction</th><th class="r">Pieces</th><th class="r">Rating</th><th class="r">Cost / pc</th><th class="r">Price</th><th class="r">Profit / pc</th><th class="r">Total</th></tr>
 <tr><td>1</td><td>Pillow case 20×32</td><td>Queen</td><td>White</td><td>40×40/110×100</td><td class="r">1,776</td><td class="r">0.43</td><td class="r">89.26</td><td class="r">80</td><td class="r">(9.26)</td><td class="r">(16,449)</td></tr>
 <tr><td>2</td><td>Comforter shell 91×107</td><td>King</td><td>Black</td><td>60×60/200×100</td><td class="r">210</td><td class="r">5.49</td><td class="r">922.64</td><td class="r">900</td><td class="r">(22.64)</td><td class="r">(4,755)</td></tr>
@@ -1113,7 +1122,7 @@ ${S({title:'Stitching order costing — pillow case 20×32, 40×40/110×100',col
 <tr><td>7</td><td>Pillow sham 20×36</td><td>King</td><td>Stone</td><td>60×60/200×100</td><td class="r">432</td><td class="r">0.54</td><td class="r">100.50</td><td class="r">90</td><td class="r">(10.50)</td><td class="r">(4,535)</td></tr>
 <tr><td>8</td><td>Pillow sham 20×36</td><td>King</td><td>Black</td><td>60×60/200×100</td><td class="r">2,016</td><td class="r">0.48</td><td class="r">93.37</td><td class="r">90</td><td class="r">(3.37)</td><td class="r">(6,792)</td></tr>
 <tr><th colspan="5">Grand total</th><th class="r">8,852</th><th></th><th></th><th></th><th></th><th class="r">240,693</th></tr></table>
-<div class="note">The order as a whole is profitable only because of the two large comforter lines; every pillow item loses money. That is exactly the pattern Activity Based Costing predicts for small, labour-heavy pieces — and the reason a stitching unit must price pillow cases on their own cost, not on an average.</div></div>`});
+<div class="note">The order as a whole is profitable only because of the two large comforter lines; every pillow item loses money. Because fixed cost is absorbed at 3.2 × direct labour, small labour-heavy pieces carry a heavy share of overhead — Activity Based Costing would test whether that share is fair, and a stitching unit must price pillow cases on their own cost, not on an average.</div></div>`});
 
 /* ===================== WEAVING CALCULATIONS ===================== */
 const RUE=x=>Math.ceil(x/2)*2; // round up to even
@@ -1182,7 +1191,7 @@ ${S({title:'Count conversion',cols:[200,120,60,200,120],rows:[
 
 lecture({id:'wc02',course:'wc',n:'02',title:'Multiple Counts I – Yarns Together or Twisted',sub:'Resultant count and price of two or three yarns run together or plied, using the price of one hank.',chips:['Resultant count','Hank price','Plied yarn'],tags:'harmonic mean plied doubled',body:()=>`
 <div class="card"><h2>The idea: add weights, not counts</h2>
-<p>When two yarns of different counts run side by side (or are twisted together) the resulting yarn is <em>heavier</em> than either. Counts cannot be averaged directly because Ne is an indirect number; what adds up is the weight of one hank of each yarn.</p>
+<p>When two yarns of different counts run side by side (or are twisted together) their weights per unit length add: the plied yarn is <em>heavier</em> than either, while the mean count of the yarns run together lies between the two counts. Counts cannot be averaged directly because Ne is an indirect number; what adds up is the weight of one hank of each yarn.</p>
 <div class="formula">Mean count of n yarns together = n / ( 1/N₁ + 1/N₂ + … + 1/Nₙ ) &nbsp;&nbsp;·&nbsp;&nbsp; Twisted (plied) count = mean count / n</div>
 <p>Prices are handled the same way: convert the price of 10 lb of each yarn into the <b>price of one hank</b> (840 yd), average the hank prices, then multiply back by the mean count.</p>
 <div class="formula">Hank price = price per 10 lb ÷ 10 ÷ Ne &nbsp;&nbsp;·&nbsp;&nbsp; Price of mix per 10 lb = mean hank price × mean count × 10</div></div>
@@ -1222,7 +1231,7 @@ ${S({title:'Mean count of yarns in proportion',cols:[120,110,110,130],rows:[
 [{t:'<b>Totals</b>'},null,{f:v=>v.ta+v.tb+v.tc+v.td,n:'tt',fx:'=SUM(C2:C5)',fmt:'0.00',tot:true},{f:v=>v.ra+v.rb+v.rc+v.rd,n:'rt',fx:'=SUM(D2:D5)',fmt:'0.0000',tot:true}],
 [{t:'<b>Mean count Ne</b>'},null,null,{f:v=>v.tt/v.rt,fx:'=C6/D6',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">Try A = Ne 30 × 56 threads and B = Ne 10 × 4 threads: the mean drops to about Ne 25 even though only 7% of the threads are coarse. Coarse yarn dominates a weighted mean because it carries most of the weight.</div></div>`});
+<div class="note">Try A = Ne 30 × 56 threads and B = Ne 10 × 4 threads: the mean drops to about Ne 26.5 even though only 7% of the threads are coarse. Each coarse thread weighs three times as much as a fine one, so those 7% of the threads carry about 18% of the weight and pull the mean down.</div></div>`});
 
 lecture({id:'wc04',course:'wc',n:'04',title:'Multiple Counts III – Proportions and Cost',sub:'Adding prices to the proportion method: the mean hank price and the price of the mixed yarn per 10 lb.',chips:['SUMPRODUCT','Mean hank price','Cost of mix'],tags:'price cost proportion sumproduct',body:()=>`
 <div class="card"><h2>Costing a yarn mixture</h2>
@@ -1317,12 +1326,12 @@ ${S({title:'Warping production (fabric A)',cols:[300,140],rows:[
 ['Warp weight required (lb)',{f:v=>v.wl*v.te/(840*v.ne),n:'ww',fx:'=B15*B13/(840*B6)',fmt:'#,##0',tot:true}],
 ['Warping time (hours)',{f:v=>v.ww/v.wph,fx:'=B16/B9',fmt:'0.0',tot:true}]
 ]})}
-<div class="note">A 20,000 m order of fabric A needs 5,413 lb of warp and keeps the warper busy for only about 4.3 hours — warping is rarely the bottleneck; sizing and loom capacity are (Lecture 10).</div></div>`});
+<div class="note">A 20,000 m order of fabric A needs 5,413 lb of warp and keeps the warper busy for only about 4.3 hours. For a whole loom shed the picture changes: Lecture 10 shows 200 looms need more than one warper.</div></div>`});
 
 lecture({id:'wc07',course:'wc',n:'07',title:'Beam Calculations',sub:'How much yarn fits on a beam — volume of the yarn annulus, packing density, weight, length and the fabric one beam will weave.',chips:['Beam volume','Packing density','Length per beam'],tags:'beam barrel flange volume density',body:()=>`
 <div class="card"><h2>Yarn on a beam is a hollow cylinder</h2>
 <div class="grid2"><div>
-<p>A beam full of yarn is a cylinder of diameter D (the yarn diameter at the flanges) with the barrel of diameter d removed, over the length L between the flanges:</p>
+<p>A beam full of yarn is a cylinder of diameter D (the diameter of the beam with yarn) with the barrel of diameter d removed, over the length L between the flanges:</p>
 <div class="formula">Yarn volume = π/4 × ( D² − d² ) × L</div>
 <p>Yarn packs at a known <b>density</b> — about 56 in³ per lb for a warped (unsized) beam and 60 in³/lb for a sized beam, which is bulkier because of the size film. Weight = volume ÷ density, and then the familiar count relation gives length:</p>
 <div class="formula">Length on beam (yd) = weight × 840 × Ne ÷ ends on the beam</div>
@@ -1353,8 +1362,8 @@ ${S({title:'Yarn on a beam',cols:[300,120,120],rows:[
 ]})}
 <div class="note">The same beam holds 23,700 yd of a 637-end warper’s beam but only 3,700 yd once all 3,820 ends are sized onto it — about 3,070 m of fabric A per weaver’s beam. The 20,000 m order of Lecture 6 therefore needs about 7 sized beams.</div></div>`});
 
-lecture({id:'wc08',course:'wc',n:'08',title:'Breakages and Sized Count',sub:'Expressing warp breaks per unit length so mills can be compared, and finding the count of yarn after sizing.',chips:['Breaks per 10⁶ m','Sized count','Size add-on'],tags:'breakage breaks sizing count',body:()=>`
-<div class="card"><h2>Breaks per million metres</h2>
+lecture({id:'wc08',course:'wc',n:'08',title:'Breakages and Sized Count',sub:'Expressing warp breaks per unit length so mills can be compared, and finding the count of yarn after sizing.',chips:['Breaks per 10⁷ m','Sized count','Size add-on'],tags:'breakage breaks sizing count',body:()=>`
+<div class="card"><h2>Breaks per 10 million metres</h2>
 <p>A warper or sizer reports “one break every 51 lb” — but 51 lb of Ne 21 is a very different length from 51 lb of Ne 10. Convert poundage to yardage with the count and the comparison becomes fair:</p>
 <div class="formula">yards per break = Ne × lb per break × 840 &nbsp;&nbsp;·&nbsp;&nbsp; metres = yards ÷ 1.0936 &nbsp;&nbsp;·&nbsp;&nbsp; breaks per 10 million m = 10⁷ ÷ metres per break</div>
 ${S({title:'Breakage rate',cols:[90,130,140,140,160],rows:[
@@ -1412,7 +1421,7 @@ ${S({title:'Sample warp cone size',cols:[300,140],rows:[
 ]})}
 <p>Each cone must feed one end on every one of the 6 beams, hence the multiplication by the number of beams. The answer (0.15 lb ≈ 70 g) is a tiny cone — sample warps are usually made on a sectional or sample warper for exactly this reason.</p></div>`});
 
-lecture({id:'wc10',course:'wc',n:'10',title:'Warping Speed and Preparatory Capacity',sub:'From drum rpm to yards per shift, and two problems on how many warpers and sizers a loom shed needs.',chips:['Drum speed','Yards per shift','Sizing capacity','Warpers needed'],tags:'warping speed drum capacity sizing',body:()=>`
+lecture({id:'wc10',course:'wc',n:'10',title:'Warping Speed and Preparatory Capacity',sub:'From drum rpm to yards per shift, the time and weight to fill a warper’s beam, and how many warpers and sizers a loom shed needs.',chips:['Drum speed','Yards per shift','Sizing capacity','Warpers needed'],tags:'warping speed drum capacity sizing',body:()=>`
 <div class="card"><h2>Speed of a warping drum</h2>
 ${S({title:'Warping drum',cols:[300,140],rows:[
 ['Drum speed (rpm)',{in:'rpm',v:300}],
@@ -1472,7 +1481,7 @@ lecture({id:'wc11',course:'wc',n:'11',title:'Reed Calculations',sub:'Reed count,
 ${S({title:'Reed and sett',cols:[300,130],rows:[
 ['Reed (dents per metre)',{in:'dpm',v:1230}],
 ['Weft contraction (width shrinkage on loom)',{in:'wc',v:0.03,fmt:'0.0%'}],
-['Finished (grey) width (in)',{in:'fw',v:63}],
+['Fabric width (in)',{in:'fw',v:63}],
 ['Dents per inch',{f:v=>v.dpm/39.37,n:'dpi',fx:'=B1/39.37',fmt:'0.00'}],
 ['Stockport sett',{f:v=>v.dpi*2,fx:'=B4*2',fmt:'0.0'}],
 ['Reed width to be filled (in)',{f:v=>v.fw*(1+v.wc),fx:'=B3*(1+B2)',fmt:'0.00',tot:true}],
@@ -1516,8 +1525,8 @@ lecture({id:'wc12',course:'wc',n:'12–13',title:'Cover Factor I & II',sub:'How 
 <p>The fraction of the cloth area covered by the threads of one set is <b>d / p</b> — yarn diameter over thread spacing. If the diameter is derived from the count (Lecture FD-12: d in mm = √tex ÷ 26.7, assuming a packed specific volume of 1.1 cm³/g), relative cover can be written entirely in terms of count and density:</p>
 <div class="formula">cover = d/p = ( n / 100 mm ) × √tex ÷ 2670 &nbsp;&nbsp;⇒&nbsp;&nbsp; K = n √tex, maximum 2670 (threads touching)</div>
 <p>Example from the lecture: 25 tex at 267 threads/100 mm gives K = 1335, relative cover 0.50; 36 tex at 334/100 mm gives K = 2004, cover 0.75. Cloth cover combines the two sets: C = C₁ + C₂ − C₁C₂ = 0.50 + 0.75 − 0.375 = 0.875 ≈ 0.88.</p></div>
-<div class="card"><h2>The mill version: K(Ne) = EPI/√Ne + PPI/√Ne</h2>
-<p>With English counts the same idea becomes threads per inch divided by √Ne (the diameter in inches is about 1/(28√Ne)). The maximum for one set is about 28, so a plain fabric with warp cover 28 is “jammed” in the warp direction.</p>
+<div class="card"><h2>The mill version: K(Ne) = EPI/√Ne<sub>warp</sub> + PPI/√Ne<sub>weft</sub></h2>
+<p>With English counts the same idea becomes threads per inch divided by √Ne (the diameter in inches is about 1/(28√Ne)). The maximum for one set is about 28 — at that value the threads of that set touch side by side (relative cover 1).</p>
 ${S({title:'Cover factor (Ne)',cols:[260,120,120],rows:[
 [{h:''},{h:'Warp'},{h:'Weft'}],
 ['Count Ne',{in:'nw',v:20},{in:'nf',v:20}],
@@ -1586,10 +1595,10 @@ ${S({title:'Jammed plain weave geometry (lengths in units of d₁)',cols:[300,12
 ['Crimp % = l ÷ (spacing of the crossing threads) − 1',{f:v=>v.l1/v.p2-1,fx:'=B7/C6-1',fmt:'0.0%',tot:true},{f:v=>v.l2/v.p1-1,fx:'=C7/B6-1',fmt:'0.0%',tot:true}],
 ['Cover factor K = 2670 × d / p',{f:v=>2670*v.d1/v.p1,fx:'=2670*B2/B6',fmt:'#,##0',tot:true},{f:v=>2670*v.d2/v.p2,fx:'=2670*C2/C6',fmt:'#,##0',tot:true}]
 ]})}
-<div class="note">Equal yarns: θ = 60°, crimp 20.9% in both directions and K = 1542 — the densest plain square cloth that can be woven. With d₂ = 2d₁ the fine warp must climb over the thick weft and takes almost 30% crimp while the weft needs only about 12%; the cover factors become 1194 and 1888 (lecture figures 29.5% / 12.2% with rounded angles).</div></div>
+<div class="note">Equal yarns: θ = 60°, crimp 20.9% in both directions and K = 1542 — the densest plain square cloth that can be woven. With d₂ = 2d₁ the fine warp must climb over the thick weft and takes about 31% crimp while the weft needs about 13%; the cover factors become 1194 and 1888 (lecture figures 29.5% / 12.2% with rounded angles).</div></div>
 <div class="card"><h2>Twill and warp rib</h2>
-<div class="grid2"><div><h3>2/2 twill, equal yarns</h3><p>Each thread crosses only every second thread, so one repeat spans 2p = 2.732 d (one jammed arc plus a straight float of length d): K = 2670 × 2 ÷ 2.732 = <b>1955</b>. Yarn length per repeat l = 3.09 d, crimp = 3.09 ÷ 2.732 − 1 = <b>13.1%</b>. Twills are less crimped and can be set denser than plain weave — the reason for the weave divisors in Lecture 12.</p></div>
-<div><h3>Warp rib</h3><p>Warp ends lie side by side (p₁ = d₁, K₁ = 2670) and each passes over two picks. The weft spacing is 1.5 d₂ (K₂ ≈ 1760), the warp wraps a half circle of diameter 3d₁: l₁ = 4.71 d₁ over 3 d₁ of cloth, so warp crimp is about <b>57%</b> while the straight weft has none. That is why rib fabrics use so much more warp yarn than their weight suggests.</p></div></div>
+<div class="grid2"><div><h3>2/2 twill, equal yarns</h3><p>Each thread interlaces only after every second crossing thread, so the modular length — half of the four-thread repeat — spans 2p = 2.732 d (one jammed arc plus a straight float of length d): K = 2670 × 2 ÷ 2.732 = <b>1955</b>. Yarn length per repeat l = 3.09 d, crimp = 3.09 ÷ 2.732 − 1 = <b>13.1%</b>. Twills are less crimped and can be set denser than plain weave — the reason for the weave divisors in Lecture 12.</p></div>
+<div><h3>Warp rib</h3><p>With the weft twice as thick as the warp (d₂ = 2d₁), warp ends lie side by side (p₁ = d₁, K₁ = 2670) and each passes over two picks. The weft spacing is 1.5 d₂ (K₂ ≈ 1760), the warp wraps a half circle of diameter 3d₁: l₁ = 4.71 d₁ over 3 d₁ of cloth, so warp crimp is about <b>57%</b> while the straight weft has none. That is why rib fabrics use so much more warp yarn than their weight suggests.</p></div></div>
 <p>Flattened (non-circular) yarns cover more width than the circular model predicts: real plain cloths look fully covered at K ≈ 1000–1400 rather than 1542.</p></div>`});
 
 lecture({id:'wc17',course:'wc',n:'17',title:'Blended Fabrics – Fibre Composition',sub:'Percentage of each fibre in a fabric whose warp and weft are different blends, and the elastane content of a core-spun yarn.',chips:['Fibre %','Cotton / polyester','Lycra core-spun','Draft'],tags:'blend composition lycra elastane polyester',body:()=>`
@@ -1601,15 +1610,15 @@ ${S({title:'Cotton / polyester fabric',cols:[300,120,120],rows:[
 ['Threads per inch',{in:'e',v:60},{in:'p',v:60}],
 ['Width (in)',{in:'w',v:63},null],
 ['Contraction',{in:'wc',v:0.10,fmt:'0%'},{in:'fc',v:0.05,fmt:'0%'}],
-['Cotton share of this yarn',{in:'cw',v:1,fmt:'0%'},{in:'cf',v:0.35,fmt:'0%'}],
+['Cotton share of this yarn',{in:'cw',v:1,fmt:'0%'},{in:'cf',v:0.65,fmt:'0%'}],
 ['Weight per yard of fabric (lb)',{f:v=>v.e*v.w*(1+v.wc)/(840*v.nw),n:'ww',fx:'=B3*B4*(1+B5)/(840*B2)',fmt:'0.0000'},{f:v=>v.p*36*(v.w/36)*(1+v.fc)/(840*v.nf),n:'wf',fx:'=C3*36*(B4/36)*(1+C5)/(840*C2)',fmt:'0.0000'}],
 ['Cotton (lb)',{f:v=>v.ww*v.cw,n:'c1',fx:'=B7*B6',fmt:'0.0000'},{f:v=>v.wf*v.cf,n:'c2',fx:'=C7*C6',fmt:'0.0000'}],
 ['Polyester (lb)',{f:v=>v.ww*(1-v.cw),n:'p1',fx:'=B7*(1-B6)',fmt:'0.0000'},{f:v=>v.wf*(1-v.cf),n:'p2',fx:'=C7*(1-C6)',fmt:'0.0000'}],
 [{t:'<b>Fabric composition</b>'},{f:v=>(v.c1+v.c2)/(v.ww+v.wf),fx:'=(B8+C8)/(B7+C7)  cotton',fmt:'0.0%',tot:true},{f:v=>(v.p1+v.p2)/(v.ww+v.wf),fx:'=(B9+C9)/(B7+C7)  polyester',fmt:'0.0%',tot:true}]
 ]})}
-<div class="note">An all-cotton warp with a 65/35 polyester-cotton weft gives a fabric of about 83% cotton / 17% polyester — because the warp carries more than half the weight.</div></div>
+<div class="note">An all-cotton warp with a 65/35 cotton-polyester weft gives a fabric of about 83% cotton / 17% polyester — because the warp carries more than half the weight.</div></div>
 <div class="card"><h2>Lycra in a core-spun yarn</h2>
-<p>A core-spun stretch yarn wraps cotton around an elastane (Lycra) filament. The filament is fed under <b>draft</b> (stretched 3.9–4.2 times), so only 1/draft of its nominal denier ends up per unit length — then it relaxes a little (<b>residual shrinkage</b>) and grows again. The denier of the whole yarn is 5315 ÷ Ne.</p>
+<p>A core-spun stretch yarn wraps cotton around an elastane (Lycra) filament. The filament is fed under <b>draft</b> (stretched 3.9–4.2 times), so only 1/draft of its nominal denier ends up per unit length — then it retracts a little after spinning (<b>residual shrinkage</b>, 6%), which raises its denier in the yarn by the same percentage. The denier of the whole yarn is 5315 ÷ Ne.</p>
 ${S({title:'Elastane content of core-spun yarns',cols:[300,120,120],rows:[
 [{h:''},{h:'Yarn A'},{h:'Yarn B'}],
 ['Yarn count Ne',{in:'na',v:30},{in:'nb',v:20}],
@@ -1629,25 +1638,25 @@ ${S({title:'Elastane content of core-spun yarns',cols:[300,120,120],rows:[
 
 lecture({id:'wc18',course:'wc',n:'18',title:'Sizing Cost Analysis',sub:'Relating sizing cost per kilogram to warp count across many articles, and forecasting the cost of a new count with linear and quadratic trends.',chips:['Regression','FORECAST','Trend line','Cost per kg'],tags:'sizing cost regression forecast trend',body:()=>`
 <div class="card"><h2>Why sizing cost rises with count</h2>
-<p>Finer warps have more ends per kilogram and more surface to coat, need higher size add-on and run slower on the sizing machine, so the cost of sizing one kilogram of warp climbs steeply with Ne. The lecture tabulated the sizing cost of 41 articles against their warp count and fitted a trend to it. A representative selection of those points is loaded below — type your own figures over them.</p>
+<p>Finer warps have more length per kilogram and so more surface to coat, need higher size add-on and run slower on the sizing machine, so the cost of sizing one kilogram of warp climbs steeply with Ne. The lecture tabulated the sizing cost of 41 articles against their warp count and fitted a trend to it. A representative selection of those points is loaded below — type your own figures over them.</p>
 ${S({title:'Sizing cost vs warp count',cols:[90,130,90,130,90,130],rows:[
 [{h:'Warp Ne'},{h:'Rs / kg'},{h:'Warp Ne'},{h:'Rs / kg'},{h:'Warp Ne'},{h:'Rs / kg'}],
-[{in:'x1',v:7},{in:'y1',v:4.65},{in:'x6',v:20},{in:'y6',v:6.1},{in:'x11',v:30},{in:'y11',v:8.13}],
-[{in:'x2',v:10},{in:'y2',v:4.9},{in:'x7',v:20},{in:'y7',v:6.58},{in:'x12',v:32},{in:'y12',v:8.4}],
-[{in:'x3',v:12},{in:'y3',v:5.05},{in:'x8',v:24},{in:'y8',v:6.9},{in:'x13',v:40},{in:'y13',v:8.31}],
-[{in:'x4',v:16},{in:'y4',v:5.2},{in:'x9',v:26},{in:'y9',v:7.3},{in:'x14',v:40},{in:'y14',v:8.9}],
-[{in:'x5',v:20},{in:'y5',v:5.1},{in:'x10',v:30},{in:'y10',v:7.95},{in:'x15',v:40},{in:'y15',v:9.63}],
+[{in:'x1',v:7},{in:'y1',v:4.65},{in:'x6',v:16},{in:'y6',v:5.32},{in:'x11',v:20},{in:'y11',v:6.58}],
+[{in:'x2',v:9.75},{in:'y2',v:5.13},{in:'x7',v:16},{in:'y7',v:5.61},{in:'x12',v:30},{in:'y12',v:7.95}],
+[{in:'x3',v:10},{in:'y3',v:4.98},{in:'x8',v:19.5},{in:'y8',v:6},{in:'x13',v:30},{in:'y13',v:8.13}],
+[{in:'x4',v:14},{in:'y4',v:4.81},{in:'x9',v:20},{in:'y9',v:5.11},{in:'x14',v:40},{in:'y14',v:8.31}],
+[{in:'x5',v:14.67},{in:'y5',v:5.5},{in:'x10',v:20},{in:'y10',v:5.81},{in:'x15',v:40},{in:'y15',v:9.63}],
 [{s:'Fits (least squares over the 15 points)',span:6}],
 ['Forecast at Ne',{in:'fx',v:40},null,null,null,null],
 ['Linear slope',{f:v=>{const P=[];for(let i=1;i<=15;i++)P.push([v['x'+i],v['y'+i]]);const n=P.length,sx=P.reduce((a,p)=>a+p[0],0),sy=P.reduce((a,p)=>a+p[1],0),sxx=P.reduce((a,p)=>a+p[0]*p[0],0),sxy=P.reduce((a,p)=>a+p[0]*p[1],0);const b=(n*sxy-sx*sy)/(n*sxx-sx*sx);v.lin_a=(sy-b*sx)/n;return b;},n:'lin_b',fx:'=SLOPE(y,x)',fmt:'0.0000'},'Intercept',{f:v=>v.lin_a,fx:'=INTERCEPT(y,x)',fmt:'0.0000'},'Linear forecast',{f:v=>v.lin_a+v.lin_b*v.fx,fx:'=FORECAST(B8,y,x)',fmt:'0.00',tot:true}],
 ['Quadratic a (x²)',{f:v=>{const P=[];for(let i=1;i<=15;i++)P.push([v['x'+i],v['y'+i]]);const S=(k)=>P.reduce((a,p)=>a+Math.pow(p[0],k),0),T=(k)=>P.reduce((a,p)=>a+Math.pow(p[0],k)*p[1],0);const M=[[S(4),S(3),S(2)],[S(3),S(2),S(1)],[S(2),S(1),P.length]],R=[T(2),T(1),T(0)];const det=m=>m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);const d=det(M);const sub=(i)=>M.map((r,ri)=>r.map((c,ci)=>ci===i?R[ri]:c));v.q_a=det(sub(0))/d;v.q_b=det(sub(1))/d;v.q_c=det(sub(2))/d;return v.q_a;},fx:'=LINEST(y,x^{1,2})',fmt:'0.00000'},'b (x)',{f:v=>v.q_b,fx:'',fmt:'0.0000'},'c',{f:v=>v.q_c,fx:'',fmt:'0.0000'}],
 ['Quadratic forecast',{f:v=>v.q_a*v.fx*v.fx+v.q_b*v.fx+v.q_c,fx:'=a*x²+b*x+c',fmt:'0.00',tot:true},null,null,null,null]
 ]})}
-<div class="note">The lecture’s full table gave a linear FORECAST of 9.15 Rs/kg at Ne 40 and a quadratic trend 0.0027x² + 0.0172x + 4.4432 → 9.45. The quadratic fits the upward curve better; a linear trend under-estimates the cost of fine counts and over-estimates coarse ones. One double-pick article at 11.64 Rs/kg was an outlier and excluded.</div></div>
+<div class="note">The lecture’s full table gave a linear FORECAST of 9.15 Rs/kg at Ne 40 and a quadratic trend 0.0027x² + 0.0172x + 4.4432 → 9.45. The quadratic fits the upward curve better; the straight line under-estimates the cost at both ends of the range (Ne 7–10 and beyond Ne 40) and over-estimates it for the middle counts. Both fits include the double-pick article at 11.64 Rs/kg.</div></div>
 <div class="card"><h2>Trend lines from the lecture</h2>
 ${CH({w:600,h:320,xl:'Warp count Ne',yl:'Sizing cost Rs / kg',xmin:5,xmax:45,ymin:4,ymax:11,yfmt:'0.0',xfmt:'0',series:[
 {pts:Array.from({length:9},(_,i)=>{const x=5+i*5;return [x,0.0027*x*x+0.0172*x+4.4432];}),color:'#b45309',label:'quadratic'},
-{pts:[[5,4.35],[45,9.75]],color:'#64748b',label:'linear'}],
+{pts:[[5,3.75],[45,9.92]],color:'#64748b',label:'linear'}],
 marks:[[7,4.65],[10,4.9],[12,5.05],[16,5.2],[20,5.1],[20,6.1],[20,6.58],[24,6.9],[26,7.3],[30,7.95],[30,8.13],[32,8.4],[40,8.31],[40,8.9],[40,9.63]].map(p=>({x:p[0],y:p[1],color:'#1e3a8a',label:''}))})}</div>`});
 
 lecture({id:'wc19',course:'wc',n:'19–21',title:'Planning I, II & III – Orders, Changeovers and Yarn',sub:'The booking-and-shipping schedule: daily production per quality, days required, finish and dispatch dates, loom changeovers and the yarn each day of the plan consumes.',chips:['Loom plan','Lateness','Changeover','Yarn working','Bags per day'],tags:'planning orders schedule changeover yarn requirement booking',body:()=>`
@@ -1661,15 +1670,15 @@ ${S({title:'Loom plan (dates as day numbers)',cols:[150,70,60,60,60,70,70,90,80,
 ['60×60/161×114, 98", 4/1',{in:'p3',v:114},{in:'e3',v:0.92,fmt:'0%'},{in:'a3',v:0.98,fmt:'0%'},{in:'r3',v:600},{in:'w3',v:1},{in:'l3',v:6},{in:'q3',v:12500},{f:v=>v.r3*v.w3*v.l3*1440/36/v.p3*v.e3*v.a3,n:'d3',fx:'=E4*F4*G4*24*60/36/B4*C4*D4',fmt:'#,##0'},{f:v=>v.q3*1.0936/v.d3,n:'n3',fx:'=H4*1.0936/I4',fmt:'0.0'},{in:'s3',v:1},{f:v=>v.s3+Math.max(v.n3-1,0),n:'f3',fx:'=K4+MAX(J4-1,0)',fmt:'0.0'},{f:v=>v.f3+2,fx:'=L4+2',fmt:'0.0'},{f:v=>v.f3+6,fx:'=M4+4',fmt:'0.0'},{in:'v3',v:42},{f:v=>v.f3-(v.v3-4)+2,fx:'=L4-(O4-4)+2',fmt:'0.0',tot:true}],
 ['60×60/161×114, 114", 4/1',{in:'p4',v:114},{in:'e4',v:0.92,fmt:'0%'},{in:'a4',v:0.98,fmt:'0%'},{in:'r4',v:500},{in:'w4',v:1},{in:'l4',v:8},{in:'q4',v:30000},{f:v=>v.r4*v.w4*v.l4*1440/36/v.p4*v.e4*v.a4,n:'d4',fx:'=E5*F5*G5*24*60/36/B5*C5*D5',fmt:'#,##0'},{f:v=>v.q4*1.0936/v.d4,n:'n4',fx:'=H5*1.0936/I5',fmt:'0.0'},{in:'s4',v:10},{f:v=>v.s4+Math.max(v.n4-1,0),n:'f4',fx:'=K5+MAX(J5-1,0)',fmt:'0.0'},{f:v=>v.f4+2,fx:'=L5+2',fmt:'0.0'},{f:v=>v.f4+6,fx:'=M5+4',fmt:'0.0'},{in:'v4',v:60},{f:v=>v.f4-(v.v4-4)+2,fx:'=L5-(O5-4)+2',fmt:'0.0',tot:true}]
 ]})}
-<div class="note">In the original workbook the Days cell rounds to the nearest half day and the rows are chained so that the next lot starts the day after the previous one finishes (row 2 here). Positive “Late” values are the planner’s alarm: add looms, raise speed or negotiate the vessel.</div></div>
+<div class="note">In the original workbook the Days cell rounds to the nearest half day and the rows are chained so that the next lot starts the day after the previous one finishes (the 2nd lot here). Positive “Late” values are the planner’s alarm: add looms, raise speed or negotiate the vessel.</div></div>
 <div class="card"><h2>Planning II — loom changeovers</h2>
 <p>A second sheet lists, for every calendar day, how many looms run each quality. When a lot finishes its looms are re-beamed — a changeover takes a day or more — and the daily total must never exceed the looms in the shed. The pattern below is the kind of allocation the workbook produces for the four qualities above (looms per day):</p>
 <table class="plain"><tr><th>Day</th><th class="r">1</th><th class="r">5</th><th class="r">10</th><th class="r">20</th><th class="r">30</th><th class="r">40</th><th class="r">50</th><th class="r">60</th></tr>
 <tr><td>68" lot 1</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">–</td><td class="r">–</td></tr>
 <tr><td>68" lot 2</td><td class="r">–</td><td class="r">–</td><td class="r">–</td><td class="r">–</td><td class="r">–</td><td class="r">–</td><td class="r">4</td><td class="r">4</td></tr>
 <tr><td>98"</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">–</td><td class="r">–</td><td class="r">–</td><td class="r">–</td><td class="r">–</td></tr>
-<tr><td>114"</td><td class="r">–</td><td class="r">–</td><td class="r">8</td><td class="r">8</td><td class="r">8</td><td class="r">8</td><td class="r">8</td><td class="r">–</td></tr>
-<tr><th>Total running</th><th class="r">12</th><th class="r">12</th><th class="r">20</th><th class="r">14</th><th class="r">14</th><th class="r">14</th><th class="r">12</th><th class="r">4</th></tr></table>
+<tr><td>114"</td><td class="r">–</td><td class="r">–</td><td class="r">8</td><td class="r">8</td><td class="r">8</td><td class="r">–</td><td class="r">–</td><td class="r">–</td></tr>
+<tr><th>Total running</th><th class="r">12</th><th class="r">12</th><th class="r">20</th><th class="r">14</th><th class="r">14</th><th class="r">6</th><th class="r">4</th><th class="r">4</th></tr></table>
 <p>Idle looms on days 20–60 are the opportunity for new bookings — Planning IV takes this up with a month-long simulation.</p></div>
 <div class="card"><h2>Planning III — yarn working</h2>
 <p>The yarn sheet converts each quality into warp and weft pounds per yard and, with the adjusted loom speed, into production and bags per loom per day. Multiplying by the looms running each day (from the changeover sheet) gives the daily warp and weft requirement, which is summed by month and compared with yarn already booked.</p>
@@ -1678,11 +1687,11 @@ ${S({title:'Yarn working — per loom per day',cols:[150,60,60,60,60,60,70,70,90
 [{h:'Quality'},{h:'Warp'},{h:'Weft'},{h:'Ends'},{h:'Picks'},{h:'Width'},{h:'Wp crimp'},{h:'Wf crimp'},{h:'Wp lb/yd'},{h:'Wf lb/yd'},{h:'RPM'},{h:'Eff'},{h:'Prod yd'},{h:'Warp bags'},{h:'Weft bags'}],
 ...[[68,0.09,800],[98,0.09,600],[114,0.06,500],[122,0.06,500]].map((r,i)=>{const k=i+1;return [`60×60/161×114, ${r[0]}"`,{in:'a'+k,v:60},{in:'b'+k,v:60},{in:'c'+k,v:161},{in:'d'+k,v:114},{in:'e'+k,v:r[0]},{in:'f'+k,v:r[1],fmt:'0%'},{in:'g'+k,v:0.09,fmt:'0%'},{f:v=>v['c'+k]*v['e'+k]*(1+v['f'+k])/(840*v['a'+k]),n:'wp'+k,fx:`=D${k+1}*F${k+1}*(1+G${k+1})/(840*B${k+1})`,fmt:'0.0000'},{f:v=>v['d'+k]*v['e'+k]*(1+v['g'+k])/(840*v['b'+k]),n:'wf'+k,fx:`=E${k+1}*F${k+1}*(1+H${k+1})/(840*C${k+1})`,fmt:'0.0000'},{in:'r'+k,v:r[2]},{in:'ef'+k,v:0.94,fmt:'0%'},{f:v=>v['r'+k]*v['ef'+k]*1440/(v['d'+k]*36),n:'pr'+k,fx:`=K${k+1}*L${k+1}*1440/(E${k+1}*36)`,fmt:'0.0'},{f:v=>v['pr'+k]*v['wp'+k]/100,fx:`=M${k+1}*I${k+1}/100`,fmt:'0.000',tot:true},{f:v=>v['pr'+k]*v['wf'+k]/100,fx:`=M${k+1}*J${k+1}/100`,fmt:'0.000',tot:true}];})
 ]})}
-<div class="note">A 98" loom running this sheeting consumes about 0.68 bags of warp and 0.48 bags of weft a day. Six such looms for 12 days need 49 warp bags and 35 weft bags — numbers the yarn store must have in stock before the beams are sized.</div></div>`});
+<div class="note">A 98" loom running this sheeting consumes about 0.68 bags of warp and 0.48 bags of weft a day. Six such looms for 12 days use 48.6 warp bags and 34.4 weft bags — 49 and 35 bags to hold in stock — numbers the yarn store must have in stock before the beams are sized.</div></div>`});
 
 lecture({id:'wc22',course:'wc',n:'22',title:'Planning IV – Production Over Months',sub:'A day-by-day simulation: looms come on line one by one, stock builds up, and four shipments must be met on their dates.',chips:['Ramp-up','Cumulative stock','Shipments','Containers'],tags:'planning simulation shipments months ramp',body:()=>`
 <div class="card"><h2>The problem</h2>
-<p>Two widths of 60×60/161×112 are to be woven for a customer: the 68" quality makes 230 m per loom per day and the 98" quality 170 m. Looms are released to the order gradually — one more every two days until all are running. Shipments are booked on 10 October, 25 October, 5 November and 30 November, and each ships in a container (a 20 ft container holds 40,000 m of 68" or 30,000 m of 98"; a 40 ft holds double). Will the stock be there on each date?</p>
+<p>Two widths of 60×60/161×112 are to be woven for a customer: the 68" quality makes 230 m per loom per day and the 98" quality 170 m. Looms are released to the order gradually — one more every two days for the 68" and every two and a half days for the 98" — until all are running. Shipments are booked on 10 October, 25 October, 5 November and 30 November, and each ships in a container (a 20 ft container holds 40,000 m of 68" or 30,000 m of 98"; a 40 ft holds double). Will the stock be there on each date?</p>
 <p>The workbook runs a daily ledger from 1 September: looms × rate = production, cumulative stock minus shipments. The sheet below does the same with a loop, so you can change the ramp, the rates or the shipment programme and see at once which shipment slips.</p>
 ${S({title:'Ramp-up and shipment check (day 1 = 1 September)',cols:[260,110,110],rows:[
 [{h:''},{h:'68" quality'},{h:'98" quality'}],
@@ -1700,7 +1709,7 @@ ${S({title:'Ramp-up and shipment check (day 1 = 1 September)',cols:[260,110,110]
 ...[1,2,3,4].map(i=>[{f:v=>v['d'+i],fx:'shipment day',fmt:'0'},{f:v=>sim(v,'a',i),fx:'cumulative production − cumulative shipments',fmt:'#,##0',tot:true},{f:v=>sim(v,'b',i),fx:'cumulative production − cumulative shipments',fmt:'#,##0',tot:true}]),
 ['Day on which the last shipment is fully covered',{f:v=>ready(v,'a'),fx:'first day with stock ≥ all shipments',fmt:'0'},{f:v=>ready(v,'b'),fx:'first day with stock ≥ all shipments',fmt:'0'}]
 ]})}
-<div class="note">With the lecture’s figures the 68" shipments are comfortably covered but the 98" quality is short for the first two shipments unless more looms are freed earlier — the planner’s choice is to delay the 68" ramp and give the 98" looms priority. Containers: 40,000 m of 68" + 30,000 m of 98" fill one 40 ft box; the 5 November lot (20,000 + 15,000) fits a 20 ft box.</div></div>`});
+<div class="note">With the lecture’s figures every shipment is covered for both qualities; the 98" quality has the thinner margin (about 18,500 m in hand after the first two shipments), so it is the one to watch if its looms are released more slowly. Containers: 40,000 m of 68" + 30,000 m of 98" fill one 40 ft box; the 5 November lot (20,000 + 15,000) fits a 20 ft box.</div></div>`});
 function looms(v,q,t){return Math.min(v['m'+q],v['l'+q]+Math.floor((t-1)/v['k'+q]));}
 function sim(v,q,i){let stock=0,ship=0;const days=[1,2,3,4].map(j=>v['d'+j]);const T=v['d'+i];for(let t=1;t<=T;t++){stock+=looms(v,q,t)*v['r'+q];}for(let j=1;j<=i;j++)if(days[j-1]<=T)ship+=v['q'+q+j];return stock-ship;}
 function ready(v,q){const total=[1,2,3,4].reduce((a,j)=>a+v['q'+q+j],0);let stock=0;for(let t=1;t<=2000;t++){stock+=looms(v,q,t)*v['r'+q];if(stock>=total)return t;}return NaN;}
@@ -1759,7 +1768,7 @@ ${S({title:'Variable cost per metre',cols:[280,110,110],rows:[
 ['Contribution per day, whole plant',{f:v=>v.u1*v.pd*v.nl,n:'c1',fx:'=B23*B22',fmt:'#,##0',tot:true},{f:v=>v.u2*v.pd*v.nl,n:'c2',fx:'=C23*B22',fmt:'#,##0',tot:true}],
 ['Contribution per month (30 days)',{f:v=>v.c1*30,fx:'=B24*30',fmt:'#,##0'},{f:v=>v.c2*30,fx:'=C24*30',fmt:'#,##0'}]
 ]})}
-<div class="note">Local sale leaves Rs 4.35 per metre, export Rs 12. The same loom earns 1,873 or 5,166 rupees a day — a 45-loom shed makes about 2.5 million a month on local business and 7 million on export. Those three numbers are the “conservative / normal / aggressive” scenarios of Feasibility II.</div></div>
+<div class="note">Local sale leaves Rs 4.35 per metre, export Rs 12. The same loom earns 1,873 or 5,166 rupees a day — a 45-loom shed makes about 2.5 million a month on local business and 7 million on export. These two figures and their average (a 50/50 mix, 4.75 million) are the “conservative / normal / aggressive” scenarios of Feasibility II.</div></div>
 <div class="card"><h2>Feasibility II — investment and return</h2>
 <p>Three scenarios: conservative (local market only), normal (a mix) and aggressive (export). Each has its own view of what the plant costs to build and to run.</p>
 ${S({title:'Plant feasibility (Rs million)',cols:[300,110,110,110],rows:[
@@ -1774,9 +1783,9 @@ ${S({title:'Plant feasibility (Rs million)',cols:[300,110,110,110],rows:[
 [{s:'Monthly figures',span:4}],
 ['Contribution (from Feasibility I)',{in:'co1',v:2.53},{in:'co2',v:4.75},{in:'co3',v:6.97}],
 ['Salaries',{in:'sa1',v:1.21},{in:'sa2',v:1.1},{in:'sa3',v:0.99}],
-['Stores and spares',{in:'st1',v:0.65},{in:'st2',v:0.65},{in:'st3',v:0.65}],
-['Overheads',{in:'oh1',v:0.1},{in:'oh2',v:0.1},{in:'oh3',v:0.1}],
-['Administration',{in:'ad1',v:0.4},{in:'ad2',v:0.4},{in:'ad3',v:0.4}],
+['Stores and spares',{in:'st1',v:0.715},{in:'st2',v:0.65},{in:'st3',v:0.585}],
+['Overheads',{in:'oh1',v:0.11},{in:'oh2',v:0.1},{in:'oh3',v:0.09}],
+['Administration',{in:'ad1',v:0.44},{in:'ad2',v:0.4},{in:'ad3',v:0.36}],
 ['Depreciation life (years)',{in:'dy1',v:10},{in:'dy2',v:10},{in:'dy3',v:10}],
 ['Depreciation per month',{f:v=>(v.lo1+v.cp1+v.ws1+v.cn1)/v.dy1/12,n:'dp1',fx:'=(B3+B4+B5+B6)/B15/12',fmt:'0.000'},{f:v=>(v.lo2+v.cp2+v.ws2+v.cn2)/v.dy2/12,n:'dp2',fx:'=(C3+C4+C5+C6)/C15/12',fmt:'0.000'},{f:v=>(v.lo3+v.cp3+v.ws3+v.cn3)/v.dy3/12,n:'dp3',fx:'=(D3+D4+D5+D6)/D15/12',fmt:'0.000'}],
 ['Total conversion cost',{f:v=>v.sa1+v.st1+v.oh1+v.ad1+v.dp1,n:'tc1',fx:'=SUM(B11:B14)+B16',fmt:'0.000',tot:true},{f:v=>v.sa2+v.st2+v.oh2+v.ad2+v.dp2,n:'tc2',fx:'=SUM(C11:C14)+C16',fmt:'0.000',tot:true},{f:v=>v.sa3+v.st3+v.oh3+v.ad3+v.dp3,n:'tc3',fx:'=SUM(D11:D14)+D16',fmt:'0.000',tot:true}],
@@ -1829,7 +1838,7 @@ ${S({title:'Construction arithmetic',cols:[260,120],rows:[
 
 lecture({id:'fd02',course:'fd',n:'02',title:'Weight of Fabric',sub:'The quick GSM estimate and the exact calculation, shared with Weaving Calculations Lecture 5.',chips:['GSM','oz/yd²'],tags:'weight gsm',body:()=>`
 <div class="card"><h2>Two ways to weigh a cloth before it is woven</h2>
-<p>The quick rule: for Ne counts and a square yard of cloth, <span class="formula">GSM ≈ ( EPI / Ne<sub>warp</sub> + PPI / Ne<sub>weft</sub> ) × 25</span>. It assumes about 10% crimp and ignores width effects, but it is close enough to sort constructions into sheeting, poplin, drill and canvas.</p>
+<p>The quick rule: for Ne counts, <span class="formula">GSM ≈ ( EPI / Ne<sub>warp</sub> + PPI / Ne<sub>weft</sub> ) × 25</span>. It assumes about 10% crimp and ignores width effects, but it is close enough to sort constructions into sheeting, poplin, drill and canvas.</p>
 ${S({title:'Quick weight estimate',cols:[220,110,110,110],rows:[
 [{h:''},{h:'Sheeting'},{h:'Drill'},{h:'Your fabric'}],
 ['Warp Ne',{in:'a1',v:20},{in:'a2',v:20},{in:'a3',v:30}],
@@ -1871,7 +1880,7 @@ ${W({rows:TWILL('3,1,2,2',8,8,2),title:'Steep twill (63°) — cavalry twill',si
 ${W({rows:TWILL('2,2',8,8,1,-1),title:'2/2 twill, S direction',size:20,colors:[IND,'#f1f5f9'],caption:'Shifting to the left gives an S twill; Z and S twills alternate in herringbones (Lecture 7).'})}
 </div></div>
 <div class="card"><h2>Pointed twill</h2>
-<p>Reverse the draft at the end of the repeat — thread the ends 1-2-3-4-3-2 — and the twill line turns back on itself, forming points (chevrons) warp-way. The weave below is a 2/2 twill pointed on 8 ends.</p>
+<p>Reverse the draft at the end of the repeat — thread the ends 1-2-3-4-3-2 — and the twill line turns back on itself, forming points (chevrons) warp-way. The weave below is a 2/2 twill pointed on 6 ends.</p>
 ${W({rows:POINT(TWILL('2,2',4,8)),title:'Pointed 2/2 twill',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2,caption:'Note the draft: only 4 healds are needed although the repeat is 6 ends wide, because ends 5 and 6 repeat the movement of ends 3 and 2.'})}
 </div>`});
 
@@ -1890,9 +1899,9 @@ lecture({id:'fd05',course:'fd',n:'05',title:'Satin and Sateen',sub:'Smooth, lust
 ${W({rows:SATIN(5,2,'weft'),title:'1/4 sateen, 5-end, move 2',size:22,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({rows:SATIN(5,3,'warp'),title:'4/1 satin, 5-end, move 3',size:22,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({rows:SATIN(8,3,'warp'),title:'7/1 satin, 8-end, move 3',size:20,colors:[IND,'#f1f5f9'],tile:2})}
-${W({hex:['$8','$4','$1','$2'],w:4,title:'4-end satinette',size:22,colors:[IND,'#f1f5f9'],tile:3,caption:'Hex $8 $4 $1 $2 — the lifts form a broken 2/2 twill (Lecture 10 notation).'})}
+${W({hex:['$8','$4','$1','$2'],w:4,title:'4-end satinette',size:22,colors:[IND,'#f1f5f9'],tile:3,caption:'Hex $8 $4 $1 $2 — one lift per pick (1 up, 3 down), so the lifts form a broken 1/3 twill (Lecture 10 notation).'})}
 ${W({rows:SATIN(8,5,'weft'),title:'1/7 sateen, 8-end, move 5',size:20,colors:[IND,'#f1f5f9'],tile:2})}
-${W({rows:(()=>{const a=SATIN(5,3,'warp',5,10),b=SATIN(5,2,'weft',5,10);return a.map((r,p)=>[...r,...b[p]]);})(),title:'Striped satin (satin + sateen stripes)',size:20,colors:[IND,'#f1f5f9'],tile:2,caption:'Five ends of 4/1 satin beside five ends of 1/4 sateen: the warp-faced stripe looks dark, the weft-faced one light, from the same yarns.'})}
+${W({rows:(()=>{const a=SATIN(5,3,'warp',5,10),b=SATIN(5,2,'weft',5,11).slice(1);return a.map((r,p)=>[...r,...b[p]]);})(),title:'Striped satin (satin + sateen stripes)',size:20,colors:[IND,'#f1f5f9'],tile:2,caption:'Five ends of 4/1 satin beside five ends of 1/4 sateen: the warp-faced stripe looks dark, the weft-faced one light, from the same yarns.'})}
 </div></div>`});
 
 lecture({id:'fd06',course:'fd',n:'06',title:'Rib and Hopsack Weaves',sub:'Plain-weave derivatives: extend the interlacing warp-way for a warp rib, weft-way for a weft rib, both ways for a hopsack.',chips:['Warp rib','Weft rib','Hopsack','Basket'],tags:'rib hopsack basket matt panama',body:()=>`
@@ -1904,19 +1913,19 @@ ${W({rows:gen(8,8,(e,p)=>(Math.floor(e/2)+p)%2===0),title:'2/2 weft rib',size:20
 ${W({rows:gen(8,8,(e,p)=>(Math.floor(e/2)+Math.floor(p/2))%2===0),title:'2/2 hopsack (matt)',size:20,colors:[IND,'#f1f5f9'],caption:'Pairs of ends and pairs of picks interlace as one — a looser, flatter cloth.'})}
 ${W({rows:gen(12,12,(e,p)=>(Math.floor(e/3)+Math.floor(p/3))%2===0),title:'3/3 hopsack',size:16,colors:[IND,'#f1f5f9']})}
 
-${W({rows:gen(10,10,(e,p)=>{const E=[0,0,0,1,1,2,2,2,3,3][e],P=[0,0,0,1,1,2,2,2,3,3][p];return (E+P)%2===0;}),title:'Fancy basket 3-2-3-2',size:18,colors:[IND,'#f1f5f9'],caption:'Unequal groups (3 and 2) give the irregular basket used in shirtings and upholstery.'})}
+${W({rows:gen(10,10,(e,p)=>{const E=[0,0,0,1,1,2,2,2,3,3][e],P=[0,0,0,1,1,2,2,2,3,3][p];return (E+P)%2===0;}),title:'Fancy basket 3-2',size:18,colors:[IND,'#f1f5f9'],caption:'Unequal groups (3 and 2) give the irregular basket used in shirtings and upholstery.'})}
 </div>
-<div class="note">Rib and hopsack weaves have long floats on one side, so they need higher sett than plain weave to look firm; the cover-factor divisors (Weaving Calculations 12) are 1.26 for warp rib, 1.5 for weft rib and 1.4 for panama.</div></div>`});
+<div class="note">Rib and hopsack weaves interlace less often than plain weave and their floats show equally on both sides (they are reversible), so they need higher sett than plain weave to look firm; the cover-factor divisors (Weaving Calculations 12) are 1.26 for warp rib, 1.5 for weft rib and 1.4 for panama.</div></div>`});
 
 lecture({id:'fd07',course:'fd',n:'07',title:'Twill Derivatives',sub:'Waved, herringbone, broken and curved twills — ways of turning or interrupting the twill line.',chips:['Herringbone','Broken twill','Waved','Curved'],tags:'herringbone broken waved curved twill zigzag',body:()=>`
 <div class="card"><h2>Turning the twill line</h2>
-<p>A <b>pointed (waved) twill</b> reverses the draft, so the diagonal meets itself point to point. A <b>herringbone</b> reverses the direction <em>and</em> breaks the join by shifting the second half one pick, so the twill lines do not meet — the cut gives the typical fish-bone. A <b>broken twill</b> interrupts the line every few ends (crow’s foot). A <b>curved twill</b> changes the step gradually — 1, 1, 2, 2, 3 ends per pick — so the line bends.</p>
+<p>A <b>pointed (waved) twill</b> reverses the draft, so the diagonal meets itself point to point. A <b>herringbone</b> reverses the direction <em>and</em> breaks the join by shifting the second half two picks, so the twill lines do not meet — the cut gives the typical fish-bone. A <b>broken twill</b> interrupts the line every few ends (crow’s foot). A <b>curved twill</b> changes the step gradually — 1, 1, 2, 2, 3 ends per pick — so the line bends.</p>
 <div class="grid2">
 ${W({rows:POINT(TWILL('2,2',4,4)).map(r=>r),title:'Waved (pointed) 2/2 twill',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({rows:HERRING(TWILL('2,2',4,4),4),title:'Herringbone 2/2',size:20,colors:[IND,'#f1f5f9'],tile:2,caption:'Second half runs the other way and is cut (ends 5–8 are the inverse of a reversed 2/2), so warp floats meet weft floats at the join.'})}
 ${W({rows:HERRING(TWILL('3,1',4,4),4),title:'Herringbone 3/1',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$C','$3','$6','$9'],w:4,title:'Broken 2/2 twill (crow’s foot)',size:20,colors:[IND,'#f1f5f9'],tile:3,caption:'The picks of a 2/2 twill are re-ordered 1, 3, 2, 4 so the diagonal never runs more than two ends.'})}
-${W({rows:gen(16,8,(e,p)=>{const steps=[0,1,2,4,6,9,12,16,20,25,30,36,42,49,56,64];return mod(e-steps[p%8],4)<2;}),title:'Curved twill (increasing step)',size:16,colors:[IND,'#f1f5f9'],effect:false,caption:'The 2/2 lifting order advances by 1, 1, 2, 2, 3, 3, 4, 4 ends on successive picks, bending the line.'})}
+${W({rows:gen(20,10,(e,p)=>[1,1,1,0,0][mod(e-[0,1,2,3,4,5,7,9,11,13][p],5)]),title:'Curved twill (changing step)',size:16,colors:[IND,'#f1f5f9'],effect:false,caption:'A 3/2 twill whose lifting order advances one end per pick for five picks, then two ends per pick for five picks, so the twill line changes angle and bends.'})}
 </div></div>`});
 
 lecture({id:'fd08',course:'fd',n:'08',title:'Draft, Peg Plan and Denting',sub:'From design to loom: which heald carries each end, which healds lift on each pick, and how many ends go through each reed dent.',chips:['Draft','Peg plan','Healds','Denting'],tags:'draft peg plan lifting denting reed healds',body:()=>`
@@ -1958,7 +1967,7 @@ ${S({title:'Base conversion',cols:[200,200],legend:false,rows:[
 ]})}
 <div class="warn">The “Number” cell is read as text; type the digits without spaces (hex with or without the leading $).</div></div>
 <div class="card"><h2>Weaves in hexadecimal</h2>
-<p>Convention: write the picks from the bottom of the point paper upward, one hex number per pick, the most significant bit on the left end; append “−n” to say how many ends wide the design is. <b>$9 $C $6 $3 −4</b> is 1001, 1100, 0110, 0011 — a 2/2 twill.</p>
+<p>Convention: write the picks from the bottom of the point paper upward, one hex number per pick, the most significant bit on the left end; append “−n” to say how many ends wide the design is. If the width is not a multiple of 4, idle (zero) ends are added on the <em>right</em> of each pick before grouping, and they are dropped again when decoding: $8 $4 $2 −3 is 100<i>0</i>, 010<i>0</i>, 001<i>0</i>. (This is different from writing a plain number, where zeros are added on the left — as in the converter above — because they do not change its value.) <b>$9 $C $6 $3 −4</b> is 1001, 1100, 0110, 0011 — a 2/2 twill.</p>
 <div class="grid2">
 ${W({hex:['$9','$C','$6','$3'],w:4,title:'$9 $C $6 $3 −4 → 2/2 twill',size:22,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$8','$4','$2'],w:3,title:'$8 $4 $2 −3 → 1/2 twill',size:22,colors:[IND,'#f1f5f9'],tile:3})}
@@ -1973,7 +1982,7 @@ ${HEXBOX('$9 $C $6 $3',4)}
 lecture({id:'fd12',course:'fd',n:'12',title:'Fabric Analysis II – Yarn Diameter',sub:'Estimating the diameter of a yarn from its count and specific volume — the number behind every cover and crimp calculation.',chips:['Specific volume','d = √tex / 26.7','d = 0.9 / √Ne'],tags:'diameter specific volume analysis',body:()=>`
 <div class="card"><h2>From count to diameter</h2>
 <p>Treat the yarn as a cylinder of specific volume v (cm³ per gram; about 1.1 for a cotton yarn in cloth). One metre of yarn of N tex weighs N/1000 g and occupies N·v/1000 cm³; equate that to the cylinder volume π d² l / 4 and solve:</p>
-<div class="formula">d = √( 4 v N / (π l) ) &nbsp;&nbsp;⇒&nbsp;&nbsp; d (mm) = √tex ÷ 26.7 &nbsp;&nbsp;·&nbsp;&nbsp; d (mm) = 0.9 ÷ √Ne &nbsp;&nbsp;·&nbsp;&nbsp; d (in) ≈ 1 ÷ (28 √Ne)</div>
+<div class="formula">d = √( 4 v N / (1000 π l) ), l = 100 cm &nbsp;&nbsp;⇒&nbsp;&nbsp; d (mm) = √tex ÷ 26.7 &nbsp;&nbsp;·&nbsp;&nbsp; d (mm) = 0.9 ÷ √Ne &nbsp;&nbsp;·&nbsp;&nbsp; d (in) ≈ 1 ÷ (28 √Ne)</div>
 ${S({title:'Yarn diameter',cols:[260,120,120,120],rows:[
 [{h:''},{h:'Yarn A'},{h:'Yarn B'},{h:'Yarn C'}],
 ['Count Ne',{in:'a',v:20},{in:'b',v:30},{in:'c',v:40}],
@@ -1991,16 +2000,16 @@ lecture({id:'fd13',course:'fd',n:'13',title:'Crepe, Spot and Honeycomb Weaves',s
 <p>A crepe weave has an all-over pebbled, non-directional look. The classic way to construct one is to start with a sateen base and add one or more marks to every base mark in a fixed arrangement, or to superimpose two sateens. The hex codes below are the lecture’s own designs.</p>
 <div class="grid2">
 ${W({hex:['$A1','$D1','$9C','$56','$6C','$4E','$2B','$33'],w:8,title:'8-end sateen base + 2 marks',size:20,colors:[IND,'#f1f5f9'],tile:2})}
-${W({hex:['$AE','$D5','$BA','$57','$EA','$5D','$AB','$75'],w:8,title:'Crepe 2-1-1-3 arrangement',size:20,colors:[IND,'#f1f5f9'],tile:2})}
+${W({hex:['$AE','$D5','$BA','$57','$EA','$5D','$AB','$75'],w:8,title:'8-end sateen base and 2 by 1 by 1 by 3',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$AA','$DD','$AA','$77','$AA','$DD','$AA','$77'],w:8,title:'Spots on a plain ground',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$84','$CC','$84','$10','$30','$12','$03','$02'],w:8,title:'Motif reversed in alternate quarters',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$C0','$18','$03','$60','$0C','$81','$30','$06'],w:8,title:'Sateen derivative (two marks per base)',size:20,colors:[IND,'#f1f5f9'],tile:2})}
-${W({hex:['$C8','$5C','$13','$62','$8C','$C5','$31','$26'],w:8,title:'Two superimposed 8-end sateens',size:20,colors:[IND,'#f1f5f9'],tile:2})}
+${W({hex:['$C8','$5C','$13','$62','$8C','$C5','$31','$26'],w:8,title:'8-end sateen derivative + 4-end satinette superimposed',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$80','$20','$08','$40','$04','$10'],w:6,title:'Irregular 6-end sateen',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$8A8','$64C','$193','$632','$8C9','$544','$931','$22A','$88A','$454','$151','$326'],w:12,title:'4-end and 6-end sateens superimposed (12 × 12)',size:18,colors:[IND,'#f1f5f9']})}
 </div></div>
 <div class="card"><h2>Honeycomb</h2>
-<p>A pointed draft and a pointed lifting plan produce diamond-shaped cells whose ridges are long floats and whose hollows are tightly interlaced — a towelling weave that traps water. The 8-end version is the ordinary honeycomb; the 16-end version is the Brighton-style large cell.</p>
+<p>A pointed draft and a pointed lifting plan produce diamond-shaped cells whose ridges are long floats and whose hollows are tightly interlaced — a towelling weave that traps water. The 8-end version is the ordinary honeycomb; the 16-end version is the same ordinary honeycomb on a larger cell.</p>
 <div class="grid2">
 ${W({hex:['$80','$41','$A2','$D5','$EB','$D5','$A2','$41'],w:8,title:'Honeycomb, 8 ends',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2})}
 ${W({hex:['$4001','$A002','$5005','$A80A','$D415','$EA2B','$F557','$FAAF','$FD5F','$FAAF','$F557','$EA2B','$D415','$A80A','$5005','$A002'],w:16,title:'Honeycomb, 16 ends',size:16,colors:[IND,'#f1f5f9'],tile:2})}
@@ -2008,10 +2017,10 @@ ${W({hex:['$4001','$A002','$5005','$A80A','$D415','$EA2B','$F557','$FAAF','$FD5F
 
 lecture({id:'fd14',course:'fd',n:'14',title:'Bedford Cord',sub:'Warp-way cords of plain or twill face separated by cutting lines, with stuffer ends for a rounder cord.',chips:['Cutting ends','Stuffer ends','Plain face','Twill face'],tags:'bedford cord stuffer cutting',body:()=>`
 <div class="card"><h2>Structure</h2>
-<p>A Bedford cord shows rounded warp-way ribs. Pairs of picks alternate: on one pair the weft weaves plain (or twill) with the ends of cord A and floats loosely under cord B; on the next pair it does the reverse. The floats on the back pull each cord into a ridge. Between cords a pair of <b>cutting ends</b> weaves plain with every pick, making a sunk line. <b>Stuffer ends</b> — coarse ends lying straight between the face and the floats — make the cords fuller.</p>
+<p>A Bedford cord shows rounded warp-way ribs. Alternate picks (or pairs of picks) change over: on one pick the weft weaves plain (or twill) with the ends of cord A and floats loosely under cord B; on the next it does the reverse. The floats on the back pull each cord into a ridge. Between cords a pair of <b>cutting ends</b> weaves plain with every pick, making a sunk line. <b>Stuffer ends</b> — coarse ends lying straight between the face and the floats — make the cords fuller.</p>
 <div class="grid2">
-${W({hex:['$AAABFF','$7FF555','$955BFF','$7FF6AA'],w:24,title:'Plain-face Bedford cord, 24 ends',size:16,colors:[IND,'#f1f5f9'],draft:true,caption:'Ends 1–2 and 13–14 are the cutting ends (plain on every pick). Picks 1–2 float under the left cord and weave the right one; picks 3–4 the reverse.'})}
-${W({hex:['$BFEAAA','$7FF555','$AAABFF','$5557FF'],w:24,title:'Weft floating on two picks (alternate order)',size:16,colors:[IND,'#f1f5f9']})}
+${W({hex:['$AAABFF','$7FF555','$955BFF','$7FF6AA'],w:24,title:'Plain-face Bedford cord, 24 ends',size:16,colors:[IND,'#f1f5f9'],draft:true,caption:'Ends 1–2 and 13–14 are the cutting ends (plain on every pick). Odd picks weave plain with the left cord and float under the right one; even picks do the reverse.'})}
+${W({hex:['$BFEAAA','$7FF555','$AAABFF','$5557FF'],w:24,title:'Weft floating on two picks (2-and-2 order)',size:16,colors:[IND,'#f1f5f9']})}
 ${W({hex:['$ADB7FC','$7FEDB4','$B6D7FC','$7FEED8','$9B77FC','$7FEB6C'],w:22,title:'Twill-face Bedford cord, 22 ends',size:16,colors:[IND,'#f1f5f9'],caption:'The cord face is a 2/1 twill; six picks complete the repeat.'})}
 ${W({hex:['$A92AFFF','$7FFDA4A','$9296FFF','$7FFD4A5'],w:28,title:'With stuffer ends, 28 ends',size:14,colors:[IND,'#f1f5f9'],caption:'The extra ends in the middle of each cord are lifted on the floating picks and lowered on the weaving picks, so they lie straight inside the cord.'})}
 </div>
@@ -2021,25 +2030,25 @@ lecture({id:'fd16',course:'fd',n:'16',title:'Piqué',sub:'Weft-way or figured co
 <div class="card"><h2>Two warps, one cloth</h2>
 <p>A piqué (welt) has a face warp weaving plain with the face picks and a <b>stitching warp</b> — usually one stitching end for every two face ends — held at high tension. On the stitching picks the back ends are lifted over the face, pulling it down into a furrow; between furrows the face bulges into a cord. <b>Wadding picks</b> are thick picks laid between face and back to fill the cords.</p>
 <div class="grid2">
-${W({hex:['$90','$24','$90','$24','$D8','$6C'],w:6,title:'Welt (plain piqué) — 6 ends × 6 picks',size:22,colors:[IND,'#f1f5f9'],draft:true,tile:2,caption:'Ends 3 and 6 are stitching ends, down on all face picks and lifted on picks 5–6 (the indent).'})}
+${W({hex:['$90','$24','$90','$24','$D8','$6C'],w:6,title:'Welt (plain piqué)',size:22,colors:[IND,'#f1f5f9'],draft:true,tile:2,caption:'Ends 2 and 5 are stitching ends, down on all face picks and lifted on picks 5–6 (the indent).'})}
 ${W({hex:['$90','$24','$B4','$B4','$90','$24','$D8','$6C'],w:6,title:'Loose-back welt with wadding picks 3–4',size:22,colors:[IND,'#f1f5f9'],tile:2,caption:'Wadding picks ($B4) lie under the face and over the stitching ends.'})}
 ${W({hex:['$90','$24','$F4','$BC','$90','$24','$D8','$6C'],w:6,title:'Fast-back welt',size:22,colors:[IND,'#f1f5f9'],tile:2,caption:'The stitching ends also interlace with the wadding picks, locking the back.'})}
-${W({hex:['$934924','$259249','$9A6924','$2CB249','$D34D24','$659649','$9A6924','$2CB249','$934924','$259249','$B6DB6D','$B6DB6D','$924934','$249259','$9249A6','$2492CB','$D24D34','$649659','$9249A6','$2492CB','$924934','$249259','$B6DB6D','$B6DB6D'],w:24,title:'Waved piqué, 24 ends × 24 picks',size:14,colors:[IND,'#f1f5f9'],caption:'The stitching points move diagonally, so the furrow waves instead of running straight across.'})}
-${W({hex:['$936D2490','$25B64924','$DA49A690','$6C92CB24','$936D2490','$25B64924','$B6DB6DB4','$B6DB6DB4','$924926D8','$24924B6C','$DA493490','$6C925924','$924926D8','$24924B6C','$B6DB6DB4','$B6DB6DB4'],w:30,title:'Waved piqué with wadding, 30 ends × 16 picks',size:13,colors:[IND,'#f1f5f9']})}
+${W({hex:['$934924','$259249','$9A6924','$2CB249','$D34D24','$659649','$9A6924','$2CB249','$934924','$259249','$B6DB6D','$B6DB6D','$924934','$249259','$9249A6','$2492CB','$D24D34','$649659','$9249A6','$2492CB','$924934','$249259','$B6DB6D','$B6DB6D'],w:24,title:'Waved piqué with wadding picks',size:14,colors:[IND,'#f1f5f9'],caption:'The stitching points move diagonally, so the furrow waves instead of running straight across.'})}
+${W({hex:['$936D2490','$25B64924','$DA49A690','$6C92CB24','$936D2490','$25B64924','$B6DB6DB4','$B6DB6DB4','$924926D8','$24924B6C','$DA493490','$6C925924','$924926D8','$24924B6C','$B6DB6DB4','$B6DB6DB4'],w:30,title:'Another waved piqué, with wadding',size:13,colors:[IND,'#f1f5f9']})}
 </div></div>`});
 
-lecture({id:'fd17',course:'fd',n:'17',title:'Stripe and Check Designs',sub:'Combining weaves side by side (stripes) and in both directions (checks); the 36-end 2/2 twill check and the warp/weft-face combination.',chips:['Stripe','Check','Twill turned','Face combination'],tags:'stripe check combination twill',body:()=>`
+lecture({id:'fd17',course:'fd',n:'17',title:'Stripe and Check Designs',sub:'Combining weaves side by side (stripes) and in both directions (checks); the 36-end turned-twill check and the warp/weft-face combination.',chips:['Stripe','Check','Twill turned','Face combination'],tags:'stripe check combination twill',body:()=>`
 <div class="card"><h2>Rules for combining weaves</h2>
 <p>Weaves can be placed side by side when they have the same number of picks in the repeat (or a common multiple) and interlace with similar frequency, so that the fabric does not pucker. At the join, warp floats of one weave should meet weft floats of the other to make a clean cut. A <b>stripe</b> changes weave across the ends; a <b>check</b> changes it across picks as well.</p>
 <div class="grid2">
 ${W({rows:gen(16,8,(e,p)=>e<8?TWILL('2,2',8,8)[p][e]:TWILL('2,2',8,8,1,-1)[p][e-8]),title:'Stripe: 2/2 twill Z beside 2/2 twill S',size:18,colors:[IND,'#f1f5f9'],tile:2})}
-${W({rows:gen(16,16,(e,p)=>{const z=TWILL('2,2',8,8)[p%8][e%8],s=TWILL('2,2',8,8,1,-1)[p%8][e%8];return (e<8)^(p<8)?s:z;}),title:'Check: twill direction turned in each quarter',size:16,colors:[IND,'#f1f5f9']})}
+${W({rows:gen(16,16,(e,p)=>{const i=e<8?0:1,j=p<8?0:1,ph=[1,0,3,0][i*2+j];return i===j?mod(e-p+ph,4)<2:mod(e+p+ph,4)<2;}),title:'Check: twill direction turned in each quarter',size:16,colors:[IND,'#f1f5f9']})}
 ${W({rows:gen(32,32,(e,p)=>{const inA=(e%16)<8,inB=(p%16)<8;return inA^inB?PLAIN(2,2)[p%2][e%2]:TWILL('3,1',4,4)[p%4][e%4];}),title:'Plain / 3-1 twill check, 32 × 32',size:11,colors:[IND,'#f1f5f9'],effect:true,tile:1,caption:'Plain squares look flat and light, twill squares dense and lustrous — the lecture’s 32 × 32 table drawn as a weave.'})}
-${W({hex:['$AAB1C','$AA8E3','$5531C','$550E3','$5531C','$AA8E3','$AAB1C','$AA8E3','$5531C','$550E3','$C72AA','$38EAA','$C7155','$38D55','$C7155','$38EAA','$C72AA','$38EAA','$C7155','$38D55'],w:20,title:'Warp-face / weft-face combination, 20 ends',size:14,colors:[IND,'#f1f5f9'],caption:'Quarters of warp-faced and weft-faced weave give a two-tone check from one colour of yarn.'})}
+${W({hex:['$AAB1C','$AA8E3','$5531C','$550E3','$5531C','$AA8E3','$AAB1C','$AA8E3','$5531C','$550E3','$C72AA','$38EAA','$C7155','$38D55','$C7155','$38EAA','$C72AA','$38EAA','$C7155','$38D55'],w:20,title:'Warp-face / weft-face combination, 20 ends',size:14,colors:[IND,'#f1f5f9'],caption:'Plain-weave squares alternate with squares in which the ends work in groups of two and three (a rib-type weave), so a check appears in one colour of yarn.'})}
 </div></div>
-<div class="card"><h2>The 36-end 2/2 twill check</h2>
-<p>The lecture’s large example turns a 2/2 twill in 9-end and 9-pick blocks on a 36 × 36 repeat. The codes are reproduced exactly:</p>
-${W({hex:['$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338E','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338F','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338E','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E383E38E','$71C71CC71','$E38E38E38','$C71C7171C','$8E38E338E','$1C71C71C7','$38E38E8E3','$71C71CC71','$E38E38E38','$C71C7171C','$8E38E338E','$1C71C71C7','$38E38E8E3'],w:36,title:'36-end check of 2/2 twill, turned',size:11,colors:[IND,'#f1f5f9'],tile:1})}
+<div class="card"><h2>The 36-end twill check</h2>
+<p>The lecture’s large example turns a 3/3 twill in blocks of 24 and 12 ends and 24 and 12 picks on a 36 × 36 repeat. The codes are reproduced exactly:</p>
+${W({hex:['$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338E','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338F','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338E','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E383E38E','$71C71CC71','$E38E38E38','$C71C7171C','$8E38E338E','$1C71C71C7','$38E38E8E3','$71C71CC71','$E38E38E38','$C71C7171C','$8E38E338E','$1C71C71C7','$38E38E8E3'],w:36,title:'36-end check of 3/3 twill, turned',size:11,colors:[IND,'#f1f5f9'],tile:1})}
 </div>`});
 
 lecture({id:'fd19',course:'fd',n:'19',title:'Colour and Weave Effects',sub:'The same weave with coloured ends and picks: hairlines, hound’s tooth, bird’s eye — pattern made by colour order, not by weave.',chips:['Hairline','Hound’s tooth','Bird’s eye','Colour order'],tags:'colour weave effect houndstooth hairline',body:()=>`
@@ -2050,8 +2059,8 @@ ${W({rows:PLAIN(8,8),title:'Plain, 1 & 1 colouring — vertical hairlines',size:
 ${W({rows:PLAIN(8,8),title:'Plain, 1 & 1 colouring — horizontal hairlines',size:18,colors:[['#111827','#e5e7eb'],['#111827','#e5e7eb']],tile:2,caption:'Same weave, weft order shifted by one pick: the lines turn weft-way.'})}
 ${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 4 & 4 — hound’s tooth',size:18,colors:[['#111827','#111827','#111827','#111827','#e5e7eb','#e5e7eb','#e5e7eb','#e5e7eb'],['#111827','#111827','#111827','#111827','#e5e7eb','#e5e7eb','#e5e7eb','#e5e7eb']],tile:2,caption:'The classic dog-tooth: four dark, four light in both directions on a 2/2 twill.'})}
 ${W({rows:PLAIN(8,8),title:'Plain, 2 & 2 colouring — bird’s eye / step',size:18,colors:[['#111827','#111827','#e5e7eb','#e5e7eb'],['#111827','#111827','#e5e7eb','#e5e7eb']],tile:2})}
-${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 2 & 2 — four-pointed star',size:18,colors:[['#111827','#111827','#e5e7eb','#e5e7eb'],['#111827','#111827','#e5e7eb','#e5e7eb']],tile:2})}
-${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 1 & 1 — shepherd’s check hairline',size:18,colors:[['#111827','#e5e7eb'],['#111827','#e5e7eb']],tile:2})}
+${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 2 & 2 — weft-way hairlines',size:18,colors:[['#111827','#111827','#e5e7eb','#e5e7eb'],['#111827','#111827','#e5e7eb','#e5e7eb']],tile:2})}
+${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 1 & 1 — small step effect',size:18,colors:[['#111827','#e5e7eb'],['#111827','#e5e7eb']],tile:2})}
 </div>
 <div class="note">The lecture encoded hound’s tooth as hex with the colour order in the first row ($3C0 … −10 and $0F0 … −10). In this companion the colour order is given separately and the weave stays a plain 2/2 twill, which is how CAD systems treat colour-and-weave effects.</div></div>`});
 
@@ -2067,23 +2076,23 @@ ${S({title:'Cover factor from count and density',cols:[260,120,120],rows:[
 ['Cover factor K = n √tex',{f:v=>v.n1*Math.sqrt(v.t1),fx:'=B3*SQRT(B2)',fmt:'#,##0'},{f:v=>v.n2*Math.sqrt(v.t2),fx:'=C3*SQRT(C2)',fmt:'#,##0'}],
 ['Relative cover d/p',{f:v=>v.d1/v.p1,n:'c1',fx:'=B4/B5',fmt:'0.00',tot:true},{f:v=>v.d2/v.p2,n:'c2',fx:'=C4/C5',fmt:'0.00',tot:true}],
 ['Cloth cover C₁ + C₂ − C₁C₂',{f:v=>v.c1+v.c2-v.c1*v.c2,fx:'=B7+C7-B7*C7',fmt:'0.00',tot:true},null],
-['Equivalent Ne cover factor (EPI/√Ne)',{f:v=>v.n1*2.54/Math.sqrt(590.67/v.t1),fx:'=B3*2.54/SQRT(590.67/B2)',fmt:'0.0'},{f:v=>v.n2*2.54/Math.sqrt(590.67/v.t2),fx:'=C3*2.54/SQRT(590.67/C2)',fmt:'0.0'}]
+['Equivalent Ne cover factor (EPI/√Ne)',{f:v=>v.n1*0.254/Math.sqrt(590.67/v.t1),fx:'=B3*0.254/SQRT(590.67/B2)',fmt:'0.0'},{f:v=>v.n2*0.254/Math.sqrt(590.67/v.t2),fx:'=C3*0.254/SQRT(590.67/C2)',fmt:'0.0'}]
 ]})}
 <div class="note">The lecture’s example: 25 tex at 267/100 mm covers 0.50, 36 tex at 334/100 mm covers 0.75, and the cloth is 0.88 covered — the remaining 12% is the open area that lets air (and light) through. For weavability limits and weave corrections see <a data-go="wc12">Weaving Calculations 12–13</a>.</div></div>`});
 
 lecture({id:'fd22',course:'fd',n:'22',title:'Spot and Figured Designs',sub:'Distributing small motifs over a ground: the six methods and the sateen-base distribution over 30 ends × 40 picks.',chips:['Sateen base','Distribution','Motif','Plain ground'],tags:'spot figure distribution motif sateen base',body:()=>`
 <div class="card"><h2>Placing spots</h2>
 <p>A spot design repeats a small motif at regular intervals on a plain (or other) ground. The lecture lists six methods of arrangement, A to F: in straight rows, in alternate (half-drop) rows, on a twill base, on a sateen base, reversed in alternate positions, and in a diamond (pointed) order. The sateen base is the most useful because it spreads the spots evenly with no obvious lines.</p>
-<p>Below, a 5-end sateen base with intervals of 6 ends and 8 picks spreads five spots over a 30 × 40 repeat; each spot is a small cross motif and the ground is plain weave. The blue squares are motif lifts, the grey ones the plain ground.</p>
-${W({rows:gen(30,40,(e,p)=>{const base=[0,2,4,1,3];let sp=false;for(let k=0;k<5;k++){const cx=base[k]*6+3,cy=k*8+4;const dx=e-cx,dy=p-cy;if((Math.abs(dx)<=2&&dy===0)||(Math.abs(dy)<=2&&dx===0)||(Math.abs(dx)===1&&Math.abs(dy)===1))sp=true;}return sp?1:(e+p)%2===0;}),marks:(()=>{const m={};const base=[0,2,4,1,3];for(let k=0;k<5;k++){const cx=base[k]*6+3,cy=k*8+4;for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){if((Math.abs(dx)<=2&&dy===0)||(Math.abs(dy)<=2&&dx===0)||(Math.abs(dx)===1&&Math.abs(dy)===1))m[(cy+dy)+','+(cx+dx)]=IND;}}return m;})(),title:'Spots on a 5-sateen base, 30 × 40',size:11,colors:[IND,'#f1f5f9'],effect:true,tile:1,caption:'Spot centres at ends 3, 15, 27, 9, 21 (move number 2 × 6 ends) and picks 4, 12, 20, 28, 36.'})}
+<p>Below, a 5-end sateen base with intervals of 6 ends and 8 picks spreads five spots over a 30 × 40 repeat; each spot is a small diamond motif and the ground is plain weave. The blue squares are motif lifts, the grey ones the plain ground.</p>
+${W({rows:gen(30,40,(e,p)=>{const base=[0,2,4,1,3];let sp=false;for(let k=0;k<5;k++){const cx=base[k]*6+3,cy=k*8+4;const dx=e-cx,dy=p-cy;if((Math.abs(dx)<=2&&dy===0)||(Math.abs(dy)<=2&&dx===0)||(Math.abs(dx)===1&&Math.abs(dy)===1))sp=true;}return sp?1:(e+p)%2===0;}),marks:(()=>{const m={};const base=[0,2,4,1,3];for(let k=0;k<5;k++){const cx=base[k]*6+3,cy=k*8+4;for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){if((Math.abs(dx)<=2&&dy===0)||(Math.abs(dy)<=2&&dx===0)||(Math.abs(dx)===1&&Math.abs(dy)===1))m[(cy+dy)+','+(cx+dx)]=IND;}}return m;})(),title:'Spots on a 5-sateen base, 30 × 40',size:11,colors:[IND,'#f1f5f9'],effect:true,tile:1,caption:'Spot centres at ends 4, 16, 28, 10, 22 (move number 2 × 6 ends) and picks 5, 13, 21, 29, 37.'})}
 <div class="note">When the ground is plain weave, the motif must start on an end and pick where it continues the plain order, otherwise long floats appear at its edges — the lecture’s “plain basis, alternate order” rule.</div></div>`});
 
 lecture({id:'fd23',course:'fd',n:'23',title:'Huckaback and Mock Leno',sub:'Open, absorbent weaves: huckaback for towels and mock leno imitating the gauze of a true leno.',chips:['Huckaback','Mock leno','Floats','Open structure'],tags:'huckaback mock leno towel open',body:()=>`
 <div class="card"><h2>Huckaback</h2>
 <p>A huckaback alternates blocks of plain weave with blocks where ends (and picks) float over three or more threads. The floats stand out from the plain ground and make a rough, absorbent surface for towels and glass cloths.</p>
 <div class="grid2">
-${W({hex:['$554','$FA8','$554','$AA8','$57C','$AA8'],w:10,title:'Huckaback 1 — 10 ends × 6 picks',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2})}
-${W({hex:['$554','$FA8','$554','$FA8','$554','$AA8','$57C','$AA8','$57C','$AA8'],w:10,title:'Huckaback 2 — 10 ends × 10 picks',size:20,colors:[IND,'#f1f5f9'],tile:2})}
+${W({hex:['$554','$FA8','$554','$AA8','$57C','$AA8'],w:10,title:'Huckaback 1',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2})}
+${W({hex:['$554','$FA8','$554','$FA8','$554','$AA8','$57C','$AA8','$57C','$AA8'],w:10,title:'Huckaback 2',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 </div></div>
 <div class="card"><h2>Mock leno</h2>
 <p>A true leno crosses the ends over each other with a doup heald; a mock leno imitates the open, perforated look with an ordinary dobby by grouping ends and picks so that they crowd together in some places and leave gaps in others.</p>
@@ -2110,7 +2119,7 @@ lecture({id:'fd24',course:'fd',n:'24',title:'Fabric Analysis – Guidelines',sub
 <li>Count ends and picks per inch (or cm) in several places and average.</li>
 <li>Unravel a few picks and ends; note the interlacing of each end over the picks on point paper until the pattern repeats.</li>
 <li>Measure crimp: straightened length ÷ cloth length − 1 (Lecture 25).</li>
-<li>Weigh a known area and determine the counts (Lecture 12); confirm with the weight formula (Lecture 2).</li>
+<li>Weigh a measured length of unravelled ends and picks to determine the counts; confirm with the fabric weight formula (Lecture 2).</li>
 <li>Record the weave, draft, peg plan and denting so the fabric can be reproduced.</li></ol></div>`});
 
 lecture({id:'fd25',course:'fd',n:'25',title:'Crimp',sub:'Peirce’s geometry of crimp, repeated here for the design course; the calculator lives in Weaving Calculations 15–16.',chips:['Crimp %','θ, p, l','Jammed'],tags:'crimp peirce geometry',body:()=>`
@@ -2130,7 +2139,7 @@ ${(()=>{const mk=(fw,bw,w,h,title)=>{const rows=[],marks={};for(let p=0;p<h;p++)
 const pl=(e,p)=>(e+p)%2===0,t31=(e,p)=>mod(e-p,4)<3,t21=(e,p)=>mod(e-p,3)<2;
 return mk(pl,pl,8,8,'Plain / plain double cloth')+mk(pl,t31,16,16,'Plain face, 3/1 twill back')+mk(pl,t21,12,12,'Plain face, 2/1 twill back')+mk(t31,t31,16,16,'3/1 twill both layers');})()}
 </div>
-<div class="note">Read any face pick (rows 1, 3, 5 …): only face ends (columns 1, 3, 5 …) are lifted, in the face weave. Read any back pick (rows 2, 4 …): every face end is up (orange) and the back ends follow the back weave. Add a stitch by lifting one back end on a face pick where a face weft float would hide it.</div></div>`});
+<div class="note">Read any face pick (rows 1, 3, 5 …): only face ends (columns 1, 3, 5 …) are lifted, in the face weave. Read any back pick (rows 2, 4 …): every face end is up (orange) and the back ends follow the back weave. Add a stitch by lifting one back end on a face pick between two face ends that are also lifted, so the face warp on either side hides it.</div></div>`});
 
 
 (function(){
