@@ -67,7 +67,7 @@ function runQuiz(Q) {
   function finish() {
     const p = Math.round(state.score / n * 100), [g, w] = grade(p);
     const prev = store.get() || {}; const best = Math.max(prev.best || 0, p); store.set({ best, last: p, when: Date.now() });
-    const nx = Q.embed ? (Q.idx < 5 ? `<a class="qbtn primary" href="#" data-quiz="${Q.lecture.id}:${Q.idx + 1}">Next quiz →</a>` : `<a class="qbtn primary" href="#" data-go="${Q.lecture.id}">Back to the lecture</a>`)
+    const nx = Q.embed ? (Q.idx < 5 ? `<a class="qbtn primary" data-quiz="${Q.lecture.id}:${Q.idx + 1}">Next quiz →</a>` : `<a class="qbtn primary" data-go="${Q.lecture.id}">Back to the lecture</a>`)
       : Q.nav.next ? `<a class="qbtn primary" href="${Q.nav.next}">Next quiz →</a>` : `<a class="qbtn primary" href="${Q.lecture.url}">Back to the lecture</a>`;
     document.getElementById('qresult').innerHTML = `<div class="qgrade g${g}"><div class="big">${g}</div><div><div class="pct">${p}% — ${state.score} of ${n} correct</div><div class="word">${w}${best > p ? ` · best ${best}%` : ''}</div></div></div><div class="qactions"><button class="qbtn" id="qretry">Try again</button>${nx}</div>`;
     document.getElementById('qretry').onclick = () => { runQuiz(Q); const t = document.getElementById('quiz'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
