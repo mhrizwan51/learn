@@ -1,2 +1,6 @@
 _upload/
 .DS_Store
+
+# Files saved by the Claude desktop app; not part of the site
+Claude outputs/
+.DS_Store
