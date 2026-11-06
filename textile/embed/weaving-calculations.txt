@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Textile Lecture Companion — Rizwan Zubair</title>
+<style>
+:root{
+  --bg:#f4f6f9; --panel:#ffffff; --ink:#1c2433; --mut:#5b6678; --line:#dde3ec; --line2:#c5cedb;
+  --tc:#0f766e; --tc2:#ccfbf1; --fd:#4338ca; --fd2:#e0e7ff; --wc:#b45309; --wc2:#fef3c7;
+  --acc:#0f766e; --acc2:#ccfbf1;
+  --in:#1d4ed8; --fx:#111827; --cell-in:#ffffff; --cell-fx:#f7f8fa; --cell-head:#eef2f7; --grid:#cfd6e0;
+  --warp:#1e3a8a; --weft:#e5e7eb; --sh:0 1px 2px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.6;display:flex;min-height:100vh}
+a{color:var(--acc)}
+/* layout */
+#side{width:300px;flex:none;background:#111827;color:#e5e7eb;display:flex;flex-direction:column;height:100vh;position:sticky;top:0}
+#side .brand{padding:18px 18px 10px;border-bottom:1px solid #1f2937}
+#side .brand b{display:block;font-size:17px;letter-spacing:.2px}
+#side .brand span{font-size:12.5px;color:#9ca3af}
+#side .search{padding:10px 14px}
+#side .search input{width:100%;padding:8px 10px;border-radius:8px;border:1px solid #374151;background:#0b1220;color:#e5e7eb;font-size:13.5px}
+#nav{overflow:auto;flex:1;padding:4px 8px 24px}
+#nav .course{margin:8px 0}
+#nav .course>button{width:100%;text-align:left;background:none;border:0;color:#f9fafb;font-weight:600;font-size:13.5px;padding:8px 10px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px}
+#nav .course>button .dot{width:10px;height:10px;border-radius:50%}
+#nav .course>button .cnt{margin-left:auto;color:#9ca3af;font-weight:400;font-size:12px}
+#nav .course.closed .list{display:none}
+#nav .list a{display:block;color:#cbd5e1;text-decoration:none;font-size:13px;padding:5px 10px 5px 28px;border-radius:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nav .list a:hover{background:#1f2937;color:#fff}
+#nav .list a.active{background:#1f2937;color:#fff;box-shadow:inset 3px 0 0 var(--acc)}
+#nav .list a .n{display:inline-block;min-width:26px;margin-right:6px;font-size:11.5px;color:#9ca3af;font-variant-numeric:tabular-nums}
+#nav .list a.hidden{display:none}
+#main{flex:1;min-width:0}
+#top{position:sticky;top:0;z-index:5;background:rgba(244,246,249,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 28px;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--mut)}
+#top .crumb b{color:var(--ink)}
+#top .spacer{flex:1}
+#top button{border:1px solid var(--line2);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--ink)}
+#top button:hover{border-color:var(--acc);color:var(--acc)}
+#page{max-width:1080px;margin:0 auto;padding:28px 28px 80px}
+#menubtn{display:none}
+/* lecture header */
+.lhead{border-radius:16px;padding:26px 28px;color:#fff;background:linear-gradient(135deg,var(--acc),#0b3a36);box-shadow:var(--sh);margin-bottom:22px;position:relative;overflow:hidden}
+.lhead:after{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+.lhead .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.lhead h1{margin:6px 0 4px;font-size:30px;line-height:1.15;font-weight:700}
+.lhead .sub{opacity:.9;font-size:15px;max-width:760px}
+.lhead .chips{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.lhead .chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:3px 10px;border-radius:999px;font-size:12px}
+/* content blocks */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0;box-shadow:var(--sh)}
+.card h2{margin:0 0 10px;font-size:19px}
+.card h3{margin:16px 0 6px;font-size:16px}
+.card p{margin:8px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14.5px}
+.kv b{color:var(--mut);font-weight:600}
+.note{border-left:4px solid var(--acc);background:var(--acc2);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:14.5px}
+.warn{border-left:4px solid #d97706;background:#fef3c7;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:14.5px}
+.formula{font-family:"Cambria Math",Georgia,serif;font-size:16.5px;background:#f8fafc;border:1px dashed var(--line2);padding:8px 14px;border-radius:8px;display:inline-block;margin:6px 0}
+.def dt{font-weight:700;margin-top:10px}
+.def dd{margin:2px 0 0 0;color:var(--ink)}
+.steps{counter-reset:s;padding-left:0;list-style:none}
+.steps li{position:relative;padding-left:40px;margin:10px 0}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+table.plain{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+table.plain th,table.plain td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+table.plain th{background:var(--cell-head);font-weight:600}
+table.plain td.r,table.plain th.r{text-align:right;font-variant-numeric:tabular-nums}
+.srcl{display:flex;flex-wrap:wrap;gap:8px}.srcl a{display:inline-block;background:#fff;border:1px solid var(--acc);color:var(--acc);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:13.5px;font-weight:600}.srcl a:hover{background:var(--acc2)}.srcul{padding-left:18px;font-size:13.5px;line-height:1.7}.srcul a{color:var(--ink)}.srcul a:hover{color:var(--acc)}
+a[data-go]{cursor:pointer}p a[data-go],.note a[data-go],td a[data-go]{color:var(--acc);text-decoration:underline}
+.tag{display:inline-block;background:var(--acc2);color:var(--acc);padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;margin-right:6px}
+.pn{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+.pn a{flex:1;text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 16px;color:var(--ink)}
+.pn a small{display:block;color:var(--mut);font-size:12px}
+.pn a:hover{border-color:var(--acc)}
+.pn a.next{text-align:right}
+/* excel-style sheet */
+.xl{margin:14px 0;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:#fff;box-shadow:var(--sh)}
+.xl .bar{display:flex;align-items:center;gap:8px;background:#f1f3f6;border-bottom:1px solid var(--line2);padding:6px 10px;font-size:13px}
+.xl .bar .title{font-weight:700;color:var(--ink)}
+.xl .bar .nb{margin-left:auto;background:#fff;border:1px solid var(--line2);border-radius:4px;padding:2px 8px;font-family:Consolas,Menlo,monospace;font-size:12px;min-width:60px;color:var(--mut)}
+.xl .bar .fxb{flex:1;background:#fff;border:1px solid var(--line2);border-radius:4px;padding:2px 8px;font-family:Consolas,Menlo,monospace;font-size:12.5px;color:#111;min-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xl .bar .fxb:before{content:"fx";color:#9ca3af;margin-right:8px;font-style:italic;font-family:Georgia,serif}
+.xl .wrap{overflow:auto}
+.xl table{border-collapse:collapse;font-size:13.5px;font-family:Calibri,"Segoe UI",Arial,sans-serif;min-width:100%}
+.xl th{background:var(--cell-head);color:#4b5563;font-weight:600;border:1px solid var(--grid);padding:3px 8px;text-align:center;font-size:12px;position:sticky;top:0;z-index:1}
+.xl td{border:1px solid var(--grid);padding:4px 9px;white-space:nowrap;height:28px;background:#fff}
+.xl td.rn{background:var(--cell-head);color:#6b7280;text-align:center;font-size:12px;width:34px;padding:0}
+.xl td.lbl{color:var(--ink)}
+.xl td.hd{font-weight:700;background:#fafafa}
+.xl td.sec{font-weight:700;background:#e8eef7;color:#1e3a5f}
+.xl td.num{text-align:right;font-variant-numeric:tabular-nums}
+.xl td.fx{background:var(--cell-fx);color:var(--fx);cursor:cell}
+.xl td.fx.tot{font-weight:700;border-top:2px solid #374151}
+.xl td.fx.neg{color:#b91c1c}
+.xl td.fx.focus{outline:2px solid #107c41;outline-offset:-2px}
+.xl td.in{padding:0;background:var(--cell-in)}
+.xl td.in input,.xl td.in select{width:100%;height:28px;border:0;padding:4px 9px;font:inherit;color:var(--in);text-align:right;background:#fffef5;outline:none}
+.xl td.in input:focus,.xl td.in select:focus{outline:2px solid #107c41;outline-offset:-2px;background:#fff}
+.xl td.in select{text-align:left}
+.xl td.unit{color:var(--mut);font-size:12.5px}
+.xl .legend{font-size:12px;color:var(--mut);padding:5px 10px;border-top:1px solid var(--line);display:flex;gap:16px;background:#fafbfc}
+.xl .legend i{display:inline-block;width:12px;height:12px;border:1px solid var(--grid);vertical-align:-2px;margin-right:4px}
+/* weave */
+.wv{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;margin:12px 0}
+.wv .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--sh)}
+.wv .box h4{margin:0 0 8px;font-size:13px;color:var(--mut);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.wv svg{display:block}
+.hexin{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:10px 0}
+.hexin label{font-size:12.5px;color:var(--mut);display:block}
+.hexin input,.hexin textarea{font-family:Consolas,Menlo,monospace;font-size:13.5px;padding:7px 9px;border:1px solid var(--line2);border-radius:8px}
+.hexin textarea{width:100%;min-height:60px}
+.hexin button,.btn{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:13.5px;cursor:pointer}
+.btn.sec{background:#fff;color:var(--acc);border:1px solid var(--acc)}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px;border:1px solid rgba(0,0,0,.15)}
+/* home */
+.hero{border-radius:18px;padding:34px 36px;background:linear-gradient(120deg,#0f172a,#1e3a5f 60%,#0f766e);color:#fff;box-shadow:var(--sh)}
+.hero h1{margin:0 0 8px;font-size:34px}
+.hero p{margin:0;opacity:.9;max-width:720px}
+.courses{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.cc{border-radius:14px;padding:18px;color:#fff;text-decoration:none;box-shadow:var(--sh);display:block}
+.cc h3{margin:0 0 6px;font-size:18px}
+.cc p{margin:0;font-size:13.5px;opacity:.92}
+.cc .m{margin-top:10px;font-size:12px;opacity:.85}
+.outline{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.outline a{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.outline a:hover{border-color:var(--acc)}
+.outline a .n{color:var(--mut);font-size:12px;display:block}
+.outline a.na{opacity:.55;cursor:default}
+.chart{width:100%;height:auto}
+/* course theming */
+body.tc{--acc:var(--tc);--acc2:var(--tc2)}
+body.fd{--acc:var(--fd);--acc2:var(--fd2)}
+body.wc{--acc:var(--wc);--acc2:var(--wc2)}
+body.tc .lhead{background:linear-gradient(135deg,#0f766e,#134e4a)}
+body.fd .lhead{background:linear-gradient(135deg,#4338ca,#312e81)}
+body.wc .lhead{background:linear-gradient(135deg,#b45309,#78350f)}
+@media(min-width:901px){#side{position:fixed;left:0;top:0;bottom:0;height:auto}#main{margin-left:300px}}
+body.tall #side{height:auto;position:relative;align-self:stretch;bottom:auto}
+body.tall #main{margin-left:0}
+body.tall #nav{overflow:visible;flex:none}
+body.tall #nav .course.closed .list{display:block}
+body.tall #side .brand{position:relative}
+@media(min-width:901px){#menubtn{display:inline-block}html.hide #side{display:none}html.hide #main{margin-left:0}html.hide #page{max-width:1240px}}
+@media(max-width:900px){
+  body{flex-direction:column}
+  #side{position:fixed;left:-320px;top:0;transition:left .2s;z-index:20;width:300px}
+  #side.open{left:0}
+  #menubtn{display:inline-block}
+  #page{padding:16px}
+  .grid2,.grid3,.courses{grid-template-columns:1fr}
+  .lhead h1{font-size:24px}
+}
+@media print{#side,#top{display:none}#page{max-width:none}}
+</style>
+<link rel="stylesheet" href="https://learn.rizwanzubair.net/textile/quiz.css">
+</head>
+<body>
+<script>var START="wc";</script>
+<aside id="side">
+  <div class="brand"><b>Textile Lecture Companion</b><span>Muhammad Rizwan Zubair · rizwanzubair.net</span></div>
+  <div class="search"><input id="q" placeholder="Search lectures…" autocomplete="off"></div>
+  <nav id="nav"></nav>
+</aside>
+<div id="main">
+  <div id="top"><button id="menubtn">☰ Lectures</button><span class="crumb" id="crumb"></span><span class="spacer"></span><button id="prevbtn">← Prev</button><button id="nextbtn">Next →</button></div>
+  <div id="page"></div>
+</div>
+<script>
+/* ---------- registry ---------- */
+const COURSES={
+  tc:{name:'Textile Costing',short:'Costing',color:'#0f766e',desc:'Financial and managerial accounting applied to spinning, weaving, dyeing, printing and stitching — from the accounting equation to a full product costing.',meta:'26 lectures · 40 live worksheets'},
+  fd:{name:'Fabric Design',short:'Fabric Design',color:'#4338ca',desc:'Woven structures on point paper: plain, twill, satin and their derivatives, drafting, hexadecimal design notation, cords, piqué, double cloth, colour-and-weave and fabric analysis.',meta:'21 lectures · 72 weave diagrams'},
+  wc:{name:'Weaving Calculations',short:'Weaving Calc.',color:'#b45309',desc:'Yarn counts, fabric weight, warping, sizing, beams, reeds, cover factor, crimp, loom production, planning and feasibility of a weaving plant.',meta:'21 pages covering 28 lectures · 30 live worksheets'}
+};
+const L=[]; // lectures in order
+function lecture(o){L.push(o);}
+/* ---------- helpers ---------- */
+const fmt=(v,f)=>{
+  if(typeof v==='string')return v;
+  if(v===undefined||v===null||Number.isNaN(v)||!isFinite(v))return '–';
+  f=f||'#,##0.00';
+  if(typeof v==='string')return v;
+  if(f==='txt')return v;
+  let pct=f.endsWith('%'),d=0;const m=f.match(/\.(0+)/);if(m)d=m[1].length;
+  let x=pct?v*100:v;let s=Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+  if(!f.includes(','))s=s.replace(/,/g,'');
+  if(x<0)s='('+s+')';
+  return s+(pct?'%':'');
+};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let pending=[];let uid=0;
+/* ---------- Excel-style sheet ----------
+ spec: {title, cols:[widths], rows:[ [cell,...], ... ], legend}
+ cell: string (label) | {t:'label',cls} | {in:'name',v:default,fmt,unit,opts:[...]} | {f:(v)=>number,n:'name',fx:'=A1*B2',fmt,tot,unit} | {h:'header'} | {s:'section'} | null
+*/
+function S(spec){const id='xl'+(++uid);pending.push({t:'sheet',id,spec});return `<div class="xl" id="${id}"></div>`;}
+function mountSheet(id,spec){
+  const el=document.getElementById(id);if(!el)return;
+  const v={};const inputs=[];const fxCells=[];
+  const ncol=Math.max(...spec.rows.map(r=>r.length));
+  const colL=i=>String.fromCharCode(65+i);
+  let h=`<div class="bar"><span class="title">${esc(spec.title||'Sheet')}</span><span class="nb" id="${id}_nb"></span><span class="fxb" id="${id}_fx"></span></div><div class="wrap"><table><thead><tr><th></th>`;
+  for(let c=0;c<ncol;c++)h+=`<th${spec.cols&&spec.cols[c]?` style="min-width:${spec.cols[c]}px"`:''}>${colL(c)}</th>`;
+  h+='</tr></thead><tbody>';
+  spec.rows.forEach((row,ri)=>{
+    h+=`<tr><td class="rn">${ri+1}</td>`;
+    for(let c=0;c<ncol;c++){
+      const cell=row[c];const ref=colL(c)+(ri+1);
+      if(cell===undefined||cell===null){h+='<td></td>';continue;}
+      if(typeof cell==='string'){h+=`<td class="lbl">${cell}</td>`;continue;}
+      if(cell.h!==undefined){h+=`<td class="hd">${cell.h}</td>`;continue;}
+      if(cell.s!==undefined){h+=`<td class="sec" colspan="${cell.span||1}">${cell.s}</td>`;continue;}
+      if(cell.t!==undefined){h+=`<td class="lbl ${cell.cls||''}">${cell.t}</td>`;continue;}
+      if(cell.u!==undefined){h+=`<td class="unit">${cell.u}</td>`;continue;}
+      if(cell.in!==undefined){
+        v[cell.in]=cell.v;
+        if(cell.opts){h+=`<td class="in" data-ref="${ref}"><select data-in="${cell.in}">${cell.opts.map(o=>`<option value="${esc(o)}"${o==cell.v?' selected':''}>${esc(o)}</option>`).join('')}</select></td>`;}
+        else h+=`<td class="in" data-ref="${ref}"><input data-in="${cell.in}" data-fmt="${cell.fmt||''}" value="${cell.fmt&&cell.fmt.endsWith('%')?parseFloat((cell.v*100).toPrecision(12)):cell.v}"${cell.step?` step="${cell.step}"`:''}></td>`;
+        continue;}
+      if(cell.f){h+=`<td class="num fx${cell.tot?' tot':''}" data-ref="${ref}" data-fx="${esc(cell.fx||'')}" id="${id}_c${ri}_${c}"></td>`;fxCells.push({ri,c,cell});continue;}
+      h+='<td></td>';
+    }
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+  if(spec.legend!==false)h+=`<div class="legend"><span><i style="background:#fffef5"></i>blue = input (edit me)</span><span><i style="background:#f7f8fa"></i>grey = formula (click to see it)</span>${spec.note?`<span>${spec.note}</span>`:''}</div>`;
+  el.innerHTML=h;
+  const fxb=document.getElementById(id+'_fx'),nb=document.getElementById(id+'_nb');
+  function recalc(){
+    el.querySelectorAll('[data-in]').forEach(i=>{const n=i.dataset.in;if(i.tagName==='SELECT'){v[n]=i.value;return;}let x=parseFloat(i.value.replace(/,/g,''));if(isNaN(x))x=0;if((i.dataset.fmt||'').endsWith('%'))x=x/100;v[n]=x;});
+    fxCells.forEach(({ri,c,cell})=>{let val;try{val=cell.f(v);}catch(e){val=NaN;}if(cell.n)v[cell.n]=val;const td=document.getElementById(`${id}_c${ri}_${c}`);td.textContent=fmt(val,cell.fmt);td.classList.toggle('neg',typeof val==='number'&&val<0);});
+    if(spec.onchange)spec.onchange(v);
+  }
+  el.addEventListener('input',recalc);
+  el.addEventListener('click',e=>{const td=e.target.closest('td[data-ref]');if(!td)return;el.querySelectorAll('.focus').forEach(x=>x.classList.remove('focus'));td.classList.add('focus');nb.textContent=td.dataset.ref;fxb.textContent=td.dataset.fx||(td.classList.contains('in')?'input value':'');});
+  el.addEventListener('focusin',e=>{const td=e.target.closest('td[data-ref]');if(td){nb.textContent=td.dataset.ref;fxb.textContent='input value';}});
+  recalc();
+}
+/* ---------- weave renderer ----------
+ W({hex:['$AAABFF',...], w:24, title, size:14, colors:[warp,weft], draft:true, effect:true})
+ hex list is written bottom-up: first code = first pick (bottom row of point paper). Bits MSB first = leftmost end.
+*/
+function decodeHex(hexes,w){
+  const rows=[];
+  hexes.forEach(hx=>{hx=String(hx).replace(/^\$/,'').trim();if(!hx)return;let bits='';for(const ch of hx){bits+=parseInt(ch,16).toString(2).padStart(4,'0');}
+    const need=Math.ceil(w/4)*4;bits=bits.padStart(need,'0');rows.push(bits.slice(0,w).split('').map(b=>b==='1'?1:0));});
+  return rows; // rows[0] = pick 1 (bottom)
+}
+function W(spec){const id='wv'+(++uid);pending.push({t:'weave',id,spec});return `<div id="${id}"></div>`;}
+function weaveSVGs(rows,spec){
+  const w=rows[0].length,hgt=rows.length,s=spec.size||16,pad=2;
+  const marks=spec.marks||{};
+  // point paper
+  let svg=`<svg width="${w*s+pad*2}" height="${hgt*s+pad*2}" viewBox="0 0 ${w*s+pad*2} ${hgt*s+pad*2}">`;
+  for(let p=0;p<hgt;p++){const y=pad+(hgt-1-p)*s;for(let e=0;e<w;e++){const x=pad+e*s;const up=rows[p][e];
+    let fill=up?'#1f2937':'#ffffff';const mk=marks[p+','+e];if(mk)fill=mk;
+    svg+=`<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="${fill}" stroke="#9ca3af" stroke-width=".6"/>`;}}
+  // repeat border every 8? draw thicker lines each 4
+  for(let e=4;e<w;e+=4)svg+=`<line x1="${pad+e*s}" y1="${pad}" x2="${pad+e*s}" y2="${pad+hgt*s}" stroke="#6b7280" stroke-width=".9"/>`;
+  for(let p=4;p<hgt;p+=4)svg+=`<line x1="${pad}" y1="${pad+(hgt-p)*s}" x2="${pad+w*s}" y2="${pad+(hgt-p)*s}" stroke="#6b7280" stroke-width=".9"/>`;
+  svg+='</svg>';
+  // fabric effect (tile 2x2 repeats if small)
+  const [cw,cf]=spec.colors||['#1e3a8a','#f3f4f6'];
+  const rep=spec.tile||(w*hgt<=400?2:1);const W2=w*rep,H2=hgt*rep,t=spec.esize||Math.max(6,Math.min(14,Math.floor(360/Math.max(W2,H2))));
+  let eff=`<svg width="${W2*t}" height="${H2*t}" viewBox="0 0 ${W2*t} ${H2*t}"><rect width="100%" height="100%" fill="#d1d5db"/>`;
+  const wc=i=>Array.isArray(cw)?cw[i%cw.length]:cw, fc=i=>Array.isArray(cf)?cf[i%cf.length]:cf;
+  for(let p=0;p<H2;p++){const y=(H2-1-p)*t;for(let e=0;e<W2;e++){const x=e*t;const up=rows[p%hgt][e%w];
+    if(up){eff+=`<rect x="${x+1}" y="${y}" width="${t-2}" height="${t}" fill="${wc(e)}" rx="1.5"/><rect x="${x+1}" y="${y}" width="${(t-2)/3}" height="${t}" fill="rgba(255,255,255,.25)"/>`;}
+    else{eff+=`<rect x="${x}" y="${y+1}" width="${t}" height="${t-2}" fill="${fc(p)}" rx="1.5"/><rect x="${x}" y="${y+1}" width="${t}" height="${(t-2)/3}" fill="rgba(255,255,255,.35)"/>`;}}}
+  eff+='</svg>';
+  return {svg,eff};
+}
+function draftOf(rows){ // returns {healds:[...per end], nh, lifting:[[...]]}
+  const w=rows[0].length,h=rows.length;const key=e=>rows.map(r=>r[e]).join('');const map=new Map();const healds=[];
+  for(let e=0;e<w;e++){const k=key(e);if(!map.has(k))map.set(k,map.size+1);healds.push(map.get(k));}
+  const nh=map.size;const lifting=rows.map(r=>{const l=[];for(let i=1;i<=nh;i++){const e=healds.indexOf(i);l.push(r[e]);}return l;});
+  return {healds,nh,lifting};
+}
+function mountWeave(id,spec){
+  const el=document.getElementById(id);if(!el)return;
+  const rows=spec.rows||decodeHex(spec.hex,spec.w);if(!rows.length){el.innerHTML='';return;}
+  const {svg,eff}=weaveSVGs(rows,spec);
+  let h=`<div class="wv">`;
+  h+=`<div class="box"><h4>${esc(spec.title||'Point paper')} · ${rows[0].length} ends × ${rows.length} picks</h4>${svg}</div>`;
+  if(spec.effect!==false)h+=`<div class="box"><h4>Fabric effect (${spec.tile||(rows[0].length*rows.length<=400?2:1)}× repeat)</h4>${eff}</div>`;
+  if(spec.draft){const d=draftOf(rows);const s=14,w=rows[0].length;let ds=`<svg width="${w*s+4}" height="${d.nh*s+4}">`;for(let e=0;e<w;e++)for(let k=0;k<d.nh;k++){ds+=`<rect x="${2+e*s}" y="${2+(d.nh-1-k)*s}" width="${s}" height="${s}" fill="${d.healds[e]===k+1?'#b45309':'#fff'}" stroke="#9ca3af" stroke-width=".6"/>`;}ds+='</svg>';
+    let ls=`<svg width="${d.nh*s+4}" height="${rows.length*s+4}">`;for(let p=0;p<rows.length;p++)for(let k=0;k<d.nh;k++){ls+=`<rect x="${2+k*s}" y="${2+(rows.length-1-p)*s}" width="${s}" height="${s}" fill="${d.lifting[p][k]?'#1f2937':'#fff'}" stroke="#9ca3af" stroke-width=".6"/>`;}ls+='</svg>';
+    h+=`<div class="box"><h4>Draft · ${d.nh} healds</h4>${ds}<div style="font-size:12px;color:var(--mut);margin-top:6px">Threading order: ${d.healds.join(' ')}</div></div><div class="box"><h4>Lifting (peg) plan</h4>${ls}</div>`;}
+  if(spec.caption)h+=`<div style="flex-basis:100%;font-size:13.5px;color:var(--mut)">${spec.caption}</div>`;
+  h+='</div>';el.innerHTML=h;
+}
+/* hex playground */
+function HEXBOX(def,w){const id='hx'+(++uid);pending.push({t:'hexbox',id,def,w});return `<div id="${id}"></div>`;}
+function mountHexbox(id,def,w){
+  const el=document.getElementById(id);
+  el.innerHTML=`<div class="hexin"><div style="flex:1"><label>Design in hexadecimal (one code per pick, first code = first pick at the bottom)</label><textarea id="${id}_t">${esc(def)}</textarea></div><div><label>Ends (width)</label><input id="${id}_w" type="number" value="${w}" style="width:90px"></div><div><label>Warp colour</label><input id="${id}_c1" type="color" value="#1e3a8a"></div><div><label>Weft colour</label><input id="${id}_c2" type="color" value="#f3f4f6"></div><div><button id="${id}_b">Draw</button></div></div><div id="${id}_o"></div>`;
+  const draw=()=>{const codes=document.getElementById(id+'_t').value.split(/[\s,]+/).filter(Boolean);const ww=parseInt(document.getElementById(id+'_w').value)||8;
+    const rows=decodeHex(codes,ww);const o=document.getElementById(id+'_o');if(!rows.length){o.innerHTML='';return;}
+    const c1=document.getElementById(id+'_c1').value,c2=document.getElementById(id+'_c2').value;
+    o.innerHTML='';const tmp=document.createElement('div');tmp.id=id+'_wv';o.appendChild(tmp);mountWeave(id+'_wv',{rows,title:'Your design',draft:true,colors:[c1,c2]});};
+  document.getElementById(id+'_b').onclick=draw;draw();
+}
+/* simple SVG chart: {w,h,series:[{pts:[[x,y]],color,label}],xl,yl, xmax,ymax} */
+function CH(spec){const id='ch'+(++uid);pending.push({t:'chart',id,spec});return `<div id="${id}"></div>`;}
+function chartSVG(spec){
+  const w=spec.w||560,h=spec.h||300,m={l:56,r:16,t:16,b:40};const xs=[],ys=[];spec.series.forEach(s=>s.pts.forEach(p=>{xs.push(p[0]);ys.push(p[1]);}));
+  const xmin=spec.xmin??0,xmax=spec.xmax??Math.max(...xs),ymin=spec.ymin??Math.min(0,...ys),ymax=spec.ymax??Math.max(...ys);
+  const X=x=>m.l+(x-xmin)/(xmax-xmin||1)*(w-m.l-m.r),Y=y=>h-m.b-(y-ymin)/(ymax-ymin||1)*(h-m.t-m.b);
+  let s=`<svg class="chart" viewBox="0 0 ${w} ${h}" style="max-width:${w}px">`;
+  for(let i=0;i<=5;i++){const y=ymin+(ymax-ymin)*i/5;s+=`<line x1="${m.l}" x2="${w-m.r}" y1="${Y(y)}" y2="${Y(y)}" stroke="#e5e7eb"/><text x="${m.l-6}" y="${Y(y)+4}" font-size="11" text-anchor="end" fill="#6b7280">${fmt(y,spec.yfmt||'#,##0')}</text>`;}
+  for(let i=0;i<=5;i++){const x=xmin+(xmax-xmin)*i/5;s+=`<text x="${X(x)}" y="${h-m.b+16}" font-size="11" text-anchor="middle" fill="#6b7280">${fmt(x,spec.xfmt||'#,##0')}</text>`;}
+  s+=`<line x1="${m.l}" x2="${w-m.r}" y1="${Y(ymin)}" y2="${Y(ymin)}" stroke="#9ca3af"/>`;
+  if(spec.xl)s+=`<text x="${(m.l+w-m.r)/2}" y="${h-4}" font-size="12" text-anchor="middle" fill="#374151">${spec.xl}</text>`;
+  if(spec.yl)s+=`<text transform="translate(12,${(m.t+h-m.b)/2}) rotate(-90)" font-size="12" text-anchor="middle" fill="#374151">${spec.yl}</text>`;
+  spec.series.forEach((se,i)=>{const d=se.pts.map((p,j)=>(j?'L':'M')+X(p[0])+','+Y(p[1])).join(' ');s+=`<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2.4"/>`;if(se.label)s+=`<text x="${X(se.pts[se.pts.length-1][0])-4}" y="${Y(se.pts[se.pts.length-1][1])-6}" font-size="11.5" text-anchor="end" fill="${se.color}" font-weight="600">${se.label}</text>`;});
+  (spec.marks||[]).forEach(mk=>{s+=`<circle cx="${X(mk.x)}" cy="${Y(mk.y)}" r="5" fill="#fff" stroke="${mk.color||'#111'}" stroke-width="2.5"/><text x="${X(mk.x)+9}" y="${Y(mk.y)-9}" font-size="12" font-weight="700" fill="${mk.color||'#111'}">${mk.label||''}</text>`;});
+  return s+'</svg>';
+}
+/* mount all pending widgets */
+function mountAll(){pending.forEach(p=>{if(p.t==='sheet')mountSheet(p.id,p.spec);else if(p.t==='weave')mountWeave(p.id,p.spec);else if(p.t==='hexbox')mountHexbox(p.id,p.def,p.w);else if(p.t==='chart'){const e=document.getElementById(p.id);if(e)e.innerHTML=chartSVG(p.spec);}});pending=[];}
+/* ---------- router / render ---------- */
+function buildNav(){
+  const nav=document.getElementById('nav');let h='';
+  for(const k in COURSES){const c=COURSES[k];const ls=L.filter(l=>l.course===k);
+    h+=`<div class="course" data-c="${k}"><button data-go="${k}"><span class="dot" style="background:${c.color}"></span>${c.name}<span class="cnt" title="Show / hide the list">${ls.length}</span></button><div class="list">`;
+    ls.forEach(l=>h+=`<a data-go="${l.id}" data-id="${l.id}" data-s="${esc((l.n+' '+l.title+' '+(l.sub||'')+' '+(l.tags||'')).toLowerCase())}"><span class="n">${l.n}</span>${esc(l.title)}</a>`);
+    h+='</div></div>';}
+  nav.innerHTML=h;
+  nav.querySelectorAll('.course>button .cnt').forEach(b=>b.onclick=e=>{e.stopPropagation();b.closest('.course').classList.toggle('closed');});
+  document.getElementById('q').addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();nav.querySelectorAll('.list a').forEach(a=>a.classList.toggle('hidden',q&&!a.dataset.s.includes(q)));nav.querySelectorAll('.course').forEach(c=>{if(q)c.classList.remove('closed');});});
+}
+function home(){
+  let h=`<div class="hero"><div class="kicker" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8">Textile Engineering · University lectures</div><h1>Textile Lecture Companion</h1><p>Three complete courses by Muhammad Rizwan Zubair rebuilt as interactive web pages: every worksheet is a live spreadsheet you can edit, every weave is drawn on point paper, and every calculation explains itself. Pick a course to begin, or use the search box on the left.</p></div><div class="courses">`;
+  for(const k in COURSES){const c=COURSES[k];h+=`<a class="cc" data-go="${k}" style="background:linear-gradient(135deg,${c.color},#111827)"><h3>${c.name}</h3><p>${c.desc}</p><div class="m">${c.meta}</div></a>`;}
+  h+='</div>';
+  for(const k in COURSES){h+=`<div class="card"><h2 style="color:${COURSES[k].color}">${COURSES[k].name} — lecture index</h2><div class="outline">`;L.filter(l=>l.course===k).forEach(l=>h+=`<a data-go="${l.id}"><span class="n">Lecture ${l.n}</span>${esc(l.title)}</a>`);h+='</div></div>';}
+  h+=srcIndex();
+  h+=`<div class="card"><h2>How to use this file</h2><p>Everything runs locally in your browser — no internet needed. In the spreadsheet blocks, cells with <b style="color:var(--in)">blue numbers</b> are inputs: change them and every dependent cell recalculates, exactly as in Excel. Click a grey cell to see its formula in the formula bar. Weave diagrams follow the hexadecimal notation taught in Fabric Design Lecture 10: one hexadecimal number per pick, the first number being the bottom pick, a “1” bit meaning the warp end is lifted.</p></div>`;
+  return h;
+}
+function coursePage(k){const c=COURSES[k];const ls=L.filter(l=>l.course===k);
+  let h=`<div class="hero" style="background:linear-gradient(135deg,${c.color},#111827)"><div class="kicker" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8">Textile Engineering · University course</div><h1>${c.name}</h1><p>${c.desc}</p><p style="margin-top:12px;font-size:13.5px;opacity:.9">${c.meta}. Every worksheet is live: blue figures are inputs, grey cells recalculate. Click a lecture below or use the list on the left.</p><p style="margin-top:14px"><a data-go="${ls[0].id}" class="btn" style="background:#fff;color:${c.color};text-decoration:none;display:inline-block">Start with Lecture ${ls[0].n} →</a></p></div>`;
+  h+=`<div class="card"><h2 style="color:${c.color}">Lectures</h2><div class="outline">`;ls.forEach(l=>h+=`<a data-go="${l.id}"><span class="n">Lecture ${l.n}</span>${esc(l.title)}<div style="font-size:12px;color:var(--mut);margin-top:4px">${esc(l.sub||'').slice(0,110)}${(l.sub||'').length>110?'…':''}</div></a>`);h+='</div></div>';
+  h+=`<div class="card"><h2>Original lecture files</h2><p>${OLDPAGES[k]?`The classic course page with all the original lecture files is still available: <a href="${OLDPAGES[k]}" target="_blank" rel="noopener">${c.name} — all lecture files ↗</a>.`:''} ${FOLDERS[k]&&FOLDERS[k]!==OLDPAGES[k]?`The Google Drive folder of the course: <a href="${FOLDERS[k]}" target="_blank" rel="noopener">open folder ↗</a>.`:''}</p><div class="srcl">${ls.filter(l=>SRC[l.id]).map(l=>SRC[l.id].map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${l.n} · ${x[0]} ↗</a>`).join('')).join('')}</div></div>`;
+  return h;}
+var START=typeof START==='undefined'?'':START;
+let CUR=location.hash.replace('#','')||START;
+function go(id){CUR=id;try{if(location.href.indexOf('about:')!==0&&!location.href.startsWith('blob:'))history.replaceState(null,'','#'+id);}catch(e){}render();}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(!a)return;e.preventDefault();go(a.dataset.go);});
+function render(){
+  const hash=CUR;const page=document.getElementById('page');
+  const idx=L.findIndex(l=>l.id===hash);
+  document.body.className=idx>=0?L[idx].course:'';
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('active',a.dataset.id===hash));
+  if(idx<0&&COURSES[hash]){document.body.className=hash;page.innerHTML=coursePage(hash);document.getElementById('crumb').innerHTML=`<a data-go="" style="color:var(--mut);text-decoration:none;cursor:pointer">Home</a> › <b style="color:${COURSES[hash].color}">${COURSES[hash].name}</b>`;document.getElementById('prevbtn').style.visibility='hidden';const nb=document.getElementById('nextbtn');nb.style.visibility='visible';nb.onclick=()=>go(L.find(l=>l.course===hash).id);document.querySelectorAll('#nav .course').forEach(c=>c.classList.toggle('closed',c.dataset.c!==hash));}
+  else if(idx<0){page.innerHTML=home();document.getElementById('crumb').innerHTML='<b>Home</b>';document.getElementById('prevbtn').style.visibility='hidden';document.getElementById('nextbtn').style.visibility='hidden';}
+  else{const l=L[idx];const c=COURSES[l.course];
+    let h=`<div class="lhead"><div class="kicker">${c.name} · Lecture ${l.n}</div><h1>${esc(l.title)}</h1><div class="sub">${l.sub||''}</div>${l.chips?`<div class="chips">${l.chips.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`:''}</div>`;
+    try{h+=l.body();}catch(e){h+=`<div class="warn">Could not render this lecture: ${esc(e.message)}</div>`;console.error(e);}
+    h+=srcBox(l.id);
+    const prev=L[idx-1],next=L[idx+1];
+    h+=`<div class="pn">${prev?`<a data-go="${prev.id}"><small>← Previous · ${COURSES[prev.course].short} ${prev.n}</small>${esc(prev.title)}</a>`:'<span style="flex:1"></span>'}${next?`<a class="next" data-go="${next.id}"><small>Next · ${COURSES[next.course].short} ${next.n} →</small>${esc(next.title)}</a>`:'<span style="flex:1"></span>'}</div>`;
+    page.innerHTML=h;mountAll();if(window.quizBest)quizBest();
+    document.getElementById('crumb').innerHTML=`<a data-go="" style="color:var(--mut);text-decoration:none">Home</a> › <a data-go="${l.course}" style="color:${c.color};text-decoration:none">${c.name}</a> › <b>Lecture ${l.n}</b>`;
+    const pb=document.getElementById('prevbtn'),nb=document.getElementById('nextbtn');pb.style.visibility=prev?'visible':'hidden';nb.style.visibility=next?'visible':'hidden';pb.onclick=()=>go(prev.id);nb.onclick=()=>go(next.id);
+    const act=document.querySelector('#nav a.active');if(act)act.scrollIntoView({block:'nearest'});
+  }
+  window.scrollTo(0,0);document.getElementById('side').classList.remove('open');
+}
+window.addEventListener('hashchange',()=>{CUR=location.hash.replace('#','');render();});
+(function(){const b=document.getElementById('menubtn'),R=document.documentElement;
+function lab(){b.textContent=innerWidth>900&&!R.classList.contains('hide')?'« Hide list':'☰ Lectures';}
+if(START)R.classList.add('hide');lab();addEventListener('resize',lab);
+b.onclick=()=>{if(innerWidth>900){R.classList.toggle('hide');lab();}else document.getElementById('side').classList.toggle('open');};})();
+</script>
+<script src="https://learn.rizwanzubair.net/textile/sketches.js"></script>
+<script src="https://learn.rizwanzubair.net/textile/quiz.js"></script>
+<script src="https://learn.rizwanzubair.net/textile/embed/lectures.js"></script>
+<script>buildNav();render();(function(){function fit(){document.body.classList.toggle('tall',innerWidth>900&&innerHeight>screen.height+40);}fit();addEventListener('resize',fit);new MutationObserver(function(){if(!document.body.classList.contains('tall'))fit();}).observe(document.body,{attributes:true,attributeFilter:['class']});})();
+</script>
+</body>
+</html>
