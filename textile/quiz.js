@@ -2,7 +2,7 @@
    Expects: window.QUIZ = {lecture:{id,course,title,n,url}, idx:1..5, quiz:{title,level,questions:[...]}, all:[{title,level}], nav:{prev,next}}
    Question: {type:'mc'|'tf'|'num', q, sketch?, options?, answer, tol?, unit?, explain} */
 (function () {
-  const Q = window.QUIZ; if (!Q) return;
+function runQuiz(Q) {
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const key = 'quiz:' + Q.lecture.id + ':' + Q.idx;
   const store = {
@@ -28,12 +28,12 @@
     });
     h += `<div class="qresult" id="qresult"></div>`;
     root.innerHTML = h;
-    root.addEventListener('click', e => {
+    root.onclick = (e => {
       const b = e.target.closest('.qopt'); if (b) return answer(+b.dataset.q, +b.dataset.o);
       const c = e.target.closest('.qcheck'); if (c) return answerNum(+c.dataset.q);
     });
-    root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('qin')) answerNum(+e.target.id.slice(3)); });
-    const prev = store.get(); if (prev && prev.best != null) document.getElementById('qbest').textContent = `Best so far: ${prev.best}%`;
+    root.onkeydown = e => { if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('qin')) answerNum(+e.target.id.slice(3)); };
+    const prev = store.get(), qb = document.getElementById('qbest'); if (qb && prev && prev.best != null) qb.textContent = `Best so far: ${prev.best}%`;
     const sk = document.getElementById('qsketch'); if (sk && Q.quiz.sketch && typeof FIG === 'function') sk.innerHTML = FIG(Q.quiz.sketch, '');
   }
   function parseNum(s) { s = String(s).trim().replace(/,/g, '').replace(/%$/, '').replace(/^rs\.?\s*/i, ''); if (!s) return NaN; const m = s.match(/^(-?\d*\.?\d+)\s*\/\s*(-?\d*\.?\d+)$/); if (m) return +m[1] / +m[2]; return Number(s); }
@@ -67,15 +67,21 @@
   function finish() {
     const p = Math.round(state.score / n * 100), [g, w] = grade(p);
     const prev = store.get() || {}; const best = Math.max(prev.best || 0, p); store.set({ best, last: p, when: Date.now() });
-    const nx = Q.nav.next ? `<a class="qbtn primary" href="${Q.nav.next}">Next quiz →</a>` : `<a class="qbtn primary" href="${Q.lecture.url}">Back to the lecture</a>`;
-    document.getElementById('qresult').innerHTML = `<div class="qgrade g${g}"><div class="big">${g}</div><div><div class="pct">${p}% — ${state.score} of ${n} correct</div><div class="word">${w}${best > p ? ` · best ${best}%` : ''}</div></div></div><div class="qactions"><button class="qbtn" onclick="location.reload()">Try again</button>${nx}</div>`;
+    const nx = Q.embed ? (Q.idx < 5 ? `<a class="qbtn primary" href="#" data-quiz="${Q.lecture.id}:${Q.idx + 1}">Next quiz →</a>` : `<a class="qbtn primary" href="#" data-go="${Q.lecture.id}">Back to the lecture</a>`)
+      : Q.nav.next ? `<a class="qbtn primary" href="${Q.nav.next}">Next quiz →</a>` : `<a class="qbtn primary" href="${Q.lecture.url}">Back to the lecture</a>`;
+    document.getElementById('qresult').innerHTML = `<div class="qgrade g${g}"><div class="big">${g}</div><div><div class="pct">${p}% — ${state.score} of ${n} correct</div><div class="word">${w}${best > p ? ` · best ${best}%` : ''}</div></div></div><div class="qactions"><button class="qbtn" id="qretry">Try again</button>${nx}</div>`;
+    document.getElementById('qretry').onclick = () => { runQuiz(Q); const t = document.getElementById('quiz'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     document.getElementById('qresult').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+  render();
+}
+window.runQuiz = runQuiz;
+const Q = window.QUIZ; if (!Q) return;
   // sidebar: menu toggle + search filter (no app.js on quiz pages)
   const mb = document.getElementById('menubtn'), side = document.getElementById('side');
   if (mb) mb.onclick = () => side.classList.toggle('open');
   const qbox = document.getElementById('q');
   if (qbox) qbox.oninput = () => { const v = qbox.value.trim().toLowerCase(); document.querySelectorAll('#nav .list a').forEach(a => a.classList.toggle('hidden', v && !(a.dataset.s || '').includes(v))); document.querySelectorAll('#nav .course').forEach(c => c.classList.toggle('closed', false)); };
   document.querySelectorAll('#nav .course>button').forEach(b => b.onclick = () => b.parentElement.classList.toggle('closed'));
-  render();
+  runQuiz(Q);
 })();
