@@ -1,0 +1,53 @@
+/* figures in lectures */
+.fig{margin:16px 0 10px;padding:12px 10px 8px;background:#fffdf7;border:1px solid #ece6d4;border-radius:12px}
+.fig figcaption{margin-top:8px;font-size:13px;color:var(--mut);text-align:center;line-height:1.45}
+.fig svg.sk,.fig>svg{width:100%;max-width:560px;height:auto;display:block;margin:0 auto}
+.fig svg text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+/* quiz links card on lecture pages */
+.quizzes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.quizzes a{display:block;text-decoration:none;color:var(--ink);background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.35}
+.quizzes a:hover{border-color:var(--acc);background:var(--acc2)}
+.quizzes a b{display:block;color:var(--acc);font-size:12px;margin-bottom:2px}
+.quizzes a .best{display:block;margin-top:4px;font-size:12px;color:var(--mut)}
+/* quiz page */
+.qhead .lv{display:inline-block;background:var(--acc2);color:var(--acc);font-weight:600;font-size:12.5px;padding:2px 10px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.qtabs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.qtabs a{font-size:13px;text-decoration:none;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:#fff}
+.qtabs a.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+#qbest{font-size:13px;color:var(--mut);margin-top:6px}
+.qbar{position:sticky;top:46px;z-index:4;background:rgba(244,246,249,.95);backdrop-filter:blur(6px);padding:8px 0;display:flex;align-items:center;gap:14px}
+.qprog{flex:1;height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.qfill{height:100%;width:0;background:var(--acc);transition:width .3s}
+.qscore{font-size:13px;color:var(--mut);white-space:nowrap;font-variant-numeric:tabular-nums}
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:var(--sh);transition:border-color .2s}
+.qcard.ok{border-color:#16a34a}.qcard.bad{border-color:#dc2626}
+.qnum{font-size:12.5px;color:var(--mut);font-weight:600;letter-spacing:.3px;text-transform:uppercase;display:flex;justify-content:space-between}
+.qtype{font-weight:500;text-transform:none;letter-spacing:0}
+.qtext{font-size:16px;margin:8px 0 12px;line-height:1.55}
+.qfig{margin:0 0 12px}.qfig .fig{margin:0}
+.qopts{display:grid;gap:8px}
+.qopts.tf{grid-template-columns:1fr 1fr;max-width:360px}
+.qopt{text-align:left;background:#f8fafc;border:1px solid var(--line2);border-radius:10px;padding:10px 14px;font-size:15px;cursor:pointer;color:var(--ink);line-height:1.4;font-family:inherit}
+.qopt:hover:not(:disabled){border-color:var(--acc);background:var(--acc2)}
+.qopt:disabled{cursor:default;opacity:.75}
+.qopt.right{background:#dcfce7;border-color:#16a34a;opacity:1;font-weight:600}
+.qopt.wrong{background:#fee2e2;border-color:#dc2626;opacity:1;text-decoration:line-through}
+.qnum-in{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qnum-in input{font-size:16px;padding:9px 12px;border:1px solid var(--line2);border-radius:10px;width:200px;font-family:inherit}
+.qnum-in .unit{color:var(--mut);font-size:14px}
+.qcheck,.qbtn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-size:14.5px;font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit}
+.qcheck:disabled{opacity:.5;cursor:default}
+.qbtn{background:#fff;color:var(--acc);border:1px solid var(--acc)}.qbtn.primary{background:var(--acc);color:#fff}
+.qfb{margin-top:10px;font-size:14.5px;line-height:1.5;display:none;padding:10px 14px;border-radius:10px}
+.qfb.ok,.qfb.bad,.qfb.hint{display:block}
+.qfb.ok{background:#f0fdf4;color:#14532d}.qfb.bad{background:#fef2f2;color:#7f1d1d}.qfb.hint{background:#fffbeb;color:#78350f}
+.qfb .exp{color:var(--ink);display:block;margin-top:4px}
+.qresult{margin:22px 0}
+.qgrade{display:flex;align-items:center;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px;box-shadow:var(--sh)}
+.qgrade .big{font-size:52px;font-weight:800;line-height:1;width:72px;text-align:center;border-radius:14px;padding:8px 0;color:#fff;background:#6b7280}
+.qgrade.gA .big{background:#16a34a}.qgrade.gB .big{background:#0f766e}.qgrade.gC .big{background:#d97706}.qgrade.gD .big{background:#ea580c}.qgrade.gF .big{background:#dc2626}
+.qgrade .pct{font-size:19px;font-weight:700}.qgrade .word{color:var(--mut);margin-top:2px}
+.qactions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+@media(max-width:640px){.qbar{top:42px}.qopts.tf{max-width:none}}
+.qintro{color:var(--mut);margin:6px 0 10px}
+#top a.qnavbtn{white-space:nowrap;border:1px solid var(--line2);background:#fff;color:var(--ink);border-radius:8px;padding:5px 10px;font-size:12.5px;cursor:pointer;text-decoration:none;margin-left:6px}#top a.qnavbtn:hover{border-color:var(--acc);color:var(--acc)}

@@ -193,7 +193,7 @@ function render(){
     h+=srcBox(l.id);
     const prev=L[idx-1],next=L[idx+1];
     h+=`<div class="pn">${prev?`<a data-go="${prev.id}"><small>← Previous · ${COURSES[prev.course].short} ${prev.n}</small>${esc(prev.title)}</a>`:'<span style="flex:1"></span>'}${next?`<a class="next" data-go="${next.id}"><small>Next · ${COURSES[next.course].short} ${next.n} →</small>${esc(next.title)}</a>`:'<span style="flex:1"></span>'}</div>`;
-    page.innerHTML=h;mountAll();
+    page.innerHTML=h;mountAll();if(window.quizBest)quizBest();
     document.getElementById('crumb').innerHTML=`<a data-go="" style="color:var(--mut);text-decoration:none">Home</a> › <a data-go="${l.course}" style="color:${c.color};text-decoration:none">${c.name}</a> › <b>Lecture ${l.n}</b>`;
     const pb=document.getElementById('prevbtn'),nb=document.getElementById('nextbtn');pb.style.visibility=prev?'visible':'hidden';nb.style.visibility=next?'visible':'hidden';pb.onclick=()=>go(prev.id);nb.onclick=()=>go(next.id);
     const act=document.querySelector('#nav a.active');if(act)act.scrollIntoView({block:'nearest'});
@@ -285,7 +285,7 @@ function srcIndex(){let h='<div class="card"><h2>Original lecture files on Googl
 
 /* ===================== TEXTILE COSTING ===================== */
 lecture({id:'tc01',course:'tc',n:'01',title:'Financial Accounting – Introduction',sub:'The accounting equation, recording transactions and the trial balance, followed step by step with Ahmed’s canteen.',chips:['Accounting equation','Transactions','Trial balance'],tags:'assets liabilities capital',body:()=>`
-<div class="card"><h2>Why accounting comes first in a costing course</h2>
+<div class="card"><h2>Why accounting comes first in a costing course</h2>${FIG('accounting-equation','Every record rests on one balance: what the business owns (assets) always equals who has a claim on it (liabilities plus capital).')}
 <p>Accounting is the process of recording, sorting and summarising the data that results from business transactions. Before a textile engineer can cost a yarn, a fabric or a garment, he must be able to read the records in which money, property and obligations are written down — and those records all rest on one identity:</p>
 <div class="formula">Liabilities + Capital = Assets</div>
 <dl class="def">
@@ -293,7 +293,7 @@ lecture({id:'tc01',course:'tc',n:'01',title:'Financial Accounting – Introducti
 <dt>Right to property</dt><dd>Who has a claim on the assets: the owners (capital) and the creditors (liabilities).</dd>
 <dt>Business transaction</dt><dd>An event that transfers goods or renders services and must be recorded.</dd>
 </dl></div>
-<div class="card"><h2>Ahmed Inc. — nine transactions, one equation</h2>
+<div class="card"><h2>Ahmed Inc. — nine transactions, one equation</h2>${FIG('accounting-cycle','Each of Ahmed’s nine events is a transaction that is recorded, sorted into accounts and finally summarised in a trial balance.')}
 <p>Ahmed starts a canteen. Each transaction below changes two or more items, yet the equation always balances. Edit any blue amount and watch the balances follow.</p>
 ${S({title:'Accounting equation worksheet (Rs)',cols:[40,230,90,90,90,90,90,90],rows:[
 [{h:'#'},{h:'Transaction'},{h:'Cash'},{h:'Supplies'},{h:'Equipment'},{h:'Acc. Dep.'},{h:'Creditors'},{h:'Capital'}],
@@ -312,7 +312,7 @@ ${S({title:'Accounting equation worksheet (Rs)',cols:[40,230,90,90,90,90,90,90],
 ['', 'Assets = Cash + Supplies + Equipment − Acc. Dep.',{f:v=>v.cash+v.sup+v.eq+v.ad,fx:'=C13+D13+E13+F13',fmt:'#,##0',tot:true},null,null,null,{t:'Liabilities + Capital'},{f:v=>v.cr+v.cap,fx:'=G13+H13',fmt:'#,##0',tot:true}]
 ]})}
 <div class="note">Notice how expenses, supplies used, depreciation and drawings all <em>reduce capital</em>, while sales increase it. That is the whole logic of the profit and loss account, which Lecture 2 builds from these same figures.</div></div>
-<div class="card"><h2>Trial balance (basic form)</h2>
+<div class="card"><h2>Trial balance (basic form)</h2>${FIG('financial-statements','The trial balance is the checkpoint: if its two columns agree, the balance sheet and profit and loss account of Lecture 2 can be built from it.')}
 <p>At month end the balances are listed with assets on one side and the rights to property on the other. Both columns must agree — if they do not, a transaction was recorded on one side only.</p>
 ${S({title:'Trial Balance — Ahmed Inc.',cols:[200,100,40,200,100],rows:[
 [{h:'Liabilities & capital accounts'},{h:'Rs'},null,{h:'Asset accounts'},{h:'Rs'}],
@@ -330,10 +330,12 @@ ${S({title:'Trial Balance — Ahmed Inc.',cols:[200,100,40,200,100],rows:[
 ]})}</div>
 <div class="card"><h2>Course plan — Textile Costing (15 weeks)</h2>
 <table class="plain"><tr><th>Week</th><th>1st lecture</th><th>2nd lecture</th></tr>
-<tr><td>1</td><td>Financial Accounting – Introduction</td><td>Financial Statements</td></tr><tr><td>2</td><td>Current Assets &amp; Liabilities</td><td>Fixed Assets</td></tr><tr><td>3</td><td>Managerial Accounting – Introduction</td><td>Unit Costing</td></tr><tr><td>4</td><td>Cost-Volume-Profit Relationship</td><td>CVP in Textiles</td></tr><tr><td>5</td><td>Costing Systems I (Job costing)</td><td>Costing Systems II (Process costing)</td></tr><tr><td>6</td><td>Advanced Costing Systems (ABC)</td><td>ABC Uses in Textiles</td></tr><tr><td>7</td><td>Budgets &amp; Variances</td><td>Budgeting in Textiles</td></tr><tr><td>8</td><td>Mid Term</td><td>Review of Spinning Calculations</td></tr><tr><td>9</td><td>Simple Yarn Costing</td><td>Optimal Yarn Mix</td></tr><tr><td>10</td><td>Review of Weaving Calculations</td><td>Simple Fabric Costing</td></tr><tr><td>11</td><td>Costs in Dyeing</td><td>Concept of Routes</td></tr><tr><td>12</td><td>Simple Dyed Fabric Costing</td><td>Simple Printed Fabric Costing</td></tr><tr><td>13</td><td>Stitching Costing</td><td>Accounting Concepts</td></tr><tr><td>14</td><td>Cost Allocation I</td><td>Cost Allocation II</td></tr><tr><td>15</td><td>Spoilage, Rework &amp; Scrap</td><td>Overview</td></tr></table></div>`});
+<tr><td>1</td><td>Financial Accounting – Introduction</td><td>Financial Statements</td></tr><tr><td>2</td><td>Current Assets &amp; Liabilities</td><td>Fixed Assets</td></tr><tr><td>3</td><td>Managerial Accounting – Introduction</td><td>Unit Costing</td></tr><tr><td>4</td><td>Cost-Volume-Profit Relationship</td><td>CVP in Textiles</td></tr><tr><td>5</td><td>Costing Systems I (Job costing)</td><td>Costing Systems II (Process costing)</td></tr><tr><td>6</td><td>Advanced Costing Systems (ABC)</td><td>ABC Uses in Textiles</td></tr><tr><td>7</td><td>Budgets &amp; Variances</td><td>Budgeting in Textiles</td></tr><tr><td>8</td><td>Mid Term</td><td>Review of Spinning Calculations</td></tr><tr><td>9</td><td>Simple Yarn Costing</td><td>Optimal Yarn Mix</td></tr><tr><td>10</td><td>Review of Weaving Calculations</td><td>Simple Fabric Costing</td></tr><tr><td>11</td><td>Costs in Dyeing</td><td>Concept of Routes</td></tr><tr><td>12</td><td>Simple Dyed Fabric Costing</td><td>Simple Printed Fabric Costing</td></tr><tr><td>13</td><td>Stitching Costing</td><td>Accounting Concepts</td></tr><tr><td>14</td><td>Cost Allocation I</td><td>Cost Allocation II</td></tr><tr><td>15</td><td>Spoilage, Rework &amp; Scrap</td><td>Overview</td></tr></table></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/01-financial-accounting-introduction/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc01:1"></span></a><a href="/textile/textile-costing/01-financial-accounting-introduction/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc01:2"></span></a><a href="/textile/textile-costing/01-financial-accounting-introduction/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc01:3"></span></a><a href="/textile/textile-costing/01-financial-accounting-introduction/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc01:4"></span></a><a href="/textile/textile-costing/01-financial-accounting-introduction/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc01:5"></span></a></div></div>
+`});
 
 lecture({id:'tc02',course:'tc',n:'02',title:'Financial Statements',sub:'Balance sheet, profit & loss account, the rules of debit and credit, the journal, the ledger and the trial balance.',chips:['Balance sheet','P&L','Debit & credit','Journal & ledger'],body:()=>`
-<div class="card"><h2>Two statements, two questions</h2>
+<div class="card"><h2>Two statements, two questions</h2>${FIG('financial-statements','The trial balance feeds two statements: the profit and loss account answers ‘how did we do this month?’, the balance sheet ‘what do we own and owe tonight?’.')}
 <dl class="def"><dt>Profit &amp; Loss account</dt><dd>Shows the net profit or net loss resulting from transactions <em>during a period</em> — “how did we do this month?”</dd>
 <dt>Balance sheet</dt><dd>Shows the financial position of the business <em>on a fixed date</em> — “what do we own and owe tonight?”</dd></dl>
 <p>Both are built from the trial balance of Lecture 1. Each statement recalculates when its own blue figures change; the net profit of the first (700) is entered in the second as “add profit for the month”, and with the lecture’s figures both sides of the balance sheet total 19,550.</p>
@@ -364,7 +366,7 @@ ${S({title:'Ahmed Inc. — Balance Sheet as at month end',cols:[200,90,90],rows:
 [{t:'<b>Total liabilities and capital</b>'},null,{f:v=>v.cr+v.cap+v.np-v.dr,fx:'=C8+C11',fmt:'#,##0',tot:true}]
 ]})}
 </div></div>
-<div class="card"><h2>Debit and credit — the only four rules you need</h2>
+<div class="card"><h2>Debit and credit — the only four rules you need</h2>${FIG('debit-credit-rules','Assets increase on the debit side; liabilities and capital increase on the credit side — and every entry has a debit and an equal credit.')}
 <table class="plain"><tr><th></th><th>Increase</th><th>Decrease</th></tr><tr><td>Property (assets)</td><td><b>Debit</b></td><td>Credit</td></tr><tr><td>Right to property (liabilities, capital — income increases it; expenses and drawings decrease it)</td><td>Credit</td><td><b>Debit</b></td></tr></table>
 <p>Every entry has a debit and an equal credit. The <b>journal</b> records them in date order; the <b>ledger</b> collects them account by account (the “T-accounts”); the <b>trial balance</b> checks that total debits equal total credits.</p>
 <h3>Journal of Ahmed Inc. (December)</h3>
@@ -381,10 +383,12 @@ ${S({title:'Ahmed Inc. — Balance Sheet as at month end',cols:[200,90,90],rows:
 <h3>Ledger — the Cash T-account</h3>
 <div class="grid2"><table class="plain"><tr><th colspan="2">Debit side</th></tr><tr><td>Dec 1 Ahmed, Capital</td><td class="r">19,000</td></tr><tr><td>e Sales</td><td class="r">2,000</td></tr><tr><td></td><td class="r"></td></tr><tr><td></td><td class="r"></td></tr><tr><td><b>Total</b></td><td class="r"><b>21,000</b></td></tr><tr><td>Jan 1 Balance b/d</td><td class="r">2,100</td></tr></table>
 <table class="plain"><tr><th colspan="2">Credit side</th></tr><tr><td>b Equipment</td><td class="r">17,400</td></tr><tr><td>d Trade Creditors</td><td class="r">300</td></tr><tr><td>f Wages, rent, utilities, misc</td><td class="r">700</td></tr><tr><td>31 Drawings</td><td class="r">500</td></tr><tr><td>31 Balance c/d</td><td class="r">2,100</td></tr><tr><td><b>Total</b></td><td class="r"><b>21,000</b></td></tr></table></div>
-<p>The same posting is done for every account. The resulting trial balance in debit/credit form: Cash 2,100, Equipment 17,400, Supplies 250, expenses 1,300 and Drawings 500 on the debit side (21,550); Capital 19,000, Creditors 350, Sales 2,000 and Accumulated Depreciation 200 on the credit side (21,550).</p></div>`});
+<p>The same posting is done for every account. The resulting trial balance in debit/credit form: Cash 2,100, Equipment 17,400, Supplies 250, expenses 1,300 and Drawings 500 on the debit side (21,550); Capital 19,000, Creditors 350, Sales 2,000 and Accumulated Depreciation 200 on the credit side (21,550).</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/02-financial-statements/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc02:1"></span></a><a href="/textile/textile-costing/02-financial-statements/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc02:2"></span></a><a href="/textile/textile-costing/02-financial-statements/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc02:3"></span></a><a href="/textile/textile-costing/02-financial-statements/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc02:4"></span></a><a href="/textile/textile-costing/02-financial-statements/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc02:5"></span></a></div></div>
+`});
 
 lecture({id:'tc03',course:'tc',n:'03',title:'Current Assets & Liabilities',sub:'Debtors and creditors, deferrals and accruals, cost of goods sold, and why the way you value inventory changes the profit you report.',chips:['Deferrals & accruals','COGS','FIFO / LIFO','Lower of cost or NRV'],body:()=>`
-<div class="card"><h2>Definitions</h2><dl class="def">
+<div class="card"><h2>Definitions</h2>${FIG('working-capital','Debtors and creditors are the two ends of the working-capital cycle: cash becomes stock, stock becomes debtors, and debtors become cash again while creditors wait to be paid.')}<dl class="def">
 <dt>Debtors (property)</dt><dd>Trade debtors or accounts receivable (open-account sales, not evidenced by a written promise), bills receivable (written evidence of debt), advances and deposits with suppliers, short-term loans to employees. Long-term loans to associated organisations are classified as investments.</dd>
 <dt>Creditors (right to property)</dt><dd>Trade creditors or accounts payable, bills payable, deposits or advances from customers, loans from banks or associated organisations.</dd>
 <dt>Deferral</dt><dd>Postponing the recognition of an expense already paid whose benefit belongs to a later period, or of an income already received that is still unearned. Deferred expenses are <b>assets</b>; deferred incomes are <b>liabilities</b>.</dd>
@@ -392,7 +396,7 @@ lecture({id:'tc03',course:'tc',n:'03',title:'Current Assets & Liabilities',sub:'
 <h3>Deferral example — rent paid a year in advance</h3>
 <table class="plain"><tr><th>Date</th><th>Description</th><th class="r">Debit</th><th class="r">Credit</th></tr><tr><td>Jan 1</td><td>Prepaid Rent<br>&nbsp;&nbsp;&nbsp;Cash <i>(paid rent for 1 year in advance)</i></td><td class="r">600</td><td class="r">600</td></tr><tr><td>Jan 31</td><td>Rent Expense<br>&nbsp;&nbsp;&nbsp;Prepaid Rent <i>(one month used)</i></td><td class="r">50</td><td class="r">50</td></tr></table>
 <p>After January the Prepaid Rent account still shows an asset of 550 — eleven months of rent that belong to future periods.</p></div>
-<div class="card"><h2>Cost of goods sold</h2>
+<div class="card"><h2>Cost of goods sold</h2>${FIG('inventory-flow','Opening stock plus purchases is what was available for sale; whatever is not still on the shelf at the end has been sold, so closing stock sets the cost of goods sold.')}
 ${S({title:'Cost of goods sold',cols:[260,110],rows:[
 ['Opening balance of supplies',{in:'o',v:10000}],
 ['Purchases during the period',{in:'p',v:40000}],
@@ -414,7 +418,7 @@ ${S({title:'Impact of inventory valuation on P&L and balance sheet',cols:[200,10
 ['Total assets (inventory + other assets 200,000)',{f:v=>v.i1+200000,fx:'=B2+200000',fmt:'#,##0'},{f:v=>v.i2+200000,fx:'=C2+200000',fmt:'#,##0'},{f:v=>v.i3+200000,fx:'=D2+200000',fmt:'#,##0'}],
 ['Capital (liabilities 30,000 fixed)',{f:v=>v.i1+170000,fx:'=B9-30000',fmt:'#,##0'},{f:v=>v.i2+170000,fx:'=C9-30000',fmt:'#,##0'},{f:v=>v.i3+170000,fx:'=D9-30000',fmt:'#,##0'}]
 ]})}</div>
-<div class="card"><h2>FIFO, LIFO and weighted average</h2>
+<div class="card"><h2>FIFO, LIFO and weighted average</h2>${FIG('fifo-lifo','The same 1,000 units cost 7,200 either way; FIFO leaves the newest, dearest units in stock, LIFO the oldest, cheapest — and the difference goes straight into profit.')}
 <p><b>FIFO</b> — merchandise is sold in the order of purchase (as with perishable items); the inventory left consists of the most recent purchases. <b>LIFO</b> — sold in reverse order (in harmony with inflation); the inventory left consists of the earliest purchases. The <b>weighted average</b> spreads the total cost over all units. Inventories are always valued at the <em>lower of cost or net realisable value</em>.</p>
 ${S({title:'Inventory valuation — 1,000 units available, 300 counted at year end',cols:[150,70,90,100],rows:[
 [{h:'Lot'},{h:'Units'},{h:'Rs / unit'},{h:'Value'}],
@@ -435,10 +439,12 @@ ${S({title:'Inventory valuation — 1,000 units available, 300 counted at year e
 ['Closing inventory value',null,null,{f:v=>v.cnt*v.avg,n:'wav',fx:'=B7*C15',fmt:'#,##0'}],
 ['Cost of goods sold',null,null,{f:v=>v.va-v.wav,fx:'=D6-D16',fmt:'#,##0',tot:true}]
 ]})}
-<div class="note">In the lecture’s example FIFO gave a cost of goods sold of 4,700, LIFO 5,400 and the average method 5,040 from the same purchases — three different profits from one physical reality. Rising prices make LIFO report the lowest profit (and the lowest tax).</div></div>`});
+<div class="note">In the lecture’s example FIFO gave a cost of goods sold of 4,700, LIFO 5,400 and the average method 5,040 from the same purchases — three different profits from one physical reality. Rising prices make LIFO report the lowest profit (and the lowest tax).</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/03-current-assets-and-liabilities/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc03:1"></span></a><a href="/textile/textile-costing/03-current-assets-and-liabilities/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc03:2"></span></a><a href="/textile/textile-costing/03-current-assets-and-liabilities/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc03:3"></span></a><a href="/textile/textile-costing/03-current-assets-and-liabilities/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc03:4"></span></a><a href="/textile/textile-costing/03-current-assets-and-liabilities/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc03:5"></span></a></div></div>
+`});
 
 lecture({id:'tc04',course:'tc',n:'04',title:'Fixed Assets',sub:'What counts as the cost of a fixed asset, the concept of useful life, and three ways to depreciate — straight line, declining balance and double declining balance.',chips:['Initial cost','Straight line','Declining balance','Disposal'],body:()=>`
-<div class="card"><h2>Fixed assets and their cost</h2>
+<div class="card"><h2>Fixed assets and their cost</h2>${FIG('fixed-asset-cost','The cost of a machine is not just its invoice price: duty, freight, insurance in transit, foundations and installation are all part of getting it ready for use.')}
 <p>Fixed assets are capable of repeated use with an expected life of more than one year. When equipment is removed from service and held for sale it ceases to be a fixed asset. The <b>initial cost</b> includes every expenditure needed to get the asset in place and ready for use: import duty, sales tax, transportation, insurance in transit, special foundations and installation. For land it includes the negotiated price plus broker’s commission, registration and surveying fees.</p>
 <p>With the passage of time all fixed assets except land lose their capacity to yield services. The decline in cost is charged to expense in a systematic manner — <b>depreciation</b>.</p></div>
 <div class="card"><h2>Straight line — uniform usage</h2>
@@ -448,7 +454,7 @@ ${S({title:'Straight-line depreciation',cols:[260,110],rows:[
 ['Written-down value at end of year 1',{f:v=>v.c-v.d,fx:'=B1-B4',fmt:'#,##0'}],
 ['Written-down value at end of final year',{f:v=>v.c-v.n*v.d,fx:'=B1-B3*B4',fmt:'#,##0'}]
 ]})}</div>
-<div class="card"><h2>Declining balance — heavy early use</h2>
+<div class="card"><h2>Declining balance — heavy early use</h2>${FIG('depreciation-curves','Straight line takes the book value down in equal steps; declining balance drops fast at first and slows later, which suits assets that give most of their service early.')}
 <p>A fixed rate is applied to the written-down value, ignoring the residual value — but depreciation should not take the book value below the expected residual. It suits assets whose productivity declines proportionately more in early years; the smaller later charges are offset by rising maintenance costs. <b>Double declining</b> simply uses twice the straight-line rate (40% for a 5-year life) and stops at the residual value.</p>
 <div class="grid2">
 ${S({title:'Declining balance',cols:[40,70,90,90,90],rows:[
@@ -484,10 +490,12 @@ ${S({title:'Double declining balance (floor at residual)',cols:[40,70,90,90,90],
 ${S({title:'Disposal of the 2005 truck — gain or loss',cols:[260,110],rows:[
 ['Cost of truck',{in:'c',v:497000}],['Accumulated depreciation to date of sale',{in:'ad',v:218680}],['Book value',{f:v=>v.c-v.ad,n:'bv',fx:'=B1-B2',fmt:'#,##0'}],['Cash received',{in:'p',v:260000}],[{t:'<b>Gain / (loss) on disposal</b>'},{f:v=>v.p-v.bv,fx:'=B4-B3',fmt:'#,##0',tot:true}]
 ]})}
-<div class="warn"><b>Assignment 1 (lectures 1–4, 30 marks):</b> download the financial statements of a Pakistani company of your choice and write a note on its treatment of depreciation, inventory valuation, cost of goods sold and disposal of fixed assets.</div></div>`});
+<div class="warn"><b>Assignment 1 (lectures 1–4, 30 marks):</b> download the financial statements of a Pakistani company of your choice and write a note on its treatment of depreciation, inventory valuation, cost of goods sold and disposal of fixed assets.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/04-fixed-assets/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc04:1"></span></a><a href="/textile/textile-costing/04-fixed-assets/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc04:2"></span></a><a href="/textile/textile-costing/04-fixed-assets/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc04:3"></span></a><a href="/textile/textile-costing/04-fixed-assets/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc04:4"></span></a><a href="/textile/textile-costing/04-fixed-assets/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc04:5"></span></a></div></div>
+`});
 
 lecture({id:'tc05',course:'tc',n:'05',title:'Managerial Accounting – Introduction',sub:'Cost objects, cost accumulation and assignment, and the difference between direct and indirect cost.',chips:['Cost object','Direct cost','Indirect cost'],body:()=>`
-<div class="card"><h2>From keeping records to making decisions</h2>
+<div class="card"><h2>From keeping records to making decisions</h2>${FIG('cost-object','Pick the cost object first; then every cost is either traced to it directly or, when tracing is not worth the effort, allocated to it on some base.')}
 <p>Financial accounting looks backwards and outwards — it reports to owners, banks and the tax authority. Managerial accounting looks inwards: it measures the cost of the things managers decide about. Five terms carry the whole subject.</p>
 <dl class="def">
 <dt>Cost object</dt><dd>A product, machine, service or process for which a separate measurement of cost is desired — a lot of fabric, a loom, a dyeing route, a customer order.</dd>
@@ -497,12 +505,14 @@ lecture({id:'tc05',course:'tc',n:'05',title:'Managerial Accounting – Introduct
 <dt>Indirect cost</dt><dd>A cost related to the cost object that cannot be traced economically and is therefore <em>allocated</em> — electricity, supervision, depreciation of the shed.</dd></dl>
 <div class="note">The same cost can be direct for one object and indirect for another. The salary of a loom-shed supervisor is direct to the weaving department but indirect to any single order woven there. Whenever a figure looks “obvious”, ask: traced or allocated?</div>
 <p>In class the concepts of the first four lectures were reviewed alongside these definitions; the next lecture puts them to work in unit costing.</p></div>
-<div class="card"><h2>Classify these textile costs</h2>
+<div class="card"><h2>Classify these textile costs</h2>${FIG('pad-steam','A pad-steam range serves many dyeing orders: its depreciation is direct to the dyeing department but reaches any single order only by allocation per machine-hour.')}
 <table class="plain"><tr><th>Cost</th><th>Cost object: one dyeing order</th><th>Cost object: the dyeing department</th></tr>
-<tr><td>Grey fabric issued to the order</td><td>Direct</td><td>Direct</td></tr><tr><td>Dyes weighed for the shade</td><td>Direct</td><td>Direct</td></tr><tr><td>Steam for the whole plant</td><td>Indirect (allocated per metre)</td><td>Indirect (allocated per department)</td></tr><tr><td>Dyeing manager’s salary</td><td>Indirect</td><td>Direct</td></tr><tr><td>Depreciation of the pad-steam range</td><td>Indirect (allocated per machine-hour)</td><td>Direct</td></tr></table></div>`});
+<tr><td>Grey fabric issued to the order</td><td>Direct</td><td>Direct</td></tr><tr><td>Dyes weighed for the shade</td><td>Direct</td><td>Direct</td></tr><tr><td>Steam for the whole plant</td><td>Indirect (allocated per metre)</td><td>Indirect (allocated per department)</td></tr><tr><td>Dyeing manager’s salary</td><td>Indirect</td><td>Direct</td></tr><tr><td>Depreciation of the pad-steam range</td><td>Indirect (allocated per machine-hour)</td><td>Direct</td></tr></table></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/05-managerial-accounting-introduction/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc05:1"></span></a><a href="/textile/textile-costing/05-managerial-accounting-introduction/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc05:2"></span></a><a href="/textile/textile-costing/05-managerial-accounting-introduction/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc05:3"></span></a><a href="/textile/textile-costing/05-managerial-accounting-introduction/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc05:4"></span></a><a href="/textile/textile-costing/05-managerial-accounting-introduction/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc05:5"></span></a></div></div>
+`});
 
 lecture({id:'tc06',course:'tc',n:'06',title:'Unit Costing',sub:'Variable and fixed cost, total and unit cost, work in process, and the cost of goods sold for a manufacturer.',chips:['Cost driver','Variable vs fixed','Cost of goods manufactured'],body:()=>`
-<div class="card"><h2>Definitions</h2><dl class="def">
+<div class="card"><h2>Definitions</h2>${FIG('unit-cost','Unit cost is always some total cost divided by some number of units — before quoting one, ask which total and which units.')}${FIG('cost-behaviour','A fixed cost stays flat as the cost driver rises, a variable cost climbs in proportion, and total cost is the two added together.')}<dl class="def">
 <dt>Cost driver</dt><dd>Any factor that affects total cost — a change in the level of the driver changes the total cost of the related cost object: units produced, machine set-ups, advertisements.</dd>
 <dt>Variable cost</dt><dd>Changes in total in proportion to changes in a cost driver.</dd>
 <dt>Fixed cost</dt><dd>Does not change in total despite changes in the cost driver.</dd>
@@ -510,7 +520,7 @@ lecture({id:'tc06',course:'tc',n:'06',title:'Unit Costing',sub:'Variable and fix
 <dt>Work-in-process inventory</dt><dd>Goods partially worked on but not yet completed.</dd>
 <dt>Finished goods inventory</dt><dd>Goods fully completed but not yet sold.</dd></dl>
 <div class="grid2"><div><h3>Merchandising</h3><div class="formula">Beginning merchandise inventory<br>+ Purchases<br>− Ending merchandise inventory<br>= Cost of goods sold</div></div><div><h3>Manufacturing</h3><div class="formula">Beginning finished goods<br>+ Cost of goods manufactured<br>− Ending finished goods<br>= Cost of goods sold</div></div></div></div>
-<div class="card"><h2>Cost of goods manufactured and sold</h2>
+<div class="card"><h2>Cost of goods manufactured and sold</h2>${FIG('inventory-flow','Each stage of the schedule follows the same rule: opening stock plus what came in, minus closing stock, equals what moved on to the next stage.')}
 <p>The manufacturing statement flows from materials to work in process to finished goods. Edit any input; the totals chain through to the cost of goods sold.</p>
 ${S({title:'Schedule of cost of goods manufactured',cols:[300,100,100],rows:[
 [{s:'Direct materials',span:3}],
@@ -534,10 +544,12 @@ ${S({title:'Schedule of cost of goods manufactured',cols:[300,100,100],rows:[
 ['Cost of goods available for sale',null,{f:v=>v.fb+v.cgm,n:'ga',fx:'=C21+C22',fmt:'#,##0'}],
 ['Ending finished goods inventory',null,{in:'fe',v:18000}],
 [{t:'<b>Cost of goods sold</b>'},null,{f:v=>v.ga-v.fe,fx:'=C23-C24',fmt:'#,##0',tot:true}]
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/06-unit-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc06:1"></span></a><a href="/textile/textile-costing/06-unit-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc06:2"></span></a><a href="/textile/textile-costing/06-unit-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc06:3"></span></a><a href="/textile/textile-costing/06-unit-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc06:4"></span></a><a href="/textile/textile-costing/06-unit-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc06:5"></span></a></div></div>
+`});
 
 lecture({id:'tc07',course:'tc',n:'07',title:'Cost-Volume-Profit Relationship',sub:'Contribution margin, gross margin, the break-even point and sensitivity analysis.',chips:['Contribution margin','Break-even','Sensitivity'],body:()=>`
-<div class="card"><h2>The three ideas</h2><dl class="def">
+<div class="card"><h2>The three ideas</h2>${FIG('breakeven','Revenue and total cost rise with units sold; where the two lines cross is the break-even point, and every unit beyond it adds a full unit contribution to profit.')}${FIG('contribution-margin','Each rupee of selling price first pays the unit variable cost; what is left is the contribution, which covers fixed cost and, once that is paid, becomes profit.')}<dl class="def">
 <dt>Contribution margin</dt><dd>Revenues minus all costs that vary with the number of output units.</dd>
 <dt>Unit contribution margin (UCM)</dt><dd>Unit sales price − unit variable cost.</dd>
 <dt>Break-even point</dt><dd>The quantity of output where total revenues equal total costs.</dd></dl>
@@ -551,16 +563,18 @@ ${S({title:'Break-even and target-profit calculator',cols:[260,110],rows:[
 ['Contribution margin ratio',{f:v=>v.u/v.p,fx:'=B5/B1',fmt:'0.0%'}]
 ]})}
 ${CH({w:600,h:280,xl:'Units sold',yl:'Rupees',xmax:2500,ymax:25000,series:[{pts:[[0,0],[2500,25000]],color:'#0f766e',label:'Revenue'},{pts:[[0,5000],[2500,20000]],color:'#b45309',label:'Total cost'},{pts:[[0,5000],[2500,5000]],color:'#9ca3af',label:'Fixed cost'}],marks:[{x:1250,y:12500,label:'Break-even 1,250'}]})}</div>
-<div class="card"><h2>Sensitivity analysis — units needed for different fixed costs, variable costs and profit targets</h2>
+<div class="card"><h2>Sensitivity analysis — units needed for different fixed costs, variable costs and profit targets</h2>${FIG('spreadsheet','Change one input — fixed cost, variable cost or target profit — and read how many more units must be sold; this is sensitivity analysis.')}
 <p>The lecture left blanks to fill in; here the whole table is live. Rows are combinations of fixed cost and unit variable cost at the selling price entered in row 2 (Rs 10 in the lecture).</p>
 ${S({title:'Units to be sold at the selling price in row 2',cols:[100,80,90,90,90,90],rows:[
 [{h:'Fixed cost'},{h:'UVC'},{h:'Profit 0'},{h:'Profit 1,000'},{h:'Profit 1,500'},{h:'Profit 2,000'}],
 ['Selling price',{in:'p',v:10}],
 ...[[4000,5],[4000,6],[4000,7],[5000,5],[5000,6],[5000,7],[6000,5],[6000,6],[6000,7]].map(([f,c],i)=>[{in:'f'+i,v:f},{in:'c'+i,v:c},{f:v=>v['f'+i]/(v.p-v['c'+i]),fx:'=(A+0)/(price−B)',fmt:'#,##0'},{f:v=>(v['f'+i]+1000)/(v.p-v['c'+i]),fx:'=(A+1000)/(price−B)',fmt:'#,##0'},{f:v=>(v['f'+i]+1500)/(v.p-v['c'+i]),fx:'=(A+1500)/(price−B)',fmt:'#,##0'},{f:v=>(v['f'+i]+2000)/(v.p-v['c'+i]),fx:'=(A+2000)/(price−B)',fmt:'#,##0'}])
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/07-cost-volume-profit-relationship/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc07:1"></span></a><a href="/textile/textile-costing/07-cost-volume-profit-relationship/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc07:2"></span></a><a href="/textile/textile-costing/07-cost-volume-profit-relationship/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc07:3"></span></a><a href="/textile/textile-costing/07-cost-volume-profit-relationship/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc07:4"></span></a><a href="/textile/textile-costing/07-cost-volume-profit-relationship/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc07:5"></span></a></div></div>
+`});
 
 lecture({id:'tc08',course:'tc',n:'08',title:'CVP in Textiles',sub:'Contribution margin and break-even applied to a spinning mill, a weaving shed and a dyeing plant.',chips:['Spinning','Weaving','Dyeing','Break-even'],body:()=>`
-<div class="card"><h2>Spinning — 250 bags a day of Ne 20/1</h2>
+<div class="card"><h2>Spinning — 250 bags a day of Ne 20/1</h2>${FIG('yarn-cost-stack','The yarn price per lb must first pay for the net cotton; the Rs 16 left over per lb is the contribution that has to cover the mill\'s Rs 380,000 daily fixed cost.')}
 ${S({title:'Spinning mill — daily and monthly profitability',cols:[280,120,120],rows:[
 ['Daily production (bags of 100 lb)',{in:'bags',v:250}],
 [{s:'Monthly fixed cost',span:3}],
@@ -574,7 +588,7 @@ ${S({title:'Spinning mill — daily and monthly profitability',cols:[280,120,120
 ['Profit / (loss) per month',null,{f:v=>v.pd*30,fx:'=C13*30',fmt:'#,##0'}],
 ['Break-even bags per day',null,{f:v=>v.fd/(v.cl*100),fx:'=C7/(B11*100)',fmt:'0.0'}]
 ]})}</div>
-<div class="card"><h2>Weaving — 120 air-jet looms on 20×16/128×60 63″</h2>
+<div class="card"><h2>Weaving — 120 air-jet looms on 20×16/128×60 63″</h2>${FIG('loom-production','Each loom weaves about 500 m a day; multiply by the Rs 9 contribution per metre and compare with the Rs 4,000 of fixed cost each loom must carry.')}
 ${S({title:'Weaving shed — per loom and per unit',cols:[280,120,120],rows:[
 ['Daily production per loom (m)',{in:'pl',v:500}],['Total looms',{in:'n',v:120}],['Daily production of the unit (m)',{f:v=>v.pl*v.n,n:'du',fx:'=B1*B2',fmt:'#,##0'}],
 [{s:'Monthly fixed cost',span:3}],
@@ -589,7 +603,7 @@ ${S({title:'Weaving shed — per loom and per unit',cols:[280,120,120],rows:[
 ['Profit / (loss) per month',null,{f:v=>v.pd*30,fx:'=C16*30',fmt:'#,##0'}],
 ['Break-even metres per loom per day',null,{f:v=>v.fl/v.c,fx:'=C10/B13',fmt:'#,##0.0'}]
 ]})}</div>
-<div class="card"><h2>Dyeing — commission finishing of 50,000 m a day (medium colours)</h2>
+<div class="card"><h2>Dyeing — commission finishing of 50,000 m a day (medium colours)</h2>${FIG('breakeven','A commission dyer breaks even where daily contribution equals daily fixed cost: 40,000 m at Rs 12 per metre pays the Rs 480,000 of fixed cost.')}
 ${S({title:'Dyeing plant — commission finishing',cols:[280,120,120],rows:[
 ['Production per day (m)',{in:'pd',v:50000}],
 ['Monthly fixed cost (dep 5.6M + fin 6.5M + admin 0.3M + misc 2.0M)',{in:'fm',v:14400000}],
@@ -602,10 +616,12 @@ ${S({title:'Dyeing plant — commission finishing',cols:[280,120,120],rows:[
 ['Profit / (loss) per month',null,{f:v=>v.p*30,fx:'=C10*30',fmt:'#,##0'}],
 ['Break-even metres per day',null,{f:v=>v.fd/v.c,fx:'=C3/B8',fmt:'#,##0'}]
 ]})}
-<div class="note">Exercise from the lecture: find the break-even point for each plant. The last row of each sheet now answers it — and shows how thin the margin is in weaving, where one rupee per metre on yarn price wipes out the shed’s entire profit (contribution 9 → 8 × 500 m = 4,000 = the daily fixed cost per loom).</div></div>`});
+<div class="note">Exercise from the lecture: find the break-even point for each plant. The last row of each sheet now answers it — and shows how thin the margin is in weaving, where one rupee per metre on yarn price wipes out the shed’s entire profit (contribution 9 → 8 × 500 m = 4,000 = the daily fixed cost per loom).</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/08-cvp-in-textiles/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc08:1"></span></a><a href="/textile/textile-costing/08-cvp-in-textiles/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc08:2"></span></a><a href="/textile/textile-costing/08-cvp-in-textiles/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc08:3"></span></a><a href="/textile/textile-costing/08-cvp-in-textiles/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc08:4"></span></a><a href="/textile/textile-costing/08-cvp-in-textiles/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc08:5"></span></a></div></div>
+`});
 
 lecture({id:'tc09',course:'tc',n:'09',title:'Costing Systems I — Job Costing',sub:'Assigning costs to a distinct job, batch or lot: the six steps, with a 10,000 m printing job.',chips:['Job costing','Allocation base','Actual vs normal costing'],body:()=>`
-<div class="card"><h2>When a job is the cost object</h2>
+<div class="card"><h2>When a job is the cost object</h2>${FIG('screen-printing','A printing job is custom work — a particular design on a particular fabric — which is why each lot gets its own job cost sheet rather than a plant-wide average.')}${FIG('cost-object','The printing lot is the cost object: fabric and colours are traced to it directly, while utilities and overhead reach it only through an allocation rate per metre.')}
 <p>In job costing, costs are assigned to a distinct unit, batch or lot of a product or service — something custom-made, such as printing a particular design on a particular fabric, or building a house. A job is a task for which resources are used to bring a distinct product or service to market.</p>
 <ol class="steps">
 <li><b>Identify the job</b> — a lot of fabric to be printed, 10,000 metres.</li>
@@ -628,14 +644,16 @@ ${S({title:'Job cost sheet — printing lot of 10,000 m',cols:[300,110,110],rows
 [{t:'<b>Total cost of job</b>'},null,{f:v=>v.cf+v.cd+v.ci,n:'tc',fx:'=SUM(C10:C12)',fmt:'#,##0',tot:true}],
 ['Cost per metre of printed fabric',null,{f:v=>v.tc/v.job,fx:'=C13/B1',fmt:'0.00'}]
 ]})}</div>
-<div class="card"><h2>Actual, normal and budgeted costing</h2>
+<div class="card"><h2>Actual, normal and budgeted costing</h2>${FIG('budget-vs-actual','Actual costing waits for the period\'s real overhead; normal costing uses a budgeted rate so the job can be priced the day it finishes, with the variance checked later.')}
 <dl class="def"><dt>Actual costing</dt><dd>As above — wait until the end of the period, find the exact indirect costs, then allocate them to the job.</dd>
 <dt>Normal costing</dt><dd>Budgeted rather than actual costs are used to compute the indirect-cost rate, so a job can be costed the day it finishes. Direct costs are traced in the same way under both systems.</dd>
 <dt>Budgeted costing</dt><dd>Budgeted rates are used even for direct costs.</dd>
-<dt>Variance</dt><dd>The cost accounting department compares the standard rate with the actual rate. A favourable variance shows the department is operating efficiently; an unfavourable one alerts management that corrective action may be required. When a job is processed at the standard rate and a variance occurs, the variance is applied to the job orders processed and, if necessary, the shop rate is adjusted.</dd></dl></div>`});
+<dt>Variance</dt><dd>The cost accounting department compares the standard rate with the actual rate. A favourable variance shows the department is operating efficiently; an unfavourable one alerts management that corrective action may be required. When a job is processed at the standard rate and a variance occurs, the variance is applied to the job orders processed and, if necessary, the shop rate is adjusted.</dd></dl></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/09-costing-systems-i-job-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc09:1"></span></a><a href="/textile/textile-costing/09-costing-systems-i-job-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc09:2"></span></a><a href="/textile/textile-costing/09-costing-systems-i-job-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc09:3"></span></a><a href="/textile/textile-costing/09-costing-systems-i-job-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc09:4"></span></a><a href="/textile/textile-costing/09-costing-systems-i-job-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc09:5"></span></a></div></div>
+`});
 
 lecture({id:'tc10',course:'tc',n:'10',title:'Costing Systems II — Process Costing',sub:'Averaging costs over masses of similar units, with and without work in process — the equivalent-units method at Sino-Pak Textiles.',chips:['Process costing','Equivalent units','WIP'],body:()=>`
-<div class="card"><h2>Job costing versus process costing</h2>
+<div class="card"><h2>Job costing versus process costing</h2>${FIG('job-vs-process','Job costing keeps a separate card for each distinct lot; process costing treats a continuous stream of identical bags as one mass and averages the cost over all of them.')}
 <p>In process costing the cost of a product is obtained by using broad averages to assign costs to masses of similar units — identical items mass-produced for general sale, not for a specific customer. The principal difference from job costing is the <em>extent of averaging</em>: individual jobs use different quantities of resources, so it would be wrong to cost each at the same average; when like units are mass-produced, averaging over all units produced is exactly right.</p>
 <p><b>Example.</b> Sino-Pak Textiles spins only Ne 20/1 for the moment. Assume one direct-cost category (direct materials); conversion costs include labour, indirect materials, energy, plant depreciation and so on.</p></div>
 <div class="card"><h2>Case I — no beginning or ending work in process (January)</h2>
@@ -645,7 +663,7 @@ ${S({title:'January — all units started and completed',cols:[300,110],rows:[
 ['Direct materials cost per bag',{f:v=>v.dm/v.q,fx:'=B2/B1',fmt:'#,##0'}],['Conversion cost per bag',{f:v=>v.cc/v.q,fx:'=B3/B1',fmt:'#,##0'}],
 [{t:'<b>Average cost per bag</b>'},{f:v=>v.t/v.q,fx:'=B4/B1',fmt:'#,##0',tot:true}]
 ]})}</div>
-<div class="card"><h2>Case II — no beginning but an ending WIP (February)</h2>
+<div class="card"><h2>Case II — no beginning but an ending WIP (February)</h2>${FIG('equivalent-units','A bag that is 60 % through conversion counts as 0.6 of a bag for conversion cost but a full bag for materials, because materials are added at the start.')}
 <p>6,000 bags are started, 5,000 completed and 1,000 remain in process, on average 60% complete as to conversion (materials are added at the start, so they are 100% complete). Dividing 29,200,000 by 6,000 physical units would give 4,867 per bag — <em>wrong</em>, because the unfinished bags have not absorbed all their conversion cost. Equivalent units fix this.</p>
 ${S({title:'February — equivalent units',cols:[300,100,110,110],rows:[
 [{h:'Flow of production'},{h:'Physical units'},{h:'Direct materials'},{h:'Conversion'}],
@@ -659,7 +677,7 @@ ${S({title:'February — equivalent units',cols:[300,100,110,110],rows:[
 ['Cost of bags transferred out',{f:v=>v.done*(v.um+v.uc),fx:'=B2*(C7+D7)',fmt:'#,##0'}],
 ['Cost of ending WIP',{f:v=>v.wip*v.pm*v.um+v.wip*v.pc*v.uc,fx:'=C3*C7+D3*D7',fmt:'#,##0'}]
 ]})}</div>
-<div class="card"><h2>Case III — both beginning and ending WIP (March, weighted average)</h2>
+<div class="card"><h2>Case III — both beginning and ending WIP (March, weighted average)</h2>${FIG('inventory-flow','Under the weighted-average method the opening WIP cost is pooled with March\'s cost, and the total is divided by all equivalent units of work in the pool.')}
 <p>March opens with 1,000 bags in process (materials 100%, conversion 60%) carrying 3,000,000 of materials and 1,200,000 of conversion; 5,500 bags are started, 6,000 completed, 500 remain (materials 100%, conversion 50%). The weighted-average method pools the opening cost with the cost added.</p>
 ${S({title:'March — equivalent units and unit costs',cols:[300,100,110,110],rows:[
 [{h:'Flow of production'},{h:'Physical units'},{h:'Direct materials'},{h:'Conversion'}],
@@ -674,10 +692,12 @@ ${S({title:'March — equivalent units and unit costs',cols:[300,100,110,110],ro
 [{t:'<b>Cost per equivalent unit</b>'},null,{f:v=>v.tm/v.em,n:'um',fx:'=C9/C7',fmt:'#,##0',tot:true},{f:v=>v.tcv/v.ec,n:'uc',fx:'=D9/D7',fmt:'#,##0',tot:true}],
 ['Average cost per completed bag',{f:v=>v.um+v.uc,fx:'=C10+D10',fmt:'#,##0'}]
 ]})}
-<div class="note">The lecture also shows the “work done in the current period only” view (FIFO): deduct the beginning WIP equivalents (1,000 materials, 600 conversion) to get 5,500 and 5,650 equivalent units for March’s own work — the same 3,000 and 2,000 per bag because costs were stable.</div></div>`});
+<div class="note">The lecture also shows the “work done in the current period only” view (FIFO): deduct the beginning WIP equivalents (1,000 materials, 600 conversion) to get 5,500 and 5,650 equivalent units for March’s own work — the same 3,000 and 2,000 per bag because costs were stable.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/10-costing-systems-ii-process-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc10:1"></span></a><a href="/textile/textile-costing/10-costing-systems-ii-process-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc10:2"></span></a><a href="/textile/textile-costing/10-costing-systems-ii-process-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc10:3"></span></a><a href="/textile/textile-costing/10-costing-systems-ii-process-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc10:4"></span></a><a href="/textile/textile-costing/10-costing-systems-ii-process-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc10:5"></span></a></div></div>
+`});
 
 lecture({id:'tc11',course:'tc',n:'11',title:'Advanced Costing Systems — Activity Based Costing',sub:'Why a volume-based allocation hides the true cost of small lots, and how tracing set-up cost per lot changes the picture.',chips:['ABC','Set-up cost','Volume distortion'],body:()=>`
-<div class="card"><h2>The same four products, two costing systems</h2>
+<div class="card"><h2>The same four products, two costing systems</h2>${FIG('unit-cost','Conventional costing pours all Rs 440,000 of fixed cost into one pool and divides it by 4,400 kg, so a 100 kg lot and a 3,000 kg lot pay the same Rs 100 per kg.')}${FIG('abc-pools','ABC first collects cost into activity pools (here the set-up pool) and then charges each pool to products by its own driver — one set-up per lot, not kilograms.')}
 <p>Four products — small or big, low or high volume — each processed as one lot in the month. Material and labour are Rs 100 per kg each; every lot needs a Rs 50,000 set-up; other fixed cost is Rs 240,000. Conventional process costing spreads <em>all</em> fixed cost on kilograms consumed; ABC traces the set-up to the lot that caused it and spreads only the remaining fixed cost on kilograms.</p>
 ${S({title:'Conventional (volume-based) costing vs ABC',cols:[220,90,90,90,90],rows:[
 ['Material cost per kg',{in:'mc',v:100}],['Direct labour per kg',{in:'lc',v:100}],['Set-up cost per lot',{in:'su',v:50000}],['Lots processed in the month',{in:'lots',v:4}],['Other fixed cost',{in:'of',v:240000}],
@@ -698,10 +718,12 @@ ${S({title:'Conventional (volume-based) costing vs ABC',cols:[220,90,90,90,90],r
 ['Total cost per unit (ABC)',{f:v=>(v.pa+v.su+v.oa)/v.ua,n:'xa',fx:'=(B13+B18+B19)/B9',fmt:'#,##0.00'},{f:v=>(v.pb+v.su+v.ob)/v.ub,n:'xb',fx:'=(C13+C18+C19)/C9',fmt:'#,##0.00'},{f:v=>(v.pc+v.su+v.oc)/v.uc,n:'xc',fx:'=(D13+D18+D19)/D9',fmt:'#,##0.00'},{f:v=>(v.pd+v.su+v.od)/v.ud,n:'xd',fx:'=(E13+E18+E19)/E9',fmt:'#,##0.00'}],
 [{t:'<b>Profit per unit at the conventional price</b>'},{f:v=>v.sa-v.xa,fx:'=B16-B20',fmt:'0.00',tot:true},{f:v=>v.sb-v.xb,fx:'=C16-C20',fmt:'0.00',tot:true},{f:v=>v.sc-v.xc,fx:'=D16-D20',fmt:'0.00',tot:true},{f:v=>v.sd-v.xd,fx:'=E16-E20',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">Conventional costing says every product earns 10%. ABC shows the two low-volume lots (A and C, 100 units each) are sold far below cost and the large lots subsidise them. Marketing that quotes “cost plus 10%” from the conventional sheet is quietly losing money on every small order.</div></div>`});
+<div class="note">Conventional costing says every product earns 10%. ABC shows the two low-volume lots (A and C, 100 units each) are sold far below cost and the large lots subsidise them. Marketing that quotes “cost plus 10%” from the conventional sheet is quietly losing money on every small order.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/11-advanced-costing-systems-activity-based-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc11:1"></span></a><a href="/textile/textile-costing/11-advanced-costing-systems-activity-based-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc11:2"></span></a><a href="/textile/textile-costing/11-advanced-costing-systems-activity-based-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc11:3"></span></a><a href="/textile/textile-costing/11-advanced-costing-systems-activity-based-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc11:4"></span></a><a href="/textile/textile-costing/11-advanced-costing-systems-activity-based-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc11:5"></span></a></div></div>
+`});
 
 lecture({id:'tc12',course:'tc',n:'12',title:'ABC Uses in Textiles',sub:'Set-up cost versus running cost in dyeing and printing, screen costs, colour wastage, and the true cost of short runs.',chips:['Set-up vs running','Screens','Colour wastage','Short runs'],body:()=>`
-<div class="card"><h2>Two kinds of machine cost</h2>
+<div class="card"><h2>Two kinds of machine cost</h2>${FIG('abc-pools','Running cost follows the metres; set-up cost follows the order. ABC keeps them in separate pools so a 1,000 m job carries its own Rs 5,500 changeover instead of a share of everyone\'s.')}
 <p>A machine has a <b>running cost</b> (workers on it, electricity, gas, depreciation) and a <b>set-up cost</b> — the cost of each changeover: wages of workers who set up or stand idle, the minimum chemicals needed to start, and so on. Suppose a processing department has a set-up cost of Rs 5,500 and a running cost of Rs 1 per metre, and marketing charges Rs 3 per metre. Two orders arrive: A for 1,000 m and B for 10,000 m.</p>
 ${S({title:'Conventional costing vs ABC — orders A and B',cols:[260,110,110],rows:[
 ['Running cost per metre',{in:'rc',v:1}],['Set-up cost per order',{in:'su',v:5500}],['Charge to customer per metre',{in:'pr',v:3}],
@@ -716,7 +738,7 @@ ${S({title:'Conventional costing vs ABC — orders A and B',cols:[260,110,110],r
 ['Cost of order',{f:v=>v.rc*v.la+v.su,n:'xa',fx:'=B1*B5+B2',fmt:'#,##0'},{f:v=>v.rc*v.lb+v.su,n:'xb',fx:'=B1*C5+B2',fmt:'#,##0'}],
 ['Profit / (loss)',{f:v=>v.ra-v.xa,fx:'=B9-B12',fmt:'#,##0',tot:true},{f:v=>v.rb-v.xb,fx:'=C9-C12',fmt:'#,##0',tot:true}]
 ]})}</div>
-<div class="card"><h2>Dyeing and printing study of a textile factory</h2>
+<div class="card"><h2>Dyeing and printing study of a textile factory</h2>${FIG('unit-cost','Screen cost per metre is the screen cost divided by the run length: Rs 62.49 per metre on 400 m becomes Rs 1.25 on 20,000 m for the same four screens.')}${FIG('screen-printing','In rotary printing every colour needs its own engraved screen, so a 12-colour design carries twelve screen costs and twelve colour-kitchen batches before the first good metre is printed.')}
 <p>Observations from a rotary printing department:</p>
 <ul><li>A changeover means removing and washing screens, blades and the drum, changing the back cloth, and changing blades if the width changes.</li>
 <li>100–200 m of testing wastage per design at rotary #4 arises from setting problems. Designs with fewer colours can be checked at slow speed (less wastage); more colours need high speed so colours become sharp enough to check, and have more setting problems.</li>
@@ -738,13 +760,15 @@ ${S({title:'Screen cost per metre (Rs)',cols:[90,90,90,90,90,90],rows:[
 [{h:'Colours \\ Metres'},{h:'400'},{h:'1,000'},{h:'2,000'},{h:'10,000'},{h:'20,000'}],
 ...[4,8,12].map(n=>[{t:String(n)},...[400,1000,2000,10000,20000].map(m=>({f:v=>v.sc*n/m,fx:'=screen×'+n+'/'+m,fmt:'0.00'}))])
 ]})}
-<div class="note">The accounting department depreciates a screen over a life of 65,000 m. With real runs of 1,000–2,000 m, most screens never reach that life — the books fill with useless screen “inventory” while the orders that caused the cost look profitable.</div></div>`});
+<div class="note">The accounting department depreciates a screen over a life of 65,000 m. With real runs of 1,000–2,000 m, most screens never reach that life — the books fill with useless screen “inventory” while the orders that caused the cost look profitable.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/12-abc-uses-in-textiles/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc12:1"></span></a><a href="/textile/textile-costing/12-abc-uses-in-textiles/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc12:2"></span></a><a href="/textile/textile-costing/12-abc-uses-in-textiles/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc12:3"></span></a><a href="/textile/textile-costing/12-abc-uses-in-textiles/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc12:4"></span></a><a href="/textile/textile-costing/12-abc-uses-in-textiles/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc12:5"></span></a></div></div>
+`});
 
 lecture({id:'tc13',course:'tc',n:'13',title:'Budgets & Variances',sub:'The budgeting cycle, static and flexible budgets, and Level 0 to Level 2 variance analysis for Webb Company.',chips:['Master budget','Static vs flexible','Level 2 analysis'],body:()=>`
-<div class="card"><h2>Why budget</h2>
+<div class="card"><h2>Why budget</h2>${FIG('budget-cycle','The budgeting cycle never stops: plan, operate, measure the results, compare them with the plan, investigate the variances and plan again with what you learned.')}
 <p>Budgets are among the most widely used tools for planning and controlling organisations. A budget is a quantitative expression, for a set time period, of a proposed future plan of action. It turns managers’ perspectives forward — to exploit opportunities and to anticipate problems. The budgeting cycle: (1) plan the performance of the organisation and its sub-units; (2) provide a frame of reference against which actual results are compared; (3) investigate variations from plan and take corrective action; (4) plan again with the feedback. The <b>master budget</b> coordinates all the individual budgets — operating decisions on acquiring and using resources, financing decisions on how to pay for them.</p>
 <p>A <b>variance</b> is the difference between an actual result and a budgeted amount. A <b>standard</b> is a carefully predetermined amount, usually per unit. A <b>static budget</b> is based on one level of output and is not altered afterwards; a <b>flexible budget</b> is adjusted to the actual output, which lets managers compute a richer set of variances. A variance is <b>favourable (F)</b> if it increases operating income relative to budget and <b>unfavourable (U)</b> if it decreases it.</p></div>
-<div class="card"><h2>Webb Company — April 2007</h2>
+<div class="card"><h2>Webb Company — April 2007</h2>${FIG('variance-tree','The Rs 237,000 U static-budget variance splits into a sales-volume variance (2,000 fewer jackets) and a flexible-budget variance — the part operating managers can really be held to.')}${FIG('budget-vs-actual','Three columns tell Webb\'s story: the static budget planned for 12,000 jackets, the flexible budget re-states that plan for the 10,000 actually sold, and actual results show what happened.')}
 <p>Webb makes a jacket sold to clothing stores. Budgeted selling price 180; budgeted variable cost 99 per jacket (materials 60, direct manufacturing labour 16, variable manufacturing overhead 12, direct marketing labour 6, variable marketing overhead 5); budgeted fixed costs 710,000 (276,000 manufacturing, 434,000 marketing). The static budget assumed 12,000 jackets; 10,000 were actually made and sold.</p>
 ${S({title:'Level 0, 1 and 2 variance analysis',cols:[180,100,110,100,110,100],note:'Variances: positive = F (favourable), negative = U (unfavourable)',rows:[
 [{h:''},{h:'Actual results'},{h:'Flexible-budget variance'},{h:'Flexible budget'},{h:'Sales-volume variance'},{h:'Static budget'}],
@@ -768,10 +792,12 @@ ${S({title:'Level 1 analysis — static-budget variance line by line',cols:[180,
 ]})}
 <p>Reading the sheet: the static-budget variance of operating income is 237,000 U (Level 0). Level 1 splits it line by line against the static budget. Level 2 inserts the flexible budget at 10,000 units: the <b>sales-volume variance</b> (162,000 U) comes purely from selling 2,000 fewer jackets, while the <b>flexible-budget variance</b> (75,000 U) is what the operating managers can really be held to — revenue 50,000 F (price higher than budget), variable cost 130,000 U, fixed cost 5,000 F.</p>
 <h3>The five steps of a flexible budget</h3>
-<ol class="steps"><li>Determine the budgeted selling price, unit variable cost and fixed costs.</li><li>Determine the actual quantity of the revenue driver (10,000 jackets sold).</li><li>Flexible-budget revenue = budgeted price × actual quantity = 180 × 10,000 = 1,800,000.</li><li>Determine the actual quantity of the cost drivers (units produced and sold).</li><li>Flexible-budget costs = budgeted unit variable cost × actual quantity + budgeted fixed cost = 990,000 + 710,000.</li></ol></div>`});
+<ol class="steps"><li>Determine the budgeted selling price, unit variable cost and fixed costs.</li><li>Determine the actual quantity of the revenue driver (10,000 jackets sold).</li><li>Flexible-budget revenue = budgeted price × actual quantity = 180 × 10,000 = 1,800,000.</li><li>Determine the actual quantity of the cost drivers (units produced and sold).</li><li>Flexible-budget costs = budgeted unit variable cost × actual quantity + budgeted fixed cost = 990,000 + 710,000.</li></ol></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/13-budgets-and-variances/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc13:1"></span></a><a href="/textile/textile-costing/13-budgets-and-variances/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc13:2"></span></a><a href="/textile/textile-costing/13-budgets-and-variances/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc13:3"></span></a><a href="/textile/textile-costing/13-budgets-and-variances/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc13:4"></span></a><a href="/textile/textile-costing/13-budgets-and-variances/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc13:5"></span></a></div></div>
+`});
 
 lecture({id:'tc14',course:'tc',n:'14',title:'Budgeting in Textiles — Price & Efficiency Variances',sub:'Splitting Webb’s flexible-budget variances for materials and labour into a price part and an efficiency part.',chips:['Price variance','Efficiency variance','Standards'],body:()=>`
-<div class="card"><h2>Standards and actuals</h2>
+<div class="card"><h2>Standards and actuals</h2>${FIG('variance-tree','Lecture 13 stopped at the flexible-budget variance; here each input\'s flexible-budget variance is split again into a price part (what we paid) and an efficiency part (how much we used).')}${FIG('price-efficiency','Draw actual price × actual quantity as one rectangle and standard price × standard quantity as another: the strip along the top is the price variance, the strip down the side is the efficiency variance.')}
 <p>Each jacket should use 2 yd of cloth at Rs 30, 0.8 h of manufacturing labour at Rs 20 and 0.25 h of marketing labour at Rs 24. April’s actuals: 22,200 yd of cloth costing 688,200; 9,000 manufacturing hours costing 198,000; 2,304 marketing hours costing 57,600, for 10,000 jackets.</p>
 <div class="formula">Price variance = (actual price − budgeted price) × actual input<br>Efficiency variance = (actual input − budgeted input allowed for actual output) × budgeted price<br>Price + efficiency = flexible-budget variance</div>
 ${S({title:'Price and efficiency variances',cols:[220,110,110,110,110],rows:[
@@ -789,10 +815,12 @@ ${S({title:'Price and efficiency variances',cols:[220,110,110,110,110],rows:[
 ['Direct manufacturing labour',{f:v=>v.u*v.sl*v.pl,n:'fbl',fx:'=B5*B3*C3',fmt:'#,##0'},{f:v=>v.al-v.fbl,fx:'=B8-B12',fmt:'#,##0'},{f:v=>(v.apl-v.pl)*v.ql,fx:'=(D8-C3)*C8',fmt:'#,##0'},{f:v=>(v.ql-v.u*v.sl)*v.pl,fx:'=(C8-B5*B3)*C3',fmt:'#,##0'}],
 ['Direct marketing labour',{f:v=>v.u*v.sk*v.pk,n:'fbk',fx:'=B5*B4*C4',fmt:'#,##0'},{f:v=>v.ak-v.fbk,fx:'=B9-B13',fmt:'#,##0'},{f:v=>(v.apk-v.pk)*v.qk,fx:'=(D9-C4)*C9',fmt:'#,##0'},{f:v=>(v.qk-v.u*v.sk)*v.pk,fx:'=(C9-B5*B4)*C4',fmt:'#,##0'}]
 ]})}
-<div class="note">Materials: 88,200 U = 22,200 U price (paid Rs 31 instead of 30) + 66,000 U efficiency (used 2,200 yd more than the 20,000 allowed). Marketing labour shows the opposite pattern — paid more per hour but used fewer hours, so the net variance is 2,400 F. In a spinning mill the same split separates “cotton got dearer” from “we wasted more cotton”.</div></div>`});
+<div class="note">Materials: 88,200 U = 22,200 U price (paid Rs 31 instead of 30) + 66,000 U efficiency (used 2,200 yd more than the 20,000 allowed). Marketing labour shows the opposite pattern — paid more per hour but used fewer hours, so the net variance is 2,400 F. In a spinning mill the same split separates “cotton got dearer” from “we wasted more cotton”.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/14-budgeting-in-textiles-price-and-efficiency-variances/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc14:1"></span></a><a href="/textile/textile-costing/14-budgeting-in-textiles-price-and-efficiency-variances/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc14:2"></span></a><a href="/textile/textile-costing/14-budgeting-in-textiles-price-and-efficiency-variances/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc14:3"></span></a><a href="/textile/textile-costing/14-budgeting-in-textiles-price-and-efficiency-variances/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc14:4"></span></a><a href="/textile/textile-costing/14-budgeting-in-textiles-price-and-efficiency-variances/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc14:5"></span></a></div></div>
+`});
 
 lecture({id:'tc15',course:'tc',n:'15',title:'Review of Spinning Calculations',sub:'Count, ounces per spindle, bags per frame, cotton cost per lb and the adjusted cost of carded and combed yarn — the mid-term review.',chips:['OPS','Bags per frame','Yield','Combed vs carded'],body:()=>`
-<div class="card"><h2>Production of a ring frame</h2>
+<div class="card"><h2>Production of a ring frame</h2>${FIG('yarn-count','Ne is an indirect count: a higher number means a finer, lighter yarn — so count 60 gives far fewer ounces per spindle than count 10 in the same shift.')}${FIG('ring-frame','Each spindle of the ring frame delivers a few ounces of yarn per shift; OPS is that output per spindle, and it falls steeply as the count gets finer because finer yarn needs more twist per inch.')}
 <p>Spinning production is quoted as <b>OPS</b> — ounces per spindle per shift — which falls steeply as the count gets finer. A frame of 480 spindles at 1 OPS makes 480 oz a shift, 1,440 oz a day (three shifts), which is 0.9 bags of 100 lb. Multiply by the OPS of the count being spun to get bags per frame per day.</p>
 ${S({title:'Bags per frame per day',cols:[220,100,40,100,100],rows:[
 [{h:''},{h:''},null,{h:'Count'},{h:'OPS'}],
@@ -805,7 +833,7 @@ ${S({title:'Bags per frame per day',cols:[220,100,40,100,100],rows:[
 [{t:'<b>Bags per frame per day</b>'},{f:v=>v.ops*v.b1,fx:'=B7*B6',fmt:'0.00',tot:true},null,{t:'16'},{t:'13.3'}],
 [null,null,null,{t:'18'},{t:'11'}],[null,null,null,{t:'20'},{t:'10.3'}],[null,null,null,{t:'20 CM'},{t:'10.5'}],[null,null,null,{t:'24'},{t:'8'}],[null,null,null,{t:'26'},{t:'7.5'}],[null,null,null,{t:'30'},{t:'5.5'}],[null,null,null,{t:'40 CM'},{t:'4.15'}],[null,null,null,{t:'50 CM'},{t:'3.5'}],[null,null,null,{t:'60 CM'},{t:'2.6'}],[null,null,null,{t:'80 CM'},{t:'1.7'}],[null,null,null,{t:'100 CM'},{t:'1.1'}],[null,null,null,{t:'120 CM'},{t:'0.9'}]
 ],note:'OPS table on the right (CM = combed).'})}</div>
-<div class="card"><h2>Cotton cost per lb of yarn</h2>
+<div class="card"><h2>Cotton cost per lb of yarn</h2>${FIG('yarn-cost-stack','Cotton cost per lb of yarn starts with the maund price, is inflated by the yield (only 74–82 % becomes yarn) and then reduced by what the waste and noil fetch when sold.')}
 <p>Cotton is bought per maund (37.34 kg). Only part of it becomes yarn — the <b>yield</b> — and the waste is sold for a fraction of the cotton price. Combed yarn gives up a further 8% as noil, which sells well.</p>
 ${S({title:'Adjusted cotton cost per lb of yarn',cols:[280,110],rows:[
 ['Cotton price per maund (Rs)',{in:'pm',v:2800}],['kg per maund',{in:'kg',v:37.34}],
@@ -820,10 +848,12 @@ ${S({title:'Adjusted cotton cost per lb of yarn',cols:[280,110],rows:[
 ['Noil % (1 − yield − waste)',{f:v=>1-v.y2-v.wp,n:'np',fx:'=1-B11-B13',fmt:'0.0%'}],['Proceeds on noil',{in:'pn',v:0.7,fmt:'0%'}],['Rupee value of noil',{f:v=>v.cl*v.np*v.pn,n:'r3',fx:'=B3*B16*B17',fmt:'0.000'}],
 [{t:'<b>Adjusted cotton cost — combed</b>'},{f:v=>v.a2-v.r2-v.r3,fx:'=B12-B15-B18',fmt:'0.000',tot:true}]
 ]})}
-<div class="warn">A subtle point in the original worksheet: the carded formula credits waste on (1 − yield) while the combed formula separates waste and noil, because noil is worth far more than ordinary waste. Always ask what each by-product sells for.</div></div>`});
+<div class="warn">A subtle point in the original worksheet: the carded formula credits waste on (1 − yield) while the combed formula separates waste and noil, because noil is worth far more than ordinary waste. Always ask what each by-product sells for.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/15-review-of-spinning-calculations/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc15:1"></span></a><a href="/textile/textile-costing/15-review-of-spinning-calculations/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc15:2"></span></a><a href="/textile/textile-costing/15-review-of-spinning-calculations/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc15:3"></span></a><a href="/textile/textile-costing/15-review-of-spinning-calculations/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc15:4"></span></a><a href="/textile/textile-costing/15-review-of-spinning-calculations/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc15:5"></span></a></div></div>
+`});
 
 lecture({id:'tc16',course:'tc',n:'16',title:'Simple Yarn Costing',sub:'Raw material, variable production and export costs, contribution per bag and per frame for an export yarn order.',chips:['Export costs','Contribution per bag','Profit per frame'],body:()=>`
-<div class="card"><h2>From a dollar price to a profit per frame</h2>
+<div class="card"><h2>From a dollar price to a profit per frame</h2>${FIG('container','Container-level charges such as ocean freight and foreign bank charges are spread over the 400 bags in the box to give a cost per bag.')}${FIG('contribution-margin','Price per bag minus variable cost leaves the contribution; multiplied by bags per frame per day it must cover the Rs 14,000 fixed cost of the frame before any profit appears.')}${FIG('yarn-cost-stack','The variable cost of one bag is built up layer by layer: cotton net of waste, packing and every export charge that is only paid because the bag is sold.')}
 <p>A spinning mill sells Ne 20 at US$ 2 per kg. One container carries 400 bags. Every cost that is incurred <em>because</em> the bag is sold is variable; the frame cost (depreciation, finance, labour) is fixed per frame and compared with the contribution a frame earns in a day.</p>
 ${S({title:'Yarn export costing — per container and per bag',cols:[280,100,110,110],rows:[
 [{h:''},{h:'Basis'},{h:'Per container'},{h:'Per bag'}],
@@ -848,10 +878,12 @@ ${S({title:'Yarn export costing — per container and per bag',cols:[280,100,110
 ['Break-even price per bag (Rs)',{f:v=>(v.tv-v.c2+v.ff/v.bf)/(1-v.eds),fx:'=(D14-D7+B19/B17)/(1-B7)',fmt:'#,##0'}],
 ['Break-even price (US$/kg)',{f:v=>(v.tv-v.c2+v.ff/v.bf)/(1-v.eds)/100*2.204/v.fx,fx:'=B23/100*2.204/B4',fmt:'0.000'}]
 ]})}
-<div class="note">At US$ 2 the Ne 20 frame loses about Rs 3,650 a day: the contribution of Rs 1,117 per bag × 9.27 bags does not cover the Rs 14,000 frame cost. Raise the price, the exchange rate or the OPS and watch the break-even line — this is the daily conversation in every spinning mill’s marketing office.</div></div>`});
+<div class="note">At US$ 2 the Ne 20 frame loses about Rs 3,650 a day: the contribution of Rs 1,117 per bag × 9.27 bags does not cover the Rs 14,000 frame cost. Raise the price, the exchange rate or the OPS and watch the break-even line — this is the daily conversation in every spinning mill’s marketing office.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/16-simple-yarn-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc16:1"></span></a><a href="/textile/textile-costing/16-simple-yarn-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc16:2"></span></a><a href="/textile/textile-costing/16-simple-yarn-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc16:3"></span></a><a href="/textile/textile-costing/16-simple-yarn-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc16:4"></span></a><a href="/textile/textile-costing/16-simple-yarn-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc16:5"></span></a></div></div>
+`});
 
 lecture({id:'tc17',course:'tc',n:'17',title:'Optimal Yarn Mix',sub:'Allocating 46 frames among six counts to maximise contribution, within the limit of 780 bags of daily shipment.',chips:['Product mix','Constraints','Contribution per frame'],body:()=>`
-<div class="card"><h2>The decision</h2>
+<div class="card"><h2>The decision</h2>${FIG('ring-frame','The ring frame is the scarce resource: a coarse count fills many bags a day from one frame, a fine count only a few, so the same frame earns very different amounts.')}${FIG('contribution-margin','Each count\'s contribution per bag is price minus variable cost minus surcharge; multiplied by its bags per frame per day it becomes the contribution a frame earns on that count.')}${FIG('optimal-mix','With frames and daily shipment both limited, the mill chooses the counts that earn the most contribution per frame while keeping the bags shipped within 780 a day.')}
 <p>A mill has 46 frames and can ship at most 780 bags a day. Coarser counts earn less per bag but produce many more bags per frame; finer counts the reverse. The frame — the scarce resource — must be given to the count that earns the most <em>per frame</em>, subject to the shipping limit. Change the frames allotted to each count (row 2) and watch the totals; compare the frame and bag totals in the last column with their limits (46 frames, 780 bags) to see if the plan is feasible.</p>
 ${S({title:'Yarn mix — contribution per frame per day',cols:[200,80,80,80,80,80,80,100],rows:[
 [{h:'Count (Ne)'},{h:'6'},{h:'8'},{h:'10'},{h:'12'},{h:'16'},{h:'20'},{h:'Total / limit'}],
@@ -870,10 +902,12 @@ ${S({title:'Yarn mix — contribution per frame per day',cols:[200,80,80,80,80,8
 [{t:'<b>Profit per day</b>'},null,null,null,null,null,null,{f:v=>v.tct-v.fc,n:'pd',fx:'=H12-H13',fmt:'#,##0',tot:true}],
 ['Profit per month',null,null,null,null,null,null,{f:v=>v.pd*30,fx:'=H14×30',fmt:'#,##0'}]
 ]})}
-<div class="note">With six frames on every count only 36 of the 46 frames run and the mill earns about Rs 85,000 a day. Ne 8 gives the highest contribution per frame (≈23,750), but running all 46 frames on coarse counts would ship far more than 780 bags, so the shipping limit binds: the best plan puts about 33.6 frames on Ne 10 and 12.4 on Ne 20, using all 46 frames and exactly 780 bags, for a contribution of about Rs 960,000 and a profit of about Rs 316,000 a day. Try it: the sheet is a hand-driven linear programme.</div></div>`});
+<div class="note">With six frames on every count only 36 of the 46 frames run and the mill earns about Rs 85,000 a day. Ne 8 gives the highest contribution per frame (≈23,750), but running all 46 frames on coarse counts would ship far more than 780 bags, so the shipping limit binds: the best plan puts about 33.6 frames on Ne 10 and 12.4 on Ne 20, using all 46 frames and exactly 780 bags, for a contribution of about Rs 960,000 and a profit of about Rs 316,000 a day. Try it: the sheet is a hand-driven linear programme.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/17-optimal-yarn-mix/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc17:1"></span></a><a href="/textile/textile-costing/17-optimal-yarn-mix/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc17:2"></span></a><a href="/textile/textile-costing/17-optimal-yarn-mix/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc17:3"></span></a><a href="/textile/textile-costing/17-optimal-yarn-mix/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc17:4"></span></a><a href="/textile/textile-costing/17-optimal-yarn-mix/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc17:5"></span></a></div></div>
+`});
 
 lecture({id:'tc18',course:'tc',n:'18',title:'Review of Weaving Calculations I',sub:'Denier, fabric weight and the yarn cost per yard and per metre of grey fabric, including contraction, wastage and B-grade.',chips:['Warp & weft weight','Wastage','Yarn cost per metre'],body:()=>`
-<div class="card"><h2>How much yarn is in a metre of fabric?</h2>
+<div class="card"><h2>How much yarn is in a metre of fabric?</h2>${FIG('yarn-count','In the indirect cotton system, Ne is the number of 840 yd hanks in one pound, so 840 × Ne yards of yarn weigh exactly one pound.')}${FIG('crimp','Because each yarn bends over and under its neighbours, the yarn in the cloth is longer than the cloth itself: this crimp (contraction) is why the weight is grossed up.')}${FIG('fabric-weight','A metre of fabric is a bundle of warp ends running its length and a row of weft picks across its width; weigh each set and you have the yarn in the cloth.')}
 <p>For a construction written warp × weft / ends × picks, width: the warp weight per yard is the number of ends × (1 + crimp + wastage) ÷ (840 × Ne); the weft weight per yard is picks per inch × 36 × width (yd) × (1 + crimp + wastage) ÷ (840 × Ne). Both are grossed up for the B-grade fabric that must still be paid for (÷ (1 − B-grade)). Multiply by the yarn price and you have the biggest single cost of the fabric.</p>
 ${S({title:'Yarn weight and cost per linear yard / metre — 20×20/60×60, 63″',cols:[300,110,60,110,110],rows:[
 ['Warp count (Ne)',{in:'wp',v:20},null,{t:'Warp price (Rs/10 lb)'},{in:'pw',v:500}],
@@ -896,10 +930,12 @@ ${S({title:'Yarn weight and cost per linear yard / metre — 20×20/60×60, 63�
 ['Weft cost',{f:v=>v.pf*v.fyd/10,n:'cfy',fx:'=E2*B20/10',fmt:'0.00'},null,{f:v=>v.cfy*1.0936,n:'cfm',fx:'=B24*1.0936',fmt:'0.00'}],
 [{t:'<b>Yarn cost of fabric</b>'},{f:v=>v.cwy+v.cfy,fx:'=B23+B24',fmt:'0.00',tot:true},null,{f:v=>v.cwm+v.cfm,fx:'=D23+D24',fmt:'0.00',tot:true}]
 ]})}
-<p>Denier, used for filament yarns, converts as denier = 5,315 / Ne (so Ne 30 ≈ 177 denier) — see Weaving Calculations Lecture 1 for all the count systems.</p></div>`});
+<p>Denier, used for filament yarns, converts as denier = 5,315 / Ne (so Ne 30 ≈ 177 denier) — see Weaving Calculations Lecture 1 for all the count systems.</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/18-review-of-weaving-calculations-i/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc18:1"></span></a><a href="/textile/textile-costing/18-review-of-weaving-calculations-i/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc18:2"></span></a><a href="/textile/textile-costing/18-review-of-weaving-calculations-i/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc18:3"></span></a><a href="/textile/textile-costing/18-review-of-weaving-calculations-i/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc18:4"></span></a><a href="/textile/textile-costing/18-review-of-weaving-calculations-i/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc18:5"></span></a></div></div>
+`});
 
 lecture({id:'tc19',course:'tc',n:'19',title:'Review of Weaving Calculations II',sub:'Loom production per day, B-grade adjustment, sizing and packing cost — the variable production cost of one metre of grey fabric.',chips:['Loom production','B-grade','Sizing cost','Variable cost per metre'],body:()=>`
-<div class="card"><h2>Production of a loom</h2>
+<div class="card"><h2>Production of a loom</h2>${FIG('fabric-cost-stack','The variable production cost of a metre stacks yarn, sizing and packing, then takes off the small credit earned when the B-grade metres are sold.')}${FIG('sizing','Every kilogram of warp passes through the size box before weaving, so sizing is charged per kg of warp in a metre of cloth, not per metre directly.')}${FIG('loom-production','Picks per minute divided by picks per inch gives inches per minute; multiply by efficiency and the minutes in a day and the loom\'s daily output in yards follows.')}
 <p>An air-jet loom at 800 rpm inserting 60 picks per inch at 90% efficiency makes 12 inches a minute: 800 × 0.9 ÷ 60. Per day that is 480 yd; 1% of it is B-grade, so 475 yd of A-grade — 435 m. Sizing is paid per kg of sized warp; packing per metre; B-grade fetches a lower price that comes back as a small credit.</p>
 ${S({title:'Loom production and variable cost per metre',cols:[300,110,60],rows:[
 ['RPM',{in:'rpm',v:800}],['Efficiency',{in:'eff',v:0.9,fmt:'0%'}],['Picks per inch',{in:'ppi',v:60}],
@@ -918,10 +954,12 @@ ${S({title:'Loom production and variable cost per metre',cols:[300,110,60],rows:
 ['B-grade price per metre',{in:'bp',v:21}],
 ['B-grade proceeds per metre (credit)',{f:v=>-v.bp*v.bg,n:'bc',fx:'=-B17*B6',fmt:'0.00'}],
 [{t:'<b>Total variable production cost per metre</b>'},{f:v=>v.yc+v.sm+v.pk+v.bc,fx:'=B10+B15+B16+B18',fmt:'0.00',tot:true}]
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/19-review-of-weaving-calculations-ii/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc19:1"></span></a><a href="/textile/textile-costing/19-review-of-weaving-calculations-ii/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc19:2"></span></a><a href="/textile/textile-costing/19-review-of-weaving-calculations-ii/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc19:3"></span></a><a href="/textile/textile-costing/19-review-of-weaving-calculations-ii/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc19:4"></span></a><a href="/textile/textile-costing/19-review-of-weaving-calculations-ii/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc19:5"></span></a></div></div>
+`});
 
 lecture({id:'tc20',course:'tc',n:'20',title:'Simple Fabric Costing',sub:'Container loading, export costs per metre, sale proceeds and the contribution per metre and per loom per day for an export grey fabric.',chips:['FCL','Export cost/m','Contribution per loom'],body:()=>`
-<div class="card"><h2>How many metres fit in a container?</h2>
+<div class="card"><h2>How many metres fit in a container?</h2>${FIG('contribution-margin','Sale proceeds per metre less total variable cost leaves the contribution; multiplied by the loom\'s daily output it is compared with the loom\'s daily fixed cost.')}${FIG('fabric-cost-stack','The full variable cost of an export metre is the production cost from Lecture 19 plus every export charge spread over the metres in the container.')}${FIG('container','A 40 ft container is limited by its 57,000 lb payload; divide by the yarn weight of one metre and you know how many metres share the container\'s fixed export charges.')}
 <p>A 40 ft container carries 57,000 lb. Divide by the yarn weight of one metre (warp + weft, with contraction) and you know the metres per container — and therefore how the fixed export charges (transport to port, forwarding, freight, bank charges) spread over each metre.</p>
 ${S({title:'Export fabric costing — 20×20/60×60, 63″, 40 ft container',cols:[300,110,110],rows:[
 [{s:'Yarn in one unit of fabric',span:3}],
@@ -951,10 +989,12 @@ ${S({title:'Export fabric costing — 20×20/60×60, 63″, 40 ft container',col
 ['Loom production per day (m)',null,{in:'lp',v:434.5}],
 [{t:'<b>Contribution per loom per day</b>'},null,{f:v=>v.cmm*v.lp,fx:'=C27*C28',fmt:'#,##0',tot:true}]
 ]})}
-<div class="note">Compare the Rs 5,073 contribution per loom per day with the loom’s daily fixed cost (about Rs 4,000 in Lecture 8) and the order is worth taking — but only just. A one-cent drop in the dollar price removes Rs 0.60 of proceeds per metre (about Rs 0.59 after commission and surcharge), roughly a twentieth of the Rs 11.67 margin.</div></div>`});
+<div class="note">Compare the Rs 5,073 contribution per loom per day with the loom’s daily fixed cost (about Rs 4,000 in Lecture 8) and the order is worth taking — but only just. A one-cent drop in the dollar price removes Rs 0.60 of proceeds per metre (about Rs 0.59 after commission and surcharge), roughly a twentieth of the Rs 11.67 margin.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/20-simple-fabric-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc20:1"></span></a><a href="/textile/textile-costing/20-simple-fabric-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc20:2"></span></a><a href="/textile/textile-costing/20-simple-fabric-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc20:3"></span></a><a href="/textile/textile-costing/20-simple-fabric-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc20:4"></span></a><a href="/textile/textile-costing/20-simple-fabric-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc20:5"></span></a></div></div>
+`});
 
 lecture({id:'tc21',course:'tc',n:'21',title:'Simple Dyed Fabric Costing',sub:'From local grey price through wastage, dyeing charges and export costs to the US-dollar price a dyed fabric must fetch.',chips:['Gross grey price','B-grade','Required price'],body:()=>`
-<div class="card"><h2>Working back from cost to the quotation</h2>
+<div class="card"><h2>Working back from cost to the quotation</h2>${FIG('spreadsheet','Blue cells are the inputs a costing clerk changes; every grey cell recalculates so the US-dollar price per metre and per yard follow at once.')}${FIG('container','Transport, freight, forwarding and bank charges are paid per container; dividing each by the 107,745 m it holds turns them into a few paisa per metre.')}${FIG('fabric-cost-stack','The dyed-fabric quotation is a stack: grossed-up grey price, less the B-grade credit, plus dyeing, transport and export cost, then margin, commission and surcharge on top.')}
 <p>An exporter who buys grey fabric locally and has it dyed starts from the local grey price, grosses it up for the wastage and shrinkage of processing, credits the B-grade that can still be sold, adds the dyeing charge and transport, then the variable export cost, a margin on cost, and finally commission and the export surcharge — which are percentages of the <em>proceeds</em> and must therefore be divided out, not added.</p>
 ${S({title:'Dyed fabric costing — 40 ft container of 20×20/60×60',cols:[320,100,110],rows:[
 ['Local grey price (Rs/m)',null,{in:'gp',v:100}],
@@ -981,10 +1021,12 @@ ${S({title:'Dyed fabric costing — 40 ft container of 20×20/60×60',cols:[320,
 ['Proceeds including commission and EDS',null,{f:v=>v.pr/(1-v.cm-v.eds),n:'pf',fx:'=C21/(1-B22-C22)',fmt:'0.00'}],
 [{t:'<b>Required sales price (US$/m)</b>'},null,{f:v=>v.pf/v.fx,n:'usd',fx:'=C23/B17',fmt:'0.0000',tot:true}],
 ['Required sales price (US$/yd)',null,{f:v=>v.usd/1.0936,fx:'=C24/1.0936',fmt:'0.0000'}]
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/21-simple-dyed-fabric-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc21:1"></span></a><a href="/textile/textile-costing/21-simple-dyed-fabric-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc21:2"></span></a><a href="/textile/textile-costing/21-simple-dyed-fabric-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc21:3"></span></a><a href="/textile/textile-costing/21-simple-dyed-fabric-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc21:4"></span></a><a href="/textile/textile-costing/21-simple-dyed-fabric-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc21:5"></span></a></div></div>
+`});
 
 lecture({id:'tc22',course:'tc',n:'22',title:'Concept of Routes',sub:'Different process routes for the same dyed fabric cost very different amounts; building the per-metre cost of one process from machine depreciation and utilities.',chips:['Process routes','Cost per metre','Bleaching cost build-up'],body:()=>`
-<div class="card"><h2>Five ways to dye a fabric</h2>
+<div class="card"><h2>Five ways to dye a fabric</h2>${FIG('dyeing-route','Every route starts with bleaching; what follows (mercerizing, pad steam, thermosol, cold pad batch, stenter dyeing) decides cost, lead time and dye class.')}${FIG('routes','Five routes reach the same shade through different machine sequences; each route\'s cost per metre is simply the sum of its processes, from Rs 13.05 to Rs 38.05.')}
 <p>A dyed fabric can reach the same shade through different sequences of machines. Each process has a cost per metre; the route cost is the sum. Choose a route in the sheet to see its cost, and edit the process costs to reflect your own plant.</p>
 ${S({title:'Process costs and route totals (Rs per metre)',cols:[300,110],rows:[
 [{s:'Cost per metre by process',span:2}],
@@ -999,7 +1041,7 @@ ${S({title:'Process costs and route totals (Rs per metre)',cols:[300,110],rows:[
 [{t:'<b>Cost per metre of selected route</b>'},{f:v=>({1:v.bl+v.me+v.ps+v.st,2:v.bl+v.me+v.th+v.wa+v.st,3:v.bl+v.ps+v.st,4:v.bl+v.cpb+v.wa,5:v.bl+v.me+v.sd})[v.r],fx:'=VLOOKUP(route, routes table)',fmt:'0.00',tot:true}]
 ]})}
 <div class="note">Route 4 (cold pad batch) costs a third of route 2, but it is slower, ties up fabric for batching time and suits reactive dyes only. Routing is a cost decision <em>and</em> a quality and delivery decision — the costing sheet gives the price of each choice.</div></div>
-<div class="card"><h2>Where the Rs 3.05 for bleaching comes from</h2>
+<div class="card"><h2>Where the Rs 3.05 for bleaching comes from</h2>${FIG('pad-steam','A continuous range consumes water, compressed air, steam and power every hour; dividing each by the metres per hour gives the utility cost per metre.')}${FIG('machine-hour-rate','A €2.5 million range becomes a cost per hour, then per metre: depreciation plus financial cost, spread over the hours of the year and the effective metres per hour.')}
 <p>A continuous bleaching range costing €2.5 million is depreciated over ten years with 10% a year of financial cost on top. Spread the yearly amount over the hours of the year, convert to rupees, divide by the metres the machine actually processes in an hour, and add chemicals and the utilities it consumes per hour.</p>
 ${S({title:'Bleaching — cost per metre build-up',cols:[300,110,70],rows:[
 ['Machine cost',{in:'mc',v:2500000},{u:'€'}],['Depreciation period (years)',{in:'yr',v:10}],['Financial cost (10% of machine cost per year)',{f:v=>v.mc*0.1,n:'fin',fx:'=B1*10%',fmt:'#,##0'},{u:'€'}],
@@ -1017,10 +1059,12 @@ ${S({title:'Bleaching — cost per metre build-up',cols:[300,110,70],rows:[
 ['Steam: kg/hour × Rs/kg (2030+560+2820 kg)',{in:'sl',v:5410},{in:'sr',v:0.5}],['Steam cost per metre',{f:v=>v.sl*v.sr/v.mh,n:'c4',fx:'=B20*C20/B10',fmt:'0.0000'}],
 ['Power: kW × Rs/kWh',{in:'pw',v:375},{in:'pr',v:8}],['Power cost per metre',{f:v=>v.pw*v.pr/v.mh,n:'c5',fx:'=B22*C22/B10',fmt:'0.0000'}],
 [{t:'<b>Total bleaching cost per metre</b>'},{f:v=>v.c1+v.ch+v.c2+v.c3+v.c4+v.c5,fx:'=B14+B15+B17+B19+B21+B23',fmt:'0.0000',tot:true}]
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/22-concept-of-routes/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc22:1"></span></a><a href="/textile/textile-costing/22-concept-of-routes/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc22:2"></span></a><a href="/textile/textile-costing/22-concept-of-routes/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc22:3"></span></a><a href="/textile/textile-costing/22-concept-of-routes/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc22:4"></span></a><a href="/textile/textile-costing/22-concept-of-routes/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc22:5"></span></a></div></div>
+`});
 
 lecture({id:'tc23',course:'tc',n:'23',title:'Plant Machinery Analysis',sub:'Capacity of each machine in a finishing plant: speed, set-up time, efficiency, double passes and the share of fabric that visits it.',chips:['Capacity','Set-up & efficiency','Bottleneck'],body:()=>`
-<div class="card"><h2>Capacity is speed × time × efficiency — and efficiency hides the set-ups</h2>
+<div class="card"><h2>Capacity is speed × time × efficiency — and efficiency hides the set-ups</h2>${FIG('stenter','Two finishing stenters at 90 m/min give 207,360 m a day, but most fabric passes twice, so the usable finishing capacity is 92,160 m.')}${FIG('pad-steam','On a continuous dyeing range every run of 10,000 m carries 90 minutes of cleaning, preparation and shade matching, which is where the efficiency goes.')}${FIG('plant-capacity','Each machine\'s metres per day come from speed × 1,440 minutes × net efficiency; the plant can only deliver what its slowest line, the bottleneck, can pass.')}
 <p>For a continuous machine the run of 10,000 m at 50 m/min takes 200 min, but each run also needs cleaning (30 min) and preparation and matching (60 min). The calculated efficiency is run time ÷ (run + set-up); subtract another 10% for miscellaneous losses. A machine that passes the fabric twice (double thermosol, dye + wash) has its capacity halved for that fabric. The plant’s overall capacity is set by its bottleneck machine.</p>
 ${S({title:'Thermosol dyeing range — capacity for a 10,000 m run',cols:[300,110,70],rows:[
 ['Proposed run size (m)',{in:'run',v:10000}],['Speed (m/min)',{in:'sp',v:50}],
@@ -1046,10 +1090,12 @@ ${S({title:'Thermosol dyeing range — capacity for a 10,000 m run',cols:[300,11
 <tr><td>Printing</td><td class="r">50</td><td class="r">67%</td><td class="r">48,185</td><td>set-up 60 min; less for colour change, more for design change</td></tr>
 <tr><td>Calendering</td><td class="r">70</td><td class="r">80%</td><td class="r">80,640 (201,600 overall)</td><td>40% of fabric</td></tr>
 <tr><td>Sanforizing</td><td class="r">70</td><td class="r">80%</td><td class="r">80,640 (161,280 overall)</td><td>50% of fabric</td></tr></table>
-<p><b>Overall:</b> dyeing and printing capacity = continuous 34,000 + batch 10,000 + stenter-dyed 34,000 + printing 48,185 ≈ 126,000 m/day; finishing = 34,000 + 92,160 ≈ 126,000 m/day. The plant is balanced at about 126,000 m a day; the thermosol and stenter-dyeing ranges, at 34,000 each, are the lines to watch.</p></div>`});
+<p><b>Overall:</b> dyeing and printing capacity = continuous 34,000 + batch 10,000 + stenter-dyed 34,000 + printing 48,185 ≈ 126,000 m/day; finishing = 34,000 + 92,160 ≈ 126,000 m/day. The plant is balanced at about 126,000 m a day; the thermosol and stenter-dyeing ranges, at 34,000 each, are the lines to watch.</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/23-plant-machinery-analysis/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc23:1"></span></a><a href="/textile/textile-costing/23-plant-machinery-analysis/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc23:2"></span></a><a href="/textile/textile-costing/23-plant-machinery-analysis/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc23:3"></span></a><a href="/textile/textile-costing/23-plant-machinery-analysis/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc23:4"></span></a><a href="/textile/textile-costing/23-plant-machinery-analysis/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc23:5"></span></a></div></div>
+`});
 
 lecture({id:'tc24',course:'tc',n:'24',title:'Final Dyeing Costing',sub:'Fixed cost, utilities and dyes per metre for every process, assembled for an order of a given size and shade depth, and summed by route.',chips:['Per-minute costs','Order size','Shade depth','Route cost'],body:()=>`
-<div class="card"><h2>Costs per minute, applied to an order</h2>
+<div class="card"><h2>Costs per minute, applied to an order</h2>${FIG('routes','A route\'s cost per metre is the sum of its processes; the cheapest route is the one with the cheapest dyeing step, not necessarily the one with the fewest steps.')}${FIG('abc-pools','Set-up minutes and the 300 m worth of set-up colour are order-level costs: they are the same for 2,000 m as for 10,000 m, so a small order carries far more of them in every metre.')}${FIG('machine-hour-rate','Each process has a fixed cost per minute (depreciation, finance, labour) that runs through set-up as well as running time, and a utilities cost per minute that is charged only while fabric is actually running.')}
 <p>Every machine has a fixed cost per minute (depreciation, finance, labour) and a utilities cost per minute. An order of L metres occupies the machine for L ÷ speed minutes of running plus the set-up minutes; fixed cost applies to both, utilities only to running. Dyes and chemicals depend on the shade: Rs 3, 8, 15 or 25 per metre run for light, medium, dark and extra dark, plus a set-up quantity of colour worth 300 m (Rs 900, 2,400, 4,500 or 7,500).</p>
 ${S({title:'Dyeing cost per metre by process — order size and shade',cols:[160,70,70,70,80,80,80,90,90],rows:[
 ['Order size (m)',{in:'L',v:10000},null,{t:'Shade'},{in:'sh',v:'Extra Dark',opts:['Light','Medium','Dark','Extra Dark']}],
@@ -1068,10 +1114,12 @@ ${S({title:'Dyeing cost per metre by process — order size and shade',cols:[160
 ['4. Bleach → Stenter dyeing',null,null,null,null,null,null,null,{f:v=>v.p0t+v.p4t,fx:'=sum of processes',fmt:'0.00',tot:true}],
 ['5. Bleach → Merc → Stenter dyeing',null,null,null,null,null,null,null,{f:v=>v.p0t+v.p1t+v.p4t,fx:'=sum of processes',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">Change the order size to 2,000 m: the set-up minutes and the 300 m of set-up colour are now spread over a fifth of the length and the dyeing processes jump by several rupees a metre. This sheet is the ABC lesson of Lecture 12 turned into a quotation tool.</div></div>`});
+<div class="note">Change the order size to 2,000 m: the set-up minutes and the 300 m of set-up colour are now spread over a fifth of the length and the dyeing processes jump by several rupees a metre. This sheet is the ABC lesson of Lecture 12 turned into a quotation tool.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/24-final-dyeing-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc24:1"></span></a><a href="/textile/textile-costing/24-final-dyeing-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc24:2"></span></a><a href="/textile/textile-costing/24-final-dyeing-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc24:3"></span></a><a href="/textile/textile-costing/24-final-dyeing-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc24:4"></span></a><a href="/textile/textile-costing/24-final-dyeing-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc24:5"></span></a></div></div>
+`});
 
 lecture({id:'tc25',course:'tc',n:'25',title:'Stitching Costing I — Linear Rating',sub:'How many metres of fabric does one sheet, fitted sheet or pillow case consume? Cut lengths, hems, margins and wastage.',chips:['Cut length','Linear rating','Wastage'],body:()=>`
-<div class="card"><h2>From a finished size to a cut length</h2>
+<div class="card"><h2>From a finished size to a cut length</h2>${FIG('stitching-line','The final rating is what the cutting room draws from the store: metres per piece × pieces ordered, so a few centimetres saved per sheet add up over thousands of sheets.')}${FIG('spreadsheet','The worksheet\'s nested IF formulas choose one of four cutting layouts, but every layout ends the same way: cut length in inches ÷ 39.37, rounded up to the next centimetre, plus wastage.')}${FIG('bedsheet','A finished 178 × 260 cm sheet is cut larger: hems are added at top and bottom and margins at the sides, and only then is the cut length measured along the roll.')}
 <p>A finished flat sheet of 178 × 260 cm is cut larger: hems top and bottom, margins on the sides. If the fabric is wide enough the sheet is cut <em>across</em> the width (“inverted”), so the cut length along the roll is the finished width plus side margins; otherwise it runs along the roll. The <b>linear rating</b> is the cut length in metres, and a wastage allowance is added to give the final rating used in costing.</p>
 ${S({title:'Flat sheets — linear rating (inches unless stated)',cols:[150,90,90,70,70,70,70,70,70,90,90,90],rows:[
 [{h:'Item'},{h:'Finished size cm'},{h:'Width in'},{h:'Length in'},{h:'Top hem'},{h:'Bottom hem'},{h:'Side margin'},{h:'Inverted?'},{h:'Cut length in'},{h:'Linear rating m'},{h:'Wastage'},{h:'Final rating'}],
@@ -1087,10 +1135,12 @@ ${S({title:'Fitted sheets and pillow cases',cols:[170,90,90,70,80,70,70,80,90,90
  {f:v=>v[k+'w']+2*v[k+'p']+2*v[k+'s'],n:k+'c',fx:'=width+2×pocket+2×side (cut across width)',fmt:'0.00'},{f:v=>Math.ceil(v[k+'c']/39.37*100)/100,n:k+'r',fx:'=ROUNDUP(cut/39.37,2)',fmt:'0.00'},{in:k+'x',v:0.05,fmt:'0%'},{f:v=>v[k+'r']*(1+v[k+'x']),fx:'=rating×(1+wastage)',fmt:'0.000',tot:true}];}),
 ['Standard pillow case (3 across, U-shape)',{t:'76x48'},{in:'pw',v:29.92},{in:'pl',v:18.9},{in:'pf',v:0},{in:'ph',v:12},{in:'ps',v:12},{f:v=>v.pf+2*v.ph+1+2*v.pl,n:'pc',fx:'=flap+top hem+1″ top margin+bottom 12″+2×length (folded U)',fmt:'0.00'},{f:v=>Math.ceil(v.pc/39.37*100)/100/3,n:'pr',fx:'=ROUNDUP(cut/39.37,2)/3 pieces',fmt:'0.000'},{in:'px',v:0.05,fmt:'0%'},{f:v=>v.pr*(1+v.px),fx:'=rating×(1+wastage)',fmt:'0.000',tot:true}]
 ]})}
-<div class="note">The original worksheet chooses between four cutting layouts with nested IF formulas (inverted or not, selvedge allowance or not). The rule of thumb survives every layout: linear rating = cut length along the roll ÷ 39.37, rounded up to the next centimetre (two decimals of a metre), plus wastage.</div></div>`});
+<div class="note">The original worksheet chooses between four cutting layouts with nested IF formulas (inverted or not, selvedge allowance or not). The rule of thumb survives every layout: linear rating = cut length along the roll ÷ 39.37, rounded up to the next centimetre (two decimals of a metre), plus wastage.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/25-stitching-costing-i-linear-rating/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc25:1"></span></a><a href="/textile/textile-costing/25-stitching-costing-i-linear-rating/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc25:2"></span></a><a href="/textile/textile-costing/25-stitching-costing-i-linear-rating/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc25:3"></span></a><a href="/textile/textile-costing/25-stitching-costing-i-linear-rating/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc25:4"></span></a><a href="/textile/textile-costing/25-stitching-costing-i-linear-rating/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc25:5"></span></a></div></div>
+`});
 
 lecture({id:'tc26',course:'tc',n:'26',title:'Stitching Costing II — Order Costing',sub:'A made-up order from fabric consumption to profit: linear rating, B-grade and rag proceeds, accessories, labour, loading and allocated fixed cost.',chips:['Fabric cost','Accessories','Direct labour','Profitability'],body:()=>`
-<div class="card"><h2>One line of a stitching order</h2>
+<div class="card"><h2>One line of a stitching order</h2>${FIG('cost-object','Each item is a cost object: fabric, accessories, labour and loading are traced directly, while fixed cost is allocated at 3.2 × direct labour.')}${FIG('bedsheet','The linear rating is the metres of fabric one finished piece takes, cut dimensions and hems included; multiplied by pieces it gives the fabric consumed.')}${FIG('stitching-line','Every row of the order sheet follows one item through the stitching unit: fabric in, A-grade and B-grade pieces and rags out, then accessories, labour and loading are added.')}
 <p>Each row of the mill’s costing sheet is one item: pieces made, fabric consumed (A-grade pieces × linear rating, plus the B-grade pieces and rags), fabric cost at the rate per linear metre, credits for B-grade and rag proceeds, then accessories, direct labour and loading, with fixed cost allocated as 3.2 × direct labour. Edit the inputs to cost any item.</p>
 ${S({title:'Stitching order costing — pillow case 20×32, 40×40/110×100',cols:[320,110,110],rows:[
 ['A-grade pieces',{in:'a',v:1776}],['B-grade pieces',{in:'b',v:10}],['Linear rating (m per piece)',{in:'lr',v:0.43}],
@@ -1122,20 +1172,22 @@ ${S({title:'Stitching order costing — pillow case 20×32, 40×40/110×100',col
 <tr><td>7</td><td>Pillow sham 20×36</td><td>King</td><td>Stone</td><td>60×60/200×100</td><td class="r">432</td><td class="r">0.54</td><td class="r">100.50</td><td class="r">90</td><td class="r">(10.50)</td><td class="r">(4,535)</td></tr>
 <tr><td>8</td><td>Pillow sham 20×36</td><td>King</td><td>Black</td><td>60×60/200×100</td><td class="r">2,016</td><td class="r">0.48</td><td class="r">93.37</td><td class="r">90</td><td class="r">(3.37)</td><td class="r">(6,792)</td></tr>
 <tr><th colspan="5">Grand total</th><th class="r">8,852</th><th></th><th></th><th></th><th></th><th class="r">240,693</th></tr></table>
-<div class="note">The order as a whole is profitable only because of the two large comforter lines; every pillow item loses money. Because fixed cost is absorbed at 3.2 × direct labour, small labour-heavy pieces carry a heavy share of overhead — Activity Based Costing would test whether that share is fair, and a stitching unit must price pillow cases on their own cost, not on an average.</div></div>`});
+<div class="note">The order as a whole is profitable only because of the two large comforter lines; every pillow item loses money. Because fixed cost is absorbed at 3.2 × direct labour, small labour-heavy pieces carry a heavy share of overhead — Activity Based Costing would test whether that share is fair, and a stitching unit must price pillow cases on their own cost, not on an average.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/textile-costing/26-stitching-costing-ii-order-costing/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:tc26:1"></span></a><a href="/textile/textile-costing/26-stitching-costing-ii-order-costing/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:tc26:2"></span></a><a href="/textile/textile-costing/26-stitching-costing-ii-order-costing/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:tc26:3"></span></a><a href="/textile/textile-costing/26-stitching-costing-ii-order-costing/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:tc26:4"></span></a><a href="/textile/textile-costing/26-stitching-costing-ii-order-costing/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:tc26:5"></span></a></div></div>
+`});
 
 /* ===================== WEAVING CALCULATIONS ===================== */
 const RUE=x=>Math.ceil(x/2)*2; // round up to even
 const TEXC=590.67; // tex × Ne constant
 lecture({id:'wc00',course:'wc',n:'00',title:'Course Outline – Weaving Calculations (TX-416)',sub:'What the course covers, how it is graded and where each lecture sits in the 15-week plan.',chips:['Outline','Grading','15-week plan'],tags:'syllabus outline plan',body:()=>`
-<div class="card"><h2>Description</h2>
+<div class="card"><h2>Description</h2>${FIG('textile-chain','Weaving sits in the middle of the textile chain: yarn arrives from spinning, is prepared and woven, and the grey cloth goes on to dyeing, finishing and stitching.')}
 <p>This course concentrates on the calculations that a weaving engineer performs every day: converting and combining yarn counts, estimating the weight and cover of a fabric, sizing the warping, sizing and beaming operations for an order, predicting loom production, planning deliveries, and finally judging the feasibility of a whole weaving plant.</p>
 <div class="grid3">
 <div class="card" style="margin:0"><h3>Outcomes</h3><p>Productivity calculations of weaving machines; planning a weaving factory to meet customer orders; fabric weight and cover calculations.</p></div>
 <div class="card" style="margin:0"><h3>Grading</h3><div class="kv"><b>Participation</b><span>10</span><b>Assignments</b><span>10</span><b>Quizzes</b><span>25</span><b>Mid term</b><span>25</span><b>Final</b><span>30</span></div></div>
 <div class="card" style="margin:0"><h3>Rule</h3><p>Attendance below 80% means an F grade — the calculations build on one another week by week.</p></div>
 </div></div>
-<div class="card"><h2>Lecture plan</h2>
+<div class="card"><h2>Lecture plan</h2>${FIG('planning-gantt','The 15-week plan moves from yarn counts and fabric weight, through preparation and loom production, to planning orders on looms and judging a whole plant.')}
 <table class="plain"><tr><th>Week</th><th>1st lecture</th><th>2nd lecture</th></tr>
 <tr><td>1</td><td><a data-go="wc01">Counting Systems</a></td><td><a data-go="wc02">Multiple Counts I</a> — two or three counts together or twisted</td></tr>
 <tr><td>2</td><td><a data-go="wc03">Multiple Counts II</a> — proportions</td><td><a data-go="wc04">Multiple Counts III</a> — proportions and cost</td></tr>
@@ -1152,10 +1204,12 @@ lecture({id:'wc00',course:'wc',n:'00',title:'Course Outline – Weaving Calculat
 <tr><td>13</td><td><a data-go="wc27">Feasibility I</a> — costing, profits</td><td><a data-go="wc27">Feasibility II</a> — new plant</td></tr>
 <tr><td>14</td><td>Shed Planning</td><td>Design Calculations I — ripstop sizes</td></tr>
 <tr><td>15</td><td>Design Calculations II — density vs appearance</td><td>Overview</td></tr></table>
-<div class="note">Lectures without a link (Shed Planning, Design Calculations, Overview) had no worksheet in the course folder, so they are not reproduced here.</div></div>`});
+<div class="note">Lectures without a link (Shed Planning, Design Calculations, Overview) had no worksheet in the course folder, so they are not reproduced here.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/00-course-outline-weaving-calculations-tx-416/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc00:1"></span></a><a href="/textile/weaving-calculations/00-course-outline-weaving-calculations-tx-416/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc00:2"></span></a><a href="/textile/weaving-calculations/00-course-outline-weaving-calculations-tx-416/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc00:3"></span></a><a href="/textile/weaving-calculations/00-course-outline-weaving-calculations-tx-416/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc00:4"></span></a><a href="/textile/weaving-calculations/00-course-outline-weaving-calculations-tx-416/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc00:5"></span></a></div></div>
+`});
 
 lecture({id:'wc01',course:'wc',n:'01',title:'Counting Systems',sub:'Direct and indirect yarn numbering — Ne, Nm, tex, dtex and denier — and the single constant that links them.',chips:['Ne','Tex','Denier','Nm'],tags:'count conversion yarn number',body:()=>`
-<div class="card"><h2>Two families of yarn numbers</h2>
+<div class="card"><h2>Two families of yarn numbers</h2>${FIG('yarn-count','Indirect systems weigh a fixed length (hanks per pound, metres per gram); direct systems measure a fixed length and record its weight (grams per 1,000 m or per 9,000 m).')}
 <p>A yarn count tells us how fine a yarn is. <b>Indirect</b> systems measure <em>length per unit weight</em>: the finer the yarn, the higher the number. <b>Direct</b> systems measure <em>weight per unit length</em>: the finer the yarn, the lower the number.</p>
 <table class="plain"><tr><th>System</th><th>Definition</th><th>Type</th><th>Used for</th></tr>
 <tr><td>English cotton count, Ne</td><td>number of 840-yard hanks per pound</td><td>indirect</td><td>cotton and cotton blends</td></tr>
@@ -1163,7 +1217,7 @@ lecture({id:'wc01',course:'wc',n:'01',title:'Counting Systems',sub:'Direct and i
 <tr><td>Tex</td><td>grams per 1000 m</td><td>direct</td><td>universal (ISO)</td></tr>
 <tr><td>Decitex, dtex (grex)</td><td>grams per 10,000 m</td><td>direct</td><td>filament yarns</td></tr>
 <tr><td>Denier</td><td>grams per 9000 m</td><td>direct</td><td>silk, filament, Lycra</td></tr></table></div>
-<div class="card"><h2>Deriving the constant 590.67</h2>
+<div class="card"><h2>Deriving the constant 590.67</h2>${FIG('cone-size','One hank of 840 yd is 768.1 m; at 1 Ne that length weighs 453.6 g, so 1,000 m weighs 590.67 g — the constant that turns Ne into tex.')}
 <ol class="steps">
 <li>1 Ne means 840 yd weigh 1 lb, i.e. <b>1 lb per 840 yd</b>.</li>
 <li>1 lb = 453.6 g and 840 yd = 840 × 0.9144 m = 768.1 m, so 1 Ne = 453.6 g / 768.1 m.</li>
@@ -1171,7 +1225,7 @@ lecture({id:'wc01',course:'wc',n:'01',title:'Counting Systems',sub:'Direct and i
 <li>Denier is tex × 9, so 1 Ne = 5316 denier; and Nm = 1000 / tex = 1.693.</li></ol>
 <div class="formula">Ne × tex = 590.67 &nbsp;&nbsp;·&nbsp;&nbsp; denier = 9 × tex &nbsp;&nbsp;·&nbsp;&nbsp; dtex = 10 × tex &nbsp;&nbsp;·&nbsp;&nbsp; Nm = 1000 / tex</div>
 <div class="warn">The original worksheet divided by the denier figure in cell C15 (1458) when converting to Ne, which only happened to give the right answer for the first row. The converter below uses the correct constant 590.67.</div></div>
-<div class="card"><h2>Universal count converter</h2>
+<div class="card"><h2>Universal count converter</h2>${FIG('spreadsheet','Every conversion goes through tex: the known count is turned into tex first, and Ne, denier, Nm and dtex are all read off from that one number.')}
 <p>Pick the system you know, type the value, and every other system is worked out through tex.</p>
 ${S({title:'Count conversion',cols:[200,120,60,200,120],rows:[
 [{h:'Known system'},{h:'Value'},null,{h:'Result'},{h:''}],
@@ -1187,15 +1241,17 @@ ${S({title:'Count conversion',cols:[200,120,60,200,120],rows:[
 <tr><td>Ne 30</td><td class="r">19.69</td><td class="r">30</td><td class="r">177.2</td><td class="r">50.79</td><td class="r">196.9</td></tr>
 <tr><td>150 denier</td><td class="r">16.67</td><td class="r">35.44</td><td class="r">150</td><td class="r">60</td><td class="r">166.7</td></tr>
 <tr><td>Nm 25</td><td class="r">40</td><td class="r">14.77</td><td class="r">360</td><td class="r">25</td><td class="r">400</td></tr></table>
-<div class="note">Rule of thumb: Ne 20 ≈ 30 tex ≈ 266 denier; Ne 40 ≈ 15 tex. Lycra of 40 denier is 4.4 tex — about one-seventh of an Ne 20 yarn.</div></div>`});
+<div class="note">Rule of thumb: Ne 20 ≈ 30 tex ≈ 266 denier; Ne 40 ≈ 15 tex. Lycra of 40 denier is 4.4 tex — about one-seventh of an Ne 20 yarn.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/01-counting-systems/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc01:1"></span></a><a href="/textile/weaving-calculations/01-counting-systems/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc01:2"></span></a><a href="/textile/weaving-calculations/01-counting-systems/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc01:3"></span></a><a href="/textile/weaving-calculations/01-counting-systems/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc01:4"></span></a><a href="/textile/weaving-calculations/01-counting-systems/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc01:5"></span></a></div></div>
+`});
 
 lecture({id:'wc02',course:'wc',n:'02',title:'Multiple Counts I – Yarns Together or Twisted',sub:'Resultant count and price of two or three yarns run together or plied, using the price of one hank.',chips:['Resultant count','Hank price','Plied yarn'],tags:'harmonic mean plied doubled',body:()=>`
-<div class="card"><h2>The idea: add weights, not counts</h2>
+<div class="card"><h2>The idea: add weights, not counts</h2>${FIG('ply-yarn','When two singles are twisted together the weights of one hank of each add up, so the plied yarn is coarser than either single and its count is lower than both.')}
 <p>When two yarns of different counts run side by side (or are twisted together) their weights per unit length add: the plied yarn is <em>heavier</em> than either, while the mean count of the yarns run together lies between the two counts. Counts cannot be averaged directly because Ne is an indirect number; what adds up is the weight of one hank of each yarn.</p>
 <div class="formula">Mean count of n yarns together = n / ( 1/N₁ + 1/N₂ + … + 1/Nₙ ) &nbsp;&nbsp;·&nbsp;&nbsp; Twisted (plied) count = mean count / n</div>
 <p>Prices are handled the same way: convert the price of 10 lb of each yarn into the <b>price of one hank</b> (840 yd), average the hank prices, then multiply back by the mean count.</p>
 <div class="formula">Hank price = price per 10 lb ÷ 10 ÷ Ne &nbsp;&nbsp;·&nbsp;&nbsp; Price of mix per 10 lb = mean hank price × mean count × 10</div></div>
-<div class="card"><h2>Two yarns</h2>
+<div class="card"><h2>Two yarns</h2>${FIG('yarn-count','Ne counts hanks per pound, so a higher number is a finer yarn; this is why Ne 7 and Ne 10 together behave like Ne 8.24, not the simple average 8.5.')}
 ${S({title:'Two counts together / twisted',cols:[220,110,110,120],rows:[
 [{h:''},{h:'Yarn 1'},{h:'Yarn 2'},{h:'Together'}],
 ['Count (Ne)',{in:'n1',v:7},{in:'n2',v:10},{f:v=>2/(1/v.n1+1/v.n2),n:'mean',fx:'=2/(1/B2+1/C2)',fmt:'0.00'}],
@@ -1206,21 +1262,23 @@ ${S({title:'Two counts together / twisted',cols:[220,110,110,120],rows:[
 ['Price of plied yarn per 10 lb (Rs)',null,null,{f:v=>v.pm,fx:'=D3 (same weight, same cost)',fmt:'0.00'}]
 ]})}
 <div class="note">Ne 7 and Ne 10 together behave like Ne 8.24, and the plied yarn is Ne 4.12 — not the “average” 8.5 and 4.25. The difference grows as the counts move apart.</div></div>
-<div class="card"><h2>Three yarns</h2>
+<div class="card"><h2>Three yarns</h2>${FIG('spreadsheet','With three yarns the same rule applies: three divided by the sum of the reciprocals gives the mean count, and dividing by three again gives the 3-ply count.')}
 ${S({title:'Three counts together / twisted',cols:[220,100,100,100,120],rows:[
 [{h:''},{h:'Yarn 1'},{h:'Yarn 2'},{h:'Yarn 3'},{h:'Together'}],
 ['Count (Ne)',{in:'a',v:20},{in:'b',v:30},{in:'c',v:10},{f:v=>3/(1/v.a+1/v.b+1/v.c),n:'m3',fx:'=3/(1/B2+1/C2+1/D2)',fmt:'0.00'}],
 ['Price per 10 lb (Rs)',{in:'pa',v:710},{in:'pb',v:710},{in:'pc',v:540},{f:v=>(v.pa/10/v.a+v.pb/10/v.b+v.pc/10/v.c)/3*v.m3*10,fx:'=E4*E2*10',fmt:'0.00'}],
 ['Price per hank (Rs)',{f:v=>v.pa/10/v.a,n:'ha',fx:'=B3/10/B2',fmt:'0.000'},{f:v=>v.pb/10/v.b,n:'hb',fx:'=C3/10/C2',fmt:'0.000'},{f:v=>v.pc/10/v.c,n:'hc',fx:'=D3/10/D2',fmt:'0.000'},{f:v=>(v.ha+v.hb+v.hc)/3,n:'h3',fx:'=AVERAGE(B4:D4)',fmt:'0.000'}],
 ['Plied count (3-ply)',null,null,null,{f:v=>v.m3/3,fx:'=E2/3',fmt:'0.00'}]
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/02-multiple-counts-i-yarns-together-or-twisted/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc02:1"></span></a><a href="/textile/weaving-calculations/02-multiple-counts-i-yarns-together-or-twisted/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc02:2"></span></a><a href="/textile/weaving-calculations/02-multiple-counts-i-yarns-together-or-twisted/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc02:3"></span></a><a href="/textile/weaving-calculations/02-multiple-counts-i-yarns-together-or-twisted/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc02:4"></span></a><a href="/textile/weaving-calculations/02-multiple-counts-i-yarns-together-or-twisted/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc02:5"></span></a></div></div>
+`});
 
 lecture({id:'wc03',course:'wc',n:'03',title:'Multiple Counts II – Yarns in Proportion',sub:'When the yarns are not present in equal numbers: weighting by the number of threads of each count.',chips:['Weighted mean','Threads per count'],tags:'proportion mean count reciprocal',body:()=>`
-<div class="card"><h2>From equal shares to proportions</h2>
+<div class="card"><h2>From equal shares to proportions</h2>${FIG('stripe-check','A striped warp mixes many fine threads with a few coarse ones; each coarse thread weighs more, so the mean count must be weighted by threads ÷ Ne, not by threads alone.')}
 <p>Lecture 2 assumed one thread of each yarn. In a real warp a fabric may use 56 threads of one count for every 4.35 threads of another (a stripe, a selvedge, a cord). The rule is the same — add weights — but each yarn is weighted by its number of threads:</p>
 <div class="formula">Mean Ne = Σ threads ÷ Σ ( threads / Ne )</div>
 <p>“threads ÷ Ne” is proportional to the weight of those threads per unit length, so the denominator is the total weight and the numerator the total length.</p></div>
-<div class="card"><h2>Proportion worksheet</h2>
+<div class="card"><h2>Proportion worksheet</h2>${FIG('spreadsheet','The worksheet sums the threads and the threads ÷ Ne column separately; the mean count is the first total divided by the second, so an unused slot with 0 threads adds nothing.')}
 <p>Four slots are provided; leave the threads of an unused slot at 0.</p>
 ${S({title:'Mean count of yarns in proportion',cols:[120,110,110,130],rows:[
 [{h:'Yarn'},{h:'Count Ne'},{h:'Threads'},{h:'Threads ÷ Ne'}],
@@ -1231,10 +1289,12 @@ ${S({title:'Mean count of yarns in proportion',cols:[120,110,110,130],rows:[
 [{t:'<b>Totals</b>'},null,{f:v=>v.ta+v.tb+v.tc+v.td,n:'tt',fx:'=SUM(C2:C5)',fmt:'0.00',tot:true},{f:v=>v.ra+v.rb+v.rc+v.rd,n:'rt',fx:'=SUM(D2:D5)',fmt:'0.0000',tot:true}],
 [{t:'<b>Mean count Ne</b>'},null,null,{f:v=>v.tt/v.rt,fx:'=C6/D6',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">Try A = Ne 30 × 56 threads and B = Ne 10 × 4 threads: the mean drops to about Ne 26.5 even though only 7% of the threads are coarse. Each coarse thread weighs three times as much as a fine one, so those 7% of the threads carry about 18% of the weight and pull the mean down.</div></div>`});
+<div class="note">Try A = Ne 30 × 56 threads and B = Ne 10 × 4 threads: the mean drops to about Ne 26.5 even though only 7% of the threads are coarse. Each coarse thread weighs three times as much as a fine one, so those 7% of the threads carry about 18% of the weight and pull the mean down.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/03-multiple-counts-ii-yarns-in-proportion/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc03:1"></span></a><a href="/textile/weaving-calculations/03-multiple-counts-ii-yarns-in-proportion/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc03:2"></span></a><a href="/textile/weaving-calculations/03-multiple-counts-ii-yarns-in-proportion/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc03:3"></span></a><a href="/textile/weaving-calculations/03-multiple-counts-ii-yarns-in-proportion/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc03:4"></span></a><a href="/textile/weaving-calculations/03-multiple-counts-ii-yarns-in-proportion/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc03:5"></span></a></div></div>
+`});
 
 lecture({id:'wc04',course:'wc',n:'04',title:'Multiple Counts III – Proportions and Cost',sub:'Adding prices to the proportion method: the mean hank price and the price of the mixed yarn per 10 lb.',chips:['SUMPRODUCT','Mean hank price','Cost of mix'],tags:'price cost proportion sumproduct',body:()=>`
-<div class="card"><h2>Costing a yarn mixture</h2>
+<div class="card"><h2>Costing a yarn mixture</h2>${FIG('spreadsheet','Column F multiplies threads by hank price; SUMPRODUCT adds that column, and dividing by total threads gives the mean hank price used in the final price line.')}${FIG('yarn-cost-stack','Each yarn\'s price per 10 lb is cut down to the price of one 840-yd hank; weighting those hank prices by threads and scaling back by the mean count gives the cost of the mixture.')}
 <ol class="steps">
 <li>Convert each price per 10 lb into a <b>hank price</b>: price ÷ 10 ÷ Ne.</li>
 <li>Weight the hank prices by the number of threads: mean hank price = Σ(threads × hank price) ÷ Σ threads — Excel’s SUMPRODUCT.</li>
@@ -1250,10 +1310,12 @@ ${S({title:'Proportions with cost',cols:[80,90,100,110,110,130],rows:[
 ['Mean hank price',null,null,null,null,{f:v=>v.xt/v.tt,n:'mh',fx:'=F5/C5',fmt:'0.0000'}],
 [{t:'<b>Price of mix per 10 lb (Rs)</b>'},null,null,null,null,{f:v=>v.mh*v.mn*10,fx:'=F7*F6*10',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">With both yarns at Ne 30, the mean count stays 30 and the price (511.04) is simply the thread-weighted average of 515 and 460. Change yarn C to 10 threads of Ne 20 at Rs 430 to see count and price move together.</div></div>`});
+<div class="note">With both yarns at Ne 30, the mean count stays 30 and the price (511.04) is simply the thread-weighted average of 515 and 460. Change yarn C to 10 threads of Ne 20 at Rs 430 to see count and price move together.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/04-multiple-counts-iii-proportions-and-cost/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc04:1"></span></a><a href="/textile/weaving-calculations/04-multiple-counts-iii-proportions-and-cost/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc04:2"></span></a><a href="/textile/weaving-calculations/04-multiple-counts-iii-proportions-and-cost/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc04:3"></span></a><a href="/textile/weaving-calculations/04-multiple-counts-iii-proportions-and-cost/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc04:4"></span></a><a href="/textile/weaving-calculations/04-multiple-counts-iii-proportions-and-cost/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc04:5"></span></a></div></div>
+`});
 
 lecture({id:'wc05',course:'wc',n:'05',title:'Weight of Fabric',sub:'From construction to ounces per square yard and grams per square metre — the calculation every merchandiser asks for first.',chips:['GSM','oz/yd²','Contraction','lb/yd'],tags:'weight gsm ounces linear',body:()=>`
-<div class="card"><h2>Reading a construction</h2>
+<div class="card"><h2>Reading a construction</h2>${FIG('crimp','Every end bends over and under the picks, so the yarn in a yard of fabric is longer than the yard itself: that extra length is the warp contraction, about 10 %.')}${FIG('fabric-weight','A construction names the warp and weft counts, the ends and picks per inch and the width; from these the weight of warp and weft in one yard of cloth is built up.')}
 <p>A woven construction is written <b>warp count × weft count / ends per inch × picks per inch, width, weave</b>: for example <b>20 × 20 / 60 × 60, 63", 1/1</b>. Two corrections turn these numbers into yarn weight: <b>warp contraction</b> (the warp is longer than the fabric because it bends over the picks, about 10%) and <b>weft contraction</b> (the pick is longer than the fabric width, about 5%).</p>
 <ol class="steps">
 <li>Total ends = EPI × width. One yard of one end weighs 1 ÷ (840 × Ne) lb.</li>
@@ -1261,7 +1323,7 @@ lecture({id:'wc05',course:'wc',n:'05',title:'Weight of Fabric',sub:'From constru
 <li>One pick is width (in yards) × (1 + weft contraction) long; there are PPI × 36 picks in a yard.</li>
 <li>Add the two, ×16 for ounces per linear yard, ÷ width in yards for oz/yd².</li>
 <li>Metric: lb/yd × 1.0936 = lb/m; ÷ 2.2046 = kg/m; ÷ width in metres × 1000 = GSM.</li></ol></div>
-<div class="card"><h2>Fabric weight calculator</h2>
+<div class="card"><h2>Fabric weight calculator</h2>${FIG('spreadsheet','The worksheet turns the blue inputs into total ends, warp and weft weight per yard, then ounces per square yard and GSM; change a count and watch every result move.')}
 ${S({title:'Weight of fabric — two constructions side by side',cols:[260,120,120],rows:[
 [{h:'Input'},{h:'Fabric A'},{h:'Fabric B'}],
 ['Warp count Ne',{in:'wa',v:20},{in:'wb',v:20}],
@@ -1288,10 +1350,12 @@ ${S({title:'Weight of fabric — two constructions side by side',cols:[260,120,1
 ]})}
 <div class="note">Fabric A (20×20/60×60) comes out at 4.42 oz/yd² ≈ 150 GSM, a typical sheeting; fabric B (20×16/128×60, 3/1 twill) at 7.53 oz/yd² ≈ 255 GSM, a drill. A quick check: oz/yd² × 33.9 = GSM.</div></div>
 <div class="card"><h2>Rough estimate used on the shop floor</h2>
-<p>Fabric Design Lecture 2 gives a quick rule for Ne-count cotton fabrics: <span class="formula">GSM ≈ ( EPI ÷ Ne<sub>warp</sub> + PPI ÷ Ne<sub>weft</sub> ) × 25</span>. For fabric A that is (3 + 3) × 25 = 150; for B (6.4 + 3.75) × 25 = 254. It ignores contraction and width, which is why the exact method above is preferred for quotations.</p></div>`});
+<p>Fabric Design Lecture 2 gives a quick rule for Ne-count cotton fabrics: <span class="formula">GSM ≈ ( EPI ÷ Ne<sub>warp</sub> + PPI ÷ Ne<sub>weft</sub> ) × 25</span>. For fabric A that is (3 + 3) × 25 = 150; for B (6.4 + 3.75) × 25 = 254. It ignores contraction and width, which is why the exact method above is preferred for quotations.</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/05-weight-of-fabric/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc05:1"></span></a><a href="/textile/weaving-calculations/05-weight-of-fabric/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc05:2"></span></a><a href="/textile/weaving-calculations/05-weight-of-fabric/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc05:3"></span></a><a href="/textile/weaving-calculations/05-weight-of-fabric/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc05:4"></span></a><a href="/textile/weaving-calculations/05-weight-of-fabric/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc05:5"></span></a></div></div>
+`});
 
 lecture({id:'wc06',course:'wc',n:'06',title:'Sett Calculations – Beams and Warping Production',sub:'How many warper’s beams an order needs, how many ends go on each, and how long the warper will take.',chips:['Creel capacity','Beams','Warping production','Order time'],tags:'sett warping creel beams',body:()=>`
-<div class="card"><h2>From total ends to beams</h2>
+<div class="card"><h2>From total ends to beams</h2>${FIG('warping-creel','The creel holds one cone per end, here 840 cones, so a warp of 3,820 ends cannot be made on one beam; it is split over an even number of beams.')}${FIG('beams','Several warper\'s beams, each carrying a share of the total ends, are run together on the sizing machine to make one weaver\'s beam, so the beams must be paired.')}
 <p>A sized weaver’s beam is made from several <b>warper’s beams</b> run together on the sizing machine. The warper’s creel holds a limited number of cones (here 840), so the total ends — including selvedge ends — are divided over an <b>even</b> number of beams (beams are paired on the sizing creel).</p>
 <div class="formula">beams = round-up-to-even( total ends ÷ creel capacity ) &nbsp;&nbsp;·&nbsp;&nbsp; ends per beam = total ends ÷ beams</div>
 ${S({title:'Number of beams',cols:[260,120,120],rows:[
@@ -1306,7 +1370,7 @@ ${S({title:'Number of beams',cols:[260,120,120],rows:[
 ['Ends per beam (average)',{f:v=>v.ta/v.ba,n:'pba',fx:'=B6/B8',fmt:'0.00'},{f:v=>v.tb/v.bb,n:'pbb',fx:'=C6/C8',fmt:'0.00'}],
 ['… in practice',{f:v=>{const q=Math.floor(v.ta/v.ba),r=v.ta-q*v.ba;return r?`${v.ba-r} beams × ${q} + ${r} beams × ${q+1}`:`${v.ba} beams × ${q}`;},fx:'whole ends only',fmt:'txt'},{f:v=>{const q=Math.floor(v.tb/v.bb),r=v.tb-q*v.bb;return r?`${v.bb-r} beams × ${q} + ${r} beams × ${q+1}`:`${v.bb} beams × ${q}`;},fx:'whole ends only',fmt:'txt'}]
 ]})}</div>
-<div class="card"><h2>Warping production and time for an order</h2>
+<div class="card"><h2>Warping production and time for an order</h2>${FIG('loom-production','Speed in yards per minute, minutes in the shift and efficiency give yards warped per shift; the count and ends per beam turn that into pounds of yarn.')}
 ${S({title:'Warping production (fabric A)',cols:[300,140],rows:[
 [{h:'Warper'},{h:''}],
 ['Warping speed (yd/min)',{in:'sp',v:800}],
@@ -1326,10 +1390,12 @@ ${S({title:'Warping production (fabric A)',cols:[300,140],rows:[
 ['Warp weight required (lb)',{f:v=>v.wl*v.te/(840*v.ne),n:'ww',fx:'=B15*B13/(840*B6)',fmt:'#,##0',tot:true}],
 ['Warping time (hours)',{f:v=>v.ww/v.wph,fx:'=B16/B9',fmt:'0.0',tot:true}]
 ]})}
-<div class="note">A 20,000 m order of fabric A needs 5,413 lb of warp and keeps the warper busy for only about 4.3 hours. For a whole loom shed the picture changes: Lecture 10 shows 200 looms need more than one warper.</div></div>`});
+<div class="note">A 20,000 m order of fabric A needs 5,413 lb of warp and keeps the warper busy for only about 4.3 hours. For a whole loom shed the picture changes: Lecture 10 shows 200 looms need more than one warper.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/06-sett-calculations-beams-and-warping-production/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc06:1"></span></a><a href="/textile/weaving-calculations/06-sett-calculations-beams-and-warping-production/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc06:2"></span></a><a href="/textile/weaving-calculations/06-sett-calculations-beams-and-warping-production/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc06:3"></span></a><a href="/textile/weaving-calculations/06-sett-calculations-beams-and-warping-production/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc06:4"></span></a><a href="/textile/weaving-calculations/06-sett-calculations-beams-and-warping-production/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc06:5"></span></a></div></div>
+`});
 
 lecture({id:'wc07',course:'wc',n:'07',title:'Beam Calculations',sub:'How much yarn fits on a beam — volume of the yarn annulus, packing density, weight, length and the fabric one beam will weave.',chips:['Beam volume','Packing density','Length per beam'],tags:'beam barrel flange volume density',body:()=>`
-<div class="card"><h2>Yarn on a beam is a hollow cylinder</h2>
+<div class="card"><h2>Yarn on a beam is a hollow cylinder</h2>${FIG('beams','The yarn on a beam fills the space between the barrel and the outer diameter over the length between the flanges: a hollow cylinder whose volume gives the weight.')}
 <div class="grid2"><div>
 <p>A beam full of yarn is a cylinder of diameter D (the diameter of the beam with yarn) with the barrel of diameter d removed, over the length L between the flanges:</p>
 <div class="formula">Yarn volume = π/4 × ( D² − d² ) × L</div>
@@ -1342,7 +1408,7 @@ lecture({id:'wc07',course:'wc',n:'07',title:'Beam Calculations',sub:'How much ya
 <line x1="150" y1="30" x2="150" y2="170" stroke="#b45309" stroke-width="1.5" stroke-dasharray="4 3"/><text x="156" y="45" font-size="12" fill="#b45309">D = 36"</text><text x="156" y="100" font-size="12" fill="#fff">d = 18"</text>
 <line x1="40" y1="188" x2="260" y2="188" stroke="#b45309" stroke-width="1.5"/><text x="150" y="199" font-size="12" text-anchor="middle" fill="#b45309">L = 66" between flanges</text></svg>
 </div></div></div>
-<div class="card"><h2>Beam worksheet</h2>
+<div class="card"><h2>Beam worksheet</h2>${FIG('sizing','After sizing all the ends sit on one weaver\'s beam; the size film makes the yarn bulkier (60 in³/lb instead of 56), so the same beam holds slightly less yarn by weight.')}${FIG('spreadsheet','The worksheet runs the same 36" × 18" × 66" beam twice: once as a 637-end warper\'s beam and once as a 3,820-end sized beam, so the yardage and the fabric per beam can be compared.')}
 ${S({title:'Yarn on a beam',cols:[300,120,120],rows:[
 [{h:''},{h:'Warper’s beam'},{h:'Sized beam'}],
 ['Diameter with yarn, D (in)',{in:'D1',v:36},{in:'D2',v:36}],
@@ -1360,10 +1426,12 @@ ${S({title:'Yarn on a beam',cols:[300,120,120],rows:[
 ['Fabric from one sized beam (yd)',null,{f:v=>v.l2/(1+v.wc),n:'fy',fx:'=C13/(1+C8)',fmt:'#,##0'}],
 ['Fabric from one sized beam (m)',null,{f:v=>v.fy/1.0936,fx:'=C14/1.0936',fmt:'#,##0',tot:true}]
 ]})}
-<div class="note">The same beam holds 23,700 yd of a 637-end warper’s beam but only 3,700 yd once all 3,820 ends are sized onto it — about 3,070 m of fabric A per weaver’s beam. The 20,000 m order of Lecture 6 therefore needs about 7 sized beams.</div></div>`});
+<div class="note">The same beam holds 23,700 yd of a 637-end warper’s beam but only 3,700 yd once all 3,820 ends are sized onto it — about 3,070 m of fabric A per weaver’s beam. The 20,000 m order of Lecture 6 therefore needs about 7 sized beams.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/07-beam-calculations/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc07:1"></span></a><a href="/textile/weaving-calculations/07-beam-calculations/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc07:2"></span></a><a href="/textile/weaving-calculations/07-beam-calculations/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc07:3"></span></a><a href="/textile/weaving-calculations/07-beam-calculations/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc07:4"></span></a><a href="/textile/weaving-calculations/07-beam-calculations/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc07:5"></span></a></div></div>
+`});
 
 lecture({id:'wc08',course:'wc',n:'08',title:'Breakages and Sized Count',sub:'Expressing warp breaks per unit length so mills can be compared, and finding the count of yarn after sizing.',chips:['Breaks per 10⁷ m','Sized count','Size add-on'],tags:'breakage breaks sizing count',body:()=>`
-<div class="card"><h2>Breaks per 10 million metres</h2>
+<div class="card"><h2>Breaks per 10 million metres</h2>${FIG('yarn-count','The count turns pounds into yards: 840 × Ne yards weigh one pound, so the same poundage of a finer yarn is a far longer length of warp.')}${FIG('breakage','A break every 51 lb sounds good until the count is considered: fine yarn has many more metres in a pound, so breaks must be counted per length, not per weight.')}
 <p>A warper or sizer reports “one break every 51 lb” — but 51 lb of Ne 21 is a very different length from 51 lb of Ne 10. Convert poundage to yardage with the count and the comparison becomes fair:</p>
 <div class="formula">yards per break = Ne × lb per break × 840 &nbsp;&nbsp;·&nbsp;&nbsp; metres = yards ÷ 1.0936 &nbsp;&nbsp;·&nbsp;&nbsp; breaks per 10 million m = 10⁷ ÷ metres per break</div>
 ${S({title:'Breakage rate',cols:[90,130,140,140,160],rows:[
@@ -1375,7 +1443,7 @@ ${S({title:'Breakage rate',cols:[90,130,140,140,160],rows:[
 [{in:'a5',v:60},{in:'b5',v:27},{f:v=>v.a5*v.b5*840,n:'y5',fx:'=A6*B6*840',fmt:'#,##0'},{f:v=>v.y5/1.0936,n:'m5',fx:'=C6/1.0936',fmt:'#,##0'},{f:v=>1e7/v.m5,fx:'=10000000/D6',fmt:'0.00',tot:true}]
 ]})}
 <div class="note">The Ne 60 warp breaking every 27 lb (8 breaks per 10 million m) is actually performing <em>better</em> than the Ne 21 warp breaking every 51 lb (12 breaks). Poundage flatters coarse yarns.</div></div>
-<div class="card"><h2>Count of sized yarn</h2>
+<div class="card"><h2>Count of sized yarn</h2>${FIG('sizing','Passing through the size box adds a film of size to every end: the weight goes up but the length does not, so the yarn comes out at a coarser (lower) Ne.')}
 <p>Size adds weight but no length, so the yarn becomes “coarser”. The sized count is needed for loom-side yarn stock calculations and for weight-based selling of fabric.</p>
 ${S({title:'Sized count',cols:[300,140],rows:[
 ['Warp count Ne (unsized)',{in:'ne',v:20}],
@@ -1386,10 +1454,12 @@ ${S({title:'Sized count',cols:[300,140],rows:[
 ['Sized warp weight (lb)',{f:v=>v.w*(1+v.s),n:'ws',fx:'=B5*(1+B4)',fmt:'#,##0.0'}],
 ['Count of sized warp Ne',{f:v=>v.e*v.l/(840*v.ws),fx:'=B2*B3/(840*B6)',fmt:'0.00',tot:true}]
 ]})}
-<div class="formula">Sized count = Ne ÷ (1 + size add-on) &nbsp;→&nbsp; 20 ÷ 1.125 = 17.8</div></div>`});
+<div class="formula">Sized count = Ne ÷ (1 + size add-on) &nbsp;→&nbsp; 20 ÷ 1.125 = 17.8</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/08-breakages-and-sized-count/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc08:1"></span></a><a href="/textile/weaving-calculations/08-breakages-and-sized-count/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc08:2"></span></a><a href="/textile/weaving-calculations/08-breakages-and-sized-count/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc08:3"></span></a><a href="/textile/weaving-calculations/08-breakages-and-sized-count/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc08:4"></span></a><a href="/textile/weaving-calculations/08-breakages-and-sized-count/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc08:5"></span></a></div></div>
+`});
 
 lecture({id:'wc09',course:'wc',n:'09',title:'Cone Size',sub:'Matching cone weight to creel capacity: how many bags of yarn one creel can use, and how small a cone a short sample warp needs.',chips:['Creels','Cones per bag','Sample warp'],tags:'cone creel bags sample',body:()=>`
-<div class="card"><h2>How many bags can the creel take?</h2>
+<div class="card"><h2>How many bags can the creel take?</h2>${FIG('cone-size','The weight on each cone decides how many cones a 100 lb bag yields and therefore how many creels the delivered yarn can fill.')}${FIG('warping-creel','A full creel is one set of cones, one per end on the beam; only complete creels can be run, so the yarn that will not fill a whole creel waits for the next lot.')}
 <p>Yarn arrives in 100 lb bags. A full creel is one set of cones; the number of complete creels you can fill decides how much of the available yarn can be used at once.</p>
 ${S({title:'Bags per creel',cols:[300,140],rows:[
 ['Warp count Ne',{in:'ne',v:20}],
@@ -1407,7 +1477,7 @@ ${S({title:'Bags per creel',cols:[300,140],rows:[
 ['Bags actually used',{f:v=>v.cc*v.cpc*v.cs/100,fx:'=B12*B10*B6/100',fmt:'0.0',tot:true}]
 ]})}
 <div class="note">100 bags give 2,398 cones, enough for only 3 full creels of 640 — so 80 bags are used and 20 bags wait for the next lot. Ordering yarn in multiples of the creel requirement avoids these left-overs.</div></div>
-<div class="card"><h2>Cone size for a sample warp</h2>
+<div class="card"><h2>Cone size for a sample warp</h2>${FIG('beams','For a sample warp every cone must supply one end on each of the beams in the set, so the cone needs the sample length times the number of beams, plus wastage and crimp.')}
 <p>For a short sample the problem is reversed: the cone must carry just enough yarn for the sample length, otherwise most of the cone is wasted.</p>
 ${S({title:'Sample warp cone size',cols:[300,140],rows:[
 ['Sample length required (m)',{in:'sm',v:300}],
@@ -1419,10 +1489,12 @@ ${S({title:'Sample warp cone size',cols:[300,140],rows:[
 ['Metres of yarn per lb at this count',{f:v=>v.ne*768.1,n:'mpl',fx:'=B5*768.1  (840 yd = 768.1 m)',fmt:'#,##0'}],
 ['Cone size needed (lb)',{f:v=>v.wl*v.b/v.mpl,fx:'=B6*B4/B7',fmt:'0.000',tot:true}]
 ]})}
-<p>Each cone must feed one end on every one of the 6 beams, hence the multiplication by the number of beams. The answer (0.15 lb ≈ 70 g) is a tiny cone — sample warps are usually made on a sectional or sample warper for exactly this reason.</p></div>`});
+<p>Each cone must feed one end on every one of the 6 beams, hence the multiplication by the number of beams. The answer (0.15 lb ≈ 70 g) is a tiny cone — sample warps are usually made on a sectional or sample warper for exactly this reason.</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/09-cone-size/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc09:1"></span></a><a href="/textile/weaving-calculations/09-cone-size/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc09:2"></span></a><a href="/textile/weaving-calculations/09-cone-size/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc09:3"></span></a><a href="/textile/weaving-calculations/09-cone-size/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc09:4"></span></a><a href="/textile/weaving-calculations/09-cone-size/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc09:5"></span></a></div></div>
+`});
 
 lecture({id:'wc10',course:'wc',n:'10',title:'Warping Speed and Preparatory Capacity',sub:'From drum rpm to yards per shift, the time and weight to fill a warper’s beam, and how many warpers and sizers a loom shed needs.',chips:['Drum speed','Yards per shift','Sizing capacity','Warpers needed'],tags:'warping speed drum capacity sizing',body:()=>`
-<div class="card"><h2>Speed of a warping drum</h2>
+<div class="card"><h2>Speed of a warping drum</h2>${FIG('warping-creel','Cones on the creel feed a sheet of ends onto the warper\'s beam; every drum revolution winds one circumference of yarn, so rpm × π × diameter gives the warping speed.')}
 ${S({title:'Warping drum',cols:[300,140],rows:[
 ['Drum speed (rpm)',{in:'rpm',v:300}],
 ['Drum diameter (in)',{in:'dia',v:30}],
@@ -1435,7 +1507,7 @@ ${S({title:'Warping drum',cols:[300,140],rows:[
 ['Yards per shift (100%)',{f:v=>v.yph*v.sh,n:'yps',fx:'=B8*B3',fmt:'#,##0'}],
 ['Yards per shift at efficiency',{f:v=>v.yps*v.ef,fx:'=B9*B4',fmt:'#,##0',tot:true}]
 ]})}</div>
-<div class="card"><h2>Problem 1 — time to fill a beam</h2>
+<div class="card"><h2>Problem 1 — time to fill a beam</h2>${FIG('yarn-count','The yarn on a beam is ends × beam length; because Ne counts 840-yard hanks per pound, dividing that length by 840 × Ne turns it into pounds.')}
 ${S({title:'Beam of 20,500 yd',cols:[300,140],rows:[
 ['Warping speed (m/min)',{in:'sp',v:900}],
 ['Efficiency',{in:'ef',v:0.64,fmt:'0%'}],
@@ -1447,7 +1519,7 @@ ${S({title:'Beam of 20,500 yd',cols:[300,140],rows:[
 ['Yarn on beam (yd)',{f:v=>v.bl*v.e,n:'yy',fx:'=B3*B4',fmt:'#,##0'}],
 ['Weight on beam (lb)',{f:v=>v.yy/(840*v.ne),fx:'=B8/(840*B5)',fmt:'#,##0',tot:true}]
 ]})}</div>
-<div class="card"><h2>Problem 2 — preparatory machines for 200 airjet looms</h2>
+<div class="card"><h2>Problem 2 — preparatory machines for 200 airjet looms</h2>${FIG('beams','Each warper\'s beam carries only a creel-full of ends, so a set of ten beams must be run before the sizing machine can combine them into one weaver\'s beam.')}
 <p>200 looms × 500 m/day of 20×16/128×60, 63" is 100,000 m of fabric a day. How many sizing machines and warpers keep them fed?</p>
 ${S({title:'Warping & sizing capacity',cols:[320,140],rows:[
 ['Looms',{in:'lm',v:200}],
@@ -1472,10 +1544,12 @@ ${S({title:'Warping & sizing capacity',cols:[320,140],rows:[
 ['One warper per day (m)',{f:v=>v.ws*60*24*v.we,n:'wcap',fx:'=B9*60*24*B10',fmt:'#,##0'}],
 ['Warpers required',{f:v=>v.wd/v.wcap,fx:'=B19/B20',fmt:'0.00',tot:true}]
 ]})}
-<div class="note">One sizing machine almost copes (1.02), but the warper must run 10 beam-lengths for every sized beam, so 1.27 warpers are needed — two warpers, or one warper with a larger creel (fewer beams per set, see Lecture 11).</div></div>`});
+<div class="note">One sizing machine almost copes (1.02), but the warper must run 10 beam-lengths for every sized beam, so 1.27 warpers are needed — two warpers, or one warper with a larger creel (fewer beams per set, see Lecture 11).</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/10-warping-speed-and-preparatory-capacity/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc10:1"></span></a><a href="/textile/weaving-calculations/10-warping-speed-and-preparatory-capacity/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc10:2"></span></a><a href="/textile/weaving-calculations/10-warping-speed-and-preparatory-capacity/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc10:3"></span></a><a href="/textile/weaving-calculations/10-warping-speed-and-preparatory-capacity/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc10:4"></span></a><a href="/textile/weaving-calculations/10-warping-speed-and-preparatory-capacity/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc10:5"></span></a></div></div>
+`});
 
 lecture({id:'wc11',course:'wc',n:'11',title:'Reed Calculations',sub:'Reed count, dents per inch, the Stockport sett, ends per dent for each weave and the maximum width a creel pair can produce.',chips:['Dents / m','Stockport sett','Ends per dent','Max EPI'],tags:'reed dent sett stockport',body:()=>`
-<div class="card"><h2>Reed numbering</h2>
+<div class="card"><h2>Reed numbering</h2>${FIG('denting','Denting follows the weave: two ends per dent for plain, three for 2/1 twill, four for 3/1 twill, and 2-3-2-3 for a five-end satin.')}${FIG('reed','A reed is a comb of dents; dents per inch × ends per dent gives the ends per inch in the reed, and weft contraction then packs them closer in the fabric.')}
 <p>Reeds are numbered by <b>dents per metre</b> (e.g. 1230) or, in the old Stockport system, by dents per two inches — the <b>Stockport sett</b>. With 2 ends in each dent the Stockport number is also the ends per inch in the reed, which is why it survived so long.</p>
 <div class="formula">dents per inch = dents/m ÷ 39.37 &nbsp;&nbsp;·&nbsp;&nbsp; Stockport sett = dents per inch × 2 &nbsp;&nbsp;·&nbsp;&nbsp; EPI in fabric = dents/in × ends per dent × (1 + weft contraction)</div>
 ${S({title:'Reed and sett',cols:[300,130],rows:[
@@ -1492,7 +1566,7 @@ ${S({title:'Reed and sett',cols:[300,130],rows:[
 ['Satin 4/1 — 2.5 ends per dent (2,3,2,3…)',{f:v=>v.dpi*2.5*(1+v.wc),fx:'=B4*2.5*(1+B2)',fmt:'0.0'}]
 ]})}
 <p>The denting rule is “one repeat (or a simple fraction of it) per dent”: plain weave 2, 2/1 twill 3, 3/1 twill 4. Five-end satins dent alternately 2 and 3. Fewer ends per dent give a cleaner fabric; more ends per dent let a coarse reed weave a dense fabric.</p></div>
-<div class="card"><h2>Maximum ends a preparatory pair can handle</h2>
+<div class="card"><h2>Maximum ends a preparatory pair can handle</h2>${FIG('beams','Cones per warper creel × beams per sizing creel is the largest warp the plant can make; it caps width at a given EPI or EPI at a given width.')}
 <p>A warper creel of 1,024 cones feeding a sizing creel of 28 beams gives the largest warp the plant can make: 1,024 × 28 = 28,672 ends. That caps either the width or the density:</p>
 ${S({title:'Maximum width / density',cols:[300,130],rows:[
 ['Warper creel (cones)',{in:'wcr',v:1024}],
@@ -1502,7 +1576,9 @@ ${S({title:'Maximum width / density',cols:[300,130],rows:[
 ['→ maximum width (in)',{f:v=>v.me/v.epi,fx:'=B3/B4',fmt:'0.0'}],
 ['At width (in)',{in:'w',v:110}],
 ['→ maximum EPI',{f:v=>v.me/v.w,fx:'=B3/B6',fmt:'0.0'}]
-]})}</div>`});
+]})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/11-reed-calculations/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc11:1"></span></a><a href="/textile/weaving-calculations/11-reed-calculations/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc11:2"></span></a><a href="/textile/weaving-calculations/11-reed-calculations/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc11:3"></span></a><a href="/textile/weaving-calculations/11-reed-calculations/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc11:4"></span></a><a href="/textile/weaving-calculations/11-reed-calculations/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc11:5"></span></a></div></div>
+`});
 
 /* ---- Weaving Calculations, part 2 ---- */
 const WDIV=[['Plain 1/1',1],['Filling rib 2/2',1.5],['Warp rib 2/2',1.26],['Panama (hopsack) 2/2',1.4],['Drill 2/1',1.22],['Drill 3/1',1.3],['Twill 2/2',1.34],['Drill 4/1',1.34],['5/1',1.4],['6/1',1.44],['7/1',1.45],['Satin 1/4',1.41],['Satin 1/5',1.51],['Satin 1/6',1.59],['Satin 1/7',1.67],['Satin 1/8',1.73]];
@@ -1521,11 +1597,11 @@ function crimpSVG(d1,d2,title){ // cross-section along the warp: weft circles (d
   return s;
 }
 lecture({id:'wc12',course:'wc',n:'12–13',title:'Cover Factor I & II',sub:'How much of the cloth area the yarns actually cover, the Ne cover factor used in mills, and the airjet weavability limits with weave corrections.',chips:['Relative cover','K = n√tex','Ne cover factor','Weavability'],tags:'cover factor weavability airjet density',body:()=>`
-<div class="card"><h2>Relative cover</h2>
+<div class="card"><h2>Relative cover</h2>${FIG('cover-factor','Relative cover is yarn diameter over thread spacing: when d equals p the threads of that set touch and the cover of that set is 1 (K = 2670 in tex units).')}
 <p>The fraction of the cloth area covered by the threads of one set is <b>d / p</b> — yarn diameter over thread spacing. If the diameter is derived from the count (Lecture FD-12: d in mm = √tex ÷ 26.7, assuming a packed specific volume of 1.1 cm³/g), relative cover can be written entirely in terms of count and density:</p>
 <div class="formula">cover = d/p = ( n / 100 mm ) × √tex ÷ 2670 &nbsp;&nbsp;⇒&nbsp;&nbsp; K = n √tex, maximum 2670 (threads touching)</div>
 <p>Example from the lecture: 25 tex at 267 threads/100 mm gives K = 1335, relative cover 0.50; 36 tex at 334/100 mm gives K = 2004, cover 0.75. Cloth cover combines the two sets: C = C₁ + C₂ − C₁C₂ = 0.50 + 0.75 − 0.375 = 0.875 ≈ 0.88.</p></div>
-<div class="card"><h2>The mill version: K(Ne) = EPI/√Ne<sub>warp</sub> + PPI/√Ne<sub>weft</sub></h2>
+<div class="card"><h2>The mill version: K(Ne) = EPI/√Ne<sub>warp</sub> + PPI/√Ne<sub>weft</sub></h2>${FIG('yarn-diameter','In English counts a yarn is about 1/(28√Ne) inch across, so threads per inch ÷ √Ne measures how close the set is to touching; 28 means the threads just meet.')}
 <p>With English counts the same idea becomes threads per inch divided by √Ne (the diameter in inches is about 1/(28√Ne)). The maximum for one set is about 28 — at that value the threads of that set touch side by side (relative cover 1).</p>
 ${S({title:'Cover factor (Ne)',cols:[260,120,120],rows:[
 [{h:''},{h:'Warp'},{h:'Weft'}],
@@ -1540,15 +1616,17 @@ ${S({title:'Cover factor (Ne)',cols:[260,120,120],rows:[
 ['Cloth cover C₁+C₂−C₁C₂',{f:v=>{const a=Math.min(1,v.kw/28),b=Math.min(1,v.kf/28);return a+b-a*b;},fx:'=B6+C6-B6*C6',fmt:'0.0%'},null]
 ]})}
 <div class="note">20×20/108×56 gives 24.1 + 12.5 = 36.7 — right at the weavability limit of a 75" airjet loom. Non-plain weaves interlace less often and can be woven denser; dividing by the weave factor converts them to a plain-weave equivalent before comparing with the limits below.</div></div>
-<div class="card"><h2>Weavability limits (airjet) and weave factors</h2>
+<div class="card"><h2>Weavability limits (airjet) and weave factors</h2>${FIG('weave-cover','Weaves that interlace less often leave more room for the yarns, so their cover factor is divided by a weave factor before it is compared with the airjet limits.')}
 <div class="grid2"><div>
 <table class="plain"><tr><th>Loom width</th><th>Standard total cover</th><th>Upper limit</th></tr>
 <tr><td>75"</td><td class="r">36</td><td class="r">37.5</td></tr><tr><td>110"</td><td class="r">28</td><td class="r">32</td></tr><tr><td>134"</td><td class="r">25</td><td class="r">32</td></tr></table>
 <p>Wider looms insert the pick over a longer distance, so they tolerate less cover: a construction that weaves comfortably at 75" may be unweavable at 134".</p></div>
-<div><table class="plain"><tr><th>Weave</th><th class="r">Divide K by</th></tr>${WDIV.slice(1).map(x=>`<tr><td>${x[0]}</td><td class="r">${x[1]}</td></tr>`).join('')}</table></div></div></div>`});
+<div><table class="plain"><tr><th>Weave</th><th class="r">Divide K by</th></tr>${WDIV.slice(1).map(x=>`<tr><td>${x[0]}</td><td class="r">${x[1]}</td></tr>`).join('')}</table></div></div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/12-13-cover-factor-i-and-ii/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc12:1"></span></a><a href="/textile/weaving-calculations/12-13-cover-factor-i-and-ii/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc12:2"></span></a><a href="/textile/weaving-calculations/12-13-cover-factor-i-and-ii/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc12:3"></span></a><a href="/textile/weaving-calculations/12-13-cover-factor-i-and-ii/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc12:4"></span></a><a href="/textile/weaving-calculations/12-13-cover-factor-i-and-ii/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc12:5"></span></a></div></div>
+`});
 
 lecture({id:'wc13',course:'wc',n:'14',title:'Fabric Production',sub:'Loom output per day from rpm, picks and efficiency; then warp and weft bags for an order, loom-days and daily yarn consumption.',chips:['Loom production','A-grade','Bags per order','Loom-days'],tags:'production rpm efficiency bags order',body:()=>`
-<div class="card"><h2>From picks per minute to metres per day</h2>
+<div class="card"><h2>From picks per minute to metres per day</h2>${FIG('yarn-cost-stack','Yarn for an order is built up from the bare ends × length, then inflated for crimp (contraction), wastage and the B-grade metres that consumed yarn but cannot be sold.')}${FIG('loom-production','Each loom revolution inserts one pick; rpm × efficiency ÷ picks per inch gives inches of cloth per minute, and 1,440 minutes a day turn that into yards.')}
 <div class="formula">inches per minute = rpm × efficiency ÷ PPI &nbsp;&nbsp;·&nbsp;&nbsp; yards per day = in/min × 1440 ÷ 36</div>
 <p>Then A-grade is what sells: subtract the B-grade percentage. Yarn consumption includes contraction <em>and</em> wastage (warp 3%, weft 5.6%) and is inflated by the B-grade rejection, because the rejected metres consumed yarn too.</p>
 ${S({title:'Loom production and yarn for an order',cols:[320,130],rows:[
@@ -1573,17 +1651,19 @@ ${S({title:'Loom production and yarn for an order',cols:[320,130],rows:[
 ['Days to complete',{f:v=>v.om/(v.mpd*v.lm),fx:'=B25/(B18*B26)',fmt:'0.00',tot:true}],
 ['Bags consumed per day (all looms)',{f:v=>(v.wpm+v.fpm)*v.mpd*v.lm/100,fx:'=(B22+B23)*B18*B26/100',fmt:'0.00'}]
 ]})}
-<div class="note">Four looms at 800 rpm finish 20,000 m in 11.5 days and eat about 9.7 bags of yarn a day — a figure the yarn store needs long before the looms start (Planning III).</div></div>`});
+<div class="note">Four looms at 800 rpm finish 20,000 m in 11.5 days and eat about 9.7 bags of yarn a day — a figure the yarn store needs long before the looms start (Planning III).</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/14-fabric-production/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc13:1"></span></a><a href="/textile/weaving-calculations/14-fabric-production/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc13:2"></span></a><a href="/textile/weaving-calculations/14-fabric-production/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc13:3"></span></a><a href="/textile/weaving-calculations/14-fabric-production/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc13:4"></span></a><a href="/textile/weaving-calculations/14-fabric-production/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc13:5"></span></a></div></div>
+`});
 
 lecture({id:'wc14',course:'wc',n:'15–16',title:'Crimp I & II – Peirce Geometry',sub:'Why yarns are longer than the cloth they make: the jammed plain weave with equal and unequal yarns, and the warp rib.',chips:['Jammed structure','θ, p, l, h','Crimp %','Cover 1542 / 1955'],tags:'crimp peirce geometry jammed',body:()=>`
-<div class="card"><h2>The jammed plain weave</h2>
+<div class="card"><h2>The jammed plain weave</h2>${FIG('peirce-geometry','In Peirce\'s jammed plain weave the yarn is all arc: the angle θ at which it leaves the crossing thread fixes the spacing p = D sin θ, the length l = Dθ and the height h = D(1 − cos θ).')}
 <p>Peirce modelled a yarn in cloth as a circular cross-section following arcs around the crossing threads. When the threads touch — the <b>jammed</b> state — the yarn has no straight portion; it is all arc. With D = d₁ + d₂ (sum of diameters), the thread spacing p, yarn length l per repeat and crimp height h depend only on the angle θ at which the yarn leaves the crossing thread:</p>
 <div class="formula">p = D sin θ &nbsp;&nbsp;·&nbsp;&nbsp; l = D θ &nbsp;&nbsp;·&nbsp;&nbsp; h = D (1 − cos θ) &nbsp;&nbsp;·&nbsp;&nbsp; h₁ + h₂ = D &nbsp;&nbsp;·&nbsp;&nbsp; crimp = l / p − 1</div>
 <div class="grid2">
 <div>${crimpSVG(1,1,'Equal yarns: θ = 60°, p = 1.732 d, l = 2.094 d')}</div>
 <div>${crimpSVG(1,2,'Weft twice as thick (d₂ = 2 d₁)')}</div></div>
 <p>In the drawings the yellow circles are the picks seen end-on and the blue thread is a warp end wrapping them. Edit the diameters below to see every quantity change.</p></div>
-<div class="card"><h2>Crimp calculator</h2>
+<div class="card"><h2>Crimp calculator</h2>${FIG('crimp','Crimp is the extra length a yarn needs to bend over and under its neighbours: l ÷ p − 1, which is 20.9 % for equal yarns in a jammed plain weave.')}
 ${S({title:'Jammed plain weave geometry (lengths in units of d₁)',cols:[300,120,120],rows:[
 [{h:''},{h:'Warp (1)'},{h:'Weft (2)'}],
 ['Diameter d',{in:'d1',v:1},{in:'d2',v:1}],
@@ -1596,13 +1676,15 @@ ${S({title:'Jammed plain weave geometry (lengths in units of d₁)',cols:[300,12
 ['Cover factor K = 2670 × d / p',{f:v=>2670*v.d1/v.p1,fx:'=2670*B2/B6',fmt:'#,##0',tot:true},{f:v=>2670*v.d2/v.p2,fx:'=2670*C2/C6',fmt:'#,##0',tot:true}]
 ]})}
 <div class="note">Equal yarns: θ = 60°, crimp 20.9% in both directions and K = 1542 — the densest plain square cloth that can be woven. With d₂ = 2d₁ the fine warp must climb over the thick weft and takes about 31% crimp while the weft needs about 13%; the cover factors become 1194 and 1888 (lecture figures 29.5% / 12.2% with rounded angles).</div></div>
-<div class="card"><h2>Twill and warp rib</h2>
+<div class="card"><h2>Twill and warp rib</h2>${FIG('rib-hopsack','In a warp rib the fine warp ends lie side by side and wrap half-way round a thick weft pair, so the warp takes about 57 % crimp while the weft lies almost straight.')}
 <div class="grid2"><div><h3>2/2 twill, equal yarns</h3><p>Each thread interlaces only after every second crossing thread, so the modular length — half of the four-thread repeat — spans 2p = 2.732 d (one jammed arc plus a straight float of length d): K = 2670 × 2 ÷ 2.732 = <b>1955</b>. Yarn length per repeat l = 3.09 d, crimp = 3.09 ÷ 2.732 − 1 = <b>13.1%</b>. Twills are less crimped and can be set denser than plain weave — the reason for the weave divisors in Lecture 12.</p></div>
 <div><h3>Warp rib</h3><p>With the weft twice as thick as the warp (d₂ = 2d₁), warp ends lie side by side (p₁ = d₁, K₁ = 2670) and each passes over two picks. The weft spacing is 1.5 d₂ (K₂ ≈ 1760), the warp wraps a half circle of diameter 3d₁: l₁ = 4.71 d₁ over 3 d₁ of cloth, so warp crimp is about <b>57%</b> while the straight weft has none. That is why rib fabrics use so much more warp yarn than their weight suggests.</p></div></div>
-<p>Flattened (non-circular) yarns cover more width than the circular model predicts: real plain cloths look fully covered at K ≈ 1000–1400 rather than 1542.</p></div>`});
+<p>Flattened (non-circular) yarns cover more width than the circular model predicts: real plain cloths look fully covered at K ≈ 1000–1400 rather than 1542.</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/15-16-crimp-i-and-ii-peirce-geometry/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc14:1"></span></a><a href="/textile/weaving-calculations/15-16-crimp-i-and-ii-peirce-geometry/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc14:2"></span></a><a href="/textile/weaving-calculations/15-16-crimp-i-and-ii-peirce-geometry/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc14:3"></span></a><a href="/textile/weaving-calculations/15-16-crimp-i-and-ii-peirce-geometry/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc14:4"></span></a><a href="/textile/weaving-calculations/15-16-crimp-i-and-ii-peirce-geometry/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc14:5"></span></a></div></div>
+`});
 
 lecture({id:'wc17',course:'wc',n:'17',title:'Blended Fabrics – Fibre Composition',sub:'Percentage of each fibre in a fabric whose warp and weft are different blends, and the elastane content of a core-spun yarn.',chips:['Fibre %','Cotton / polyester','Lycra core-spun','Draft'],tags:'blend composition lycra elastane polyester',body:()=>`
-<div class="card"><h2>Composition from yarn weights</h2>
+<div class="card"><h2>Composition from yarn weights</h2>${FIG('fabric-weight','The warp and weft weights per yard are computed first; each is then split by its own blend before the two are added to give the fibre content of the whole fabric.')}${FIG('blend','A blended yarn is a mixture by weight: a 65/35 cotton-polyester weft carries 0.65 lb of cotton in every pound, so the fabric label is built from the weight of each yarn.')}
 <p>The fabric label must state the fibre content by weight. Compute the warp and weft weight per yard exactly as in Lecture 5, then apportion each by its blend.</p>
 ${S({title:'Cotton / polyester fabric',cols:[300,120,120],rows:[
 [{h:''},{h:'Warp'},{h:'Weft'}],
@@ -1617,7 +1699,7 @@ ${S({title:'Cotton / polyester fabric',cols:[300,120,120],rows:[
 [{t:'<b>Fabric composition</b>'},{f:v=>(v.c1+v.c2)/(v.ww+v.wf),fx:'=(B8+C8)/(B7+C7)  cotton',fmt:'0.0%',tot:true},{f:v=>(v.p1+v.p2)/(v.ww+v.wf),fx:'=(B9+C9)/(B7+C7)  polyester',fmt:'0.0%',tot:true}]
 ]})}
 <div class="note">An all-cotton warp with a 65/35 cotton-polyester weft gives a fabric of about 83% cotton / 17% polyester — because the warp carries more than half the weight.</div></div>
-<div class="card"><h2>Lycra in a core-spun yarn</h2>
+<div class="card"><h2>Lycra in a core-spun yarn</h2>${FIG('yarn-count','Denier is a direct count (weight per fixed length), so the denier of a whole cotton yarn is 5315 ÷ Ne — this lets the elastane denier be compared with the yarn it sits in.')}
 <p>A core-spun stretch yarn wraps cotton around an elastane (Lycra) filament. The filament is fed under <b>draft</b> (stretched 3.9–4.2 times), so only 1/draft of its nominal denier ends up per unit length — then it retracts a little after spinning (<b>residual shrinkage</b>, 6%), which raises its denier in the yarn by the same percentage. The denier of the whole yarn is 5315 ÷ Ne.</p>
 ${S({title:'Elastane content of core-spun yarns',cols:[300,120,120],rows:[
 [{h:''},{h:'Yarn A'},{h:'Yarn B'}],
@@ -1634,10 +1716,12 @@ ${S({title:'Elastane content of core-spun yarns',cols:[300,120,120],rows:[
 ['Fabric Lycra %',{f:v=>v.fwt*v.pb/(v.wwt+v.fwt),fx:'=B11*C8/(B10+B11)',fmt:'0.0%',tot:true},null],
 ['Fabric cotton %',{f:v=>1-v.fwt*v.pb/(v.wwt+v.fwt),fx:'=1-B12',fmt:'0.0%',tot:true},null]
 ]})}
-<div class="note">A 70-denier Lycra drafted 4.2× contributes 17.7 denier to an Ne 20 yarn — 6.65% of the yarn, and only about 3.2% of the fabric once the all-cotton warp is counted. Stretch fabrics are labelled “97% cotton 3% elastane” for exactly this reason.</div></div>`});
+<div class="note">A 70-denier Lycra drafted 4.2× contributes 17.7 denier to an Ne 20 yarn — 6.65% of the yarn, and only about 3.2% of the fabric once the all-cotton warp is counted. Stretch fabrics are labelled “97% cotton 3% elastane” for exactly this reason.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/17-blended-fabrics-fibre-composition/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc17:1"></span></a><a href="/textile/weaving-calculations/17-blended-fabrics-fibre-composition/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc17:2"></span></a><a href="/textile/weaving-calculations/17-blended-fabrics-fibre-composition/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc17:3"></span></a><a href="/textile/weaving-calculations/17-blended-fabrics-fibre-composition/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc17:4"></span></a><a href="/textile/weaving-calculations/17-blended-fabrics-fibre-composition/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc17:5"></span></a></div></div>
+`});
 
 lecture({id:'wc18',course:'wc',n:'18',title:'Sizing Cost Analysis',sub:'Relating sizing cost per kilogram to warp count across many articles, and forecasting the cost of a new count with linear and quadratic trends.',chips:['Regression','FORECAST','Trend line','Cost per kg'],tags:'sizing cost regression forecast trend',body:()=>`
-<div class="card"><h2>Why sizing cost rises with count</h2>
+<div class="card"><h2>Why sizing cost rises with count</h2>${FIG('yarn-count','Ne is an indirect count: a kilogram of Ne 40 holds twice the length of a kilogram of Ne 20, which is why cost per kg climbs with count.')}${FIG('sizing','On the sizing machine a finer warp has more yards in every kilogram, so more yarn surface must be coated and dried — the root of the rising cost per kg.')}
 <p>Finer warps have more length per kilogram and so more surface to coat, need higher size add-on and run slower on the sizing machine, so the cost of sizing one kilogram of warp climbs steeply with Ne. The lecture tabulated the sizing cost of 41 articles against their warp count and fitted a trend to it. A representative selection of those points is loaded below — type your own figures over them.</p>
 ${S({title:'Sizing cost vs warp count',cols:[90,130,90,130,90,130],rows:[
 [{h:'Warp Ne'},{h:'Rs / kg'},{h:'Warp Ne'},{h:'Rs / kg'},{h:'Warp Ne'},{h:'Rs / kg'}],
@@ -1653,14 +1737,16 @@ ${S({title:'Sizing cost vs warp count',cols:[90,130,90,130,90,130],rows:[
 ['Quadratic forecast',{f:v=>v.q_a*v.fx*v.fx+v.q_b*v.fx+v.q_c,fx:'=a*x²+b*x+c',fmt:'0.00',tot:true},null,null,null,null]
 ]})}
 <div class="note">The lecture’s full table gave a linear FORECAST of 9.15 Rs/kg at Ne 40 and a quadratic trend 0.0027x² + 0.0172x + 4.4432 → 9.45. The quadratic fits the upward curve better; the straight line under-estimates the cost at both ends of the range (Ne 7–10 and beyond Ne 40) and over-estimates it for the middle counts. Both fits include the double-pick article at 11.64 Rs/kg.</div></div>
-<div class="card"><h2>Trend lines from the lecture</h2>
+<div class="card"><h2>Trend lines from the lecture</h2>${FIG('spreadsheet','A least-squares trend line turns a scatter of article costs into a forecasting formula; the quadratic bends upward to follow the real curve.')}
 ${CH({w:600,h:320,xl:'Warp count Ne',yl:'Sizing cost Rs / kg',xmin:5,xmax:45,ymin:4,ymax:11,yfmt:'0.0',xfmt:'0',series:[
 {pts:Array.from({length:9},(_,i)=>{const x=5+i*5;return [x,0.0027*x*x+0.0172*x+4.4432];}),color:'#b45309',label:'quadratic'},
 {pts:[[5,3.75],[45,9.92]],color:'#64748b',label:'linear'}],
-marks:[[7,4.65],[10,4.9],[12,5.05],[16,5.2],[20,5.1],[20,6.1],[20,6.58],[24,6.9],[26,7.3],[30,7.95],[30,8.13],[32,8.4],[40,8.31],[40,8.9],[40,9.63]].map(p=>({x:p[0],y:p[1],color:'#1e3a8a',label:''}))})}</div>`});
+marks:[[7,4.65],[10,4.9],[12,5.05],[16,5.2],[20,5.1],[20,6.1],[20,6.58],[24,6.9],[26,7.3],[30,7.95],[30,8.13],[32,8.4],[40,8.31],[40,8.9],[40,9.63]].map(p=>({x:p[0],y:p[1],color:'#1e3a8a',label:''}))})}</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/18-sizing-cost-analysis/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc18:1"></span></a><a href="/textile/weaving-calculations/18-sizing-cost-analysis/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc18:2"></span></a><a href="/textile/weaving-calculations/18-sizing-cost-analysis/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc18:3"></span></a><a href="/textile/weaving-calculations/18-sizing-cost-analysis/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc18:4"></span></a><a href="/textile/weaving-calculations/18-sizing-cost-analysis/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc18:5"></span></a></div></div>
+`});
 
 lecture({id:'wc19',course:'wc',n:'19–21',title:'Planning I, II & III – Orders, Changeovers and Yarn',sub:'The booking-and-shipping schedule: daily production per quality, days required, finish and dispatch dates, loom changeovers and the yarn each day of the plan consumes.',chips:['Loom plan','Lateness','Changeover','Yarn working','Bags per day'],tags:'planning orders schedule changeover yarn requirement booking',body:()=>`
-<div class="card"><h2>Planning I — the loom plan</h2>
+<div class="card"><h2>Planning I — the loom plan</h2>${FIG('loom-production','Daily output of a quality comes from loom speed, picks per inch and efficiency: picks per minute become inches, yards and finally the days an order needs.')}
 <p>Every booked quality gets a row: its construction, the looms assigned, their speed and efficiency, the A-grade percentage, and the quantity. From these the plan computes daily output, the days needed, and — counting from the start date — the finish, packing (+2 days), arrival in Karachi (+4 days) and the dispatch deadline (vessel date − 4 days). <b>Late</b> is finish − dispatch + 2: negative numbers mean the order is safe.</p>
 <div class="formula">daily yards = Σ ( rpm × widths × looms × 24 × 60 ) ÷ 36 ÷ PPI × efficiency × A%</div>
 ${S({title:'Loom plan (dates as day numbers)',cols:[150,70,60,60,60,70,70,90,80,60,60,70,70,80,80,70],rows:[
@@ -1671,7 +1757,7 @@ ${S({title:'Loom plan (dates as day numbers)',cols:[150,70,60,60,60,70,70,90,80,
 ['60×60/161×114, 114", 4/1',{in:'p4',v:114},{in:'e4',v:0.92,fmt:'0%'},{in:'a4',v:0.98,fmt:'0%'},{in:'r4',v:500},{in:'w4',v:1},{in:'l4',v:8},{in:'q4',v:30000},{f:v=>v.r4*v.w4*v.l4*1440/36/v.p4*v.e4*v.a4,n:'d4',fx:'=E5*F5*G5*24*60/36/B5*C5*D5',fmt:'#,##0'},{f:v=>v.q4*1.0936/v.d4,n:'n4',fx:'=H5*1.0936/I5',fmt:'0.0'},{in:'s4',v:10},{f:v=>v.s4+Math.max(v.n4-1,0),n:'f4',fx:'=K5+MAX(J5-1,0)',fmt:'0.0'},{f:v=>v.f4+2,fx:'=L5+2',fmt:'0.0'},{f:v=>v.f4+6,fx:'=M5+4',fmt:'0.0'},{in:'v4',v:60},{f:v=>v.f4-(v.v4-4)+2,fx:'=L5-(O5-4)+2',fmt:'0.0',tot:true}]
 ]})}
 <div class="note">In the original workbook the Days cell rounds to the nearest half day and the rows are chained so that the next lot starts the day after the previous one finishes (the 2nd lot here). Positive “Late” values are the planner’s alarm: add looms, raise speed or negotiate the vessel.</div></div>
-<div class="card"><h2>Planning II — loom changeovers</h2>
+<div class="card"><h2>Planning II — loom changeovers</h2>${FIG('planning-gantt','The changeover sheet is a Gantt chart in numbers: each row shows how many looms a quality occupies on each day, and the column total can never exceed the looms in the shed.')}
 <p>A second sheet lists, for every calendar day, how many looms run each quality. When a lot finishes its looms are re-beamed — a changeover takes a day or more — and the daily total must never exceed the looms in the shed. The pattern below is the kind of allocation the workbook produces for the four qualities above (looms per day):</p>
 <table class="plain"><tr><th>Day</th><th class="r">1</th><th class="r">5</th><th class="r">10</th><th class="r">20</th><th class="r">30</th><th class="r">40</th><th class="r">50</th><th class="r">60</th></tr>
 <tr><td>68" lot 1</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">6</td><td class="r">–</td><td class="r">–</td></tr>
@@ -1680,17 +1766,19 @@ ${S({title:'Loom plan (dates as day numbers)',cols:[150,70,60,60,60,70,70,90,80,
 <tr><td>114"</td><td class="r">–</td><td class="r">–</td><td class="r">8</td><td class="r">8</td><td class="r">8</td><td class="r">–</td><td class="r">–</td><td class="r">–</td></tr>
 <tr><th>Total running</th><th class="r">12</th><th class="r">12</th><th class="r">20</th><th class="r">14</th><th class="r">14</th><th class="r">6</th><th class="r">4</th><th class="r">4</th></tr></table>
 <p>Idle looms on days 20–60 are the opportunity for new bookings — Planning IV takes this up with a month-long simulation.</p></div>
-<div class="card"><h2>Planning III — yarn working</h2>
+<div class="card"><h2>Planning III — yarn working</h2>${FIG('beams','Every loom-day on the plan consumes warp from the beam and weft from cones; converting those pounds into bags tells the yarn store what must be on hand before sizing.')}
 <p>The yarn sheet converts each quality into warp and weft pounds per yard and, with the adjusted loom speed, into production and bags per loom per day. Multiplying by the looms running each day (from the changeover sheet) gives the daily warp and weft requirement, which is summed by month and compared with yarn already booked.</p>
 <div class="formula">warp lb/yd = ends × width × (1 + crimp) ÷ (840 × Ne) &nbsp;&nbsp;·&nbsp;&nbsp; production yd/day = rpm × eff × 1440 ÷ (PPI × 36) × widths</div>
 ${S({title:'Yarn working — per loom per day',cols:[150,60,60,60,60,60,70,70,90,90,70,60,90,90,90],rows:[
 [{h:'Quality'},{h:'Warp'},{h:'Weft'},{h:'Ends'},{h:'Picks'},{h:'Width'},{h:'Wp crimp'},{h:'Wf crimp'},{h:'Wp lb/yd'},{h:'Wf lb/yd'},{h:'RPM'},{h:'Eff'},{h:'Prod yd'},{h:'Warp bags'},{h:'Weft bags'}],
 ...[[68,0.09,800],[98,0.09,600],[114,0.06,500],[122,0.06,500]].map((r,i)=>{const k=i+1;return [`60×60/161×114, ${r[0]}"`,{in:'a'+k,v:60},{in:'b'+k,v:60},{in:'c'+k,v:161},{in:'d'+k,v:114},{in:'e'+k,v:r[0]},{in:'f'+k,v:r[1],fmt:'0%'},{in:'g'+k,v:0.09,fmt:'0%'},{f:v=>v['c'+k]*v['e'+k]*(1+v['f'+k])/(840*v['a'+k]),n:'wp'+k,fx:`=D${k+1}*F${k+1}*(1+G${k+1})/(840*B${k+1})`,fmt:'0.0000'},{f:v=>v['d'+k]*v['e'+k]*(1+v['g'+k])/(840*v['b'+k]),n:'wf'+k,fx:`=E${k+1}*F${k+1}*(1+H${k+1})/(840*C${k+1})`,fmt:'0.0000'},{in:'r'+k,v:r[2]},{in:'ef'+k,v:0.94,fmt:'0%'},{f:v=>v['r'+k]*v['ef'+k]*1440/(v['d'+k]*36),n:'pr'+k,fx:`=K${k+1}*L${k+1}*1440/(E${k+1}*36)`,fmt:'0.0'},{f:v=>v['pr'+k]*v['wp'+k]/100,fx:`=M${k+1}*I${k+1}/100`,fmt:'0.000',tot:true},{f:v=>v['pr'+k]*v['wf'+k]/100,fx:`=M${k+1}*J${k+1}/100`,fmt:'0.000',tot:true}];})
 ]})}
-<div class="note">A 98" loom running this sheeting consumes about 0.68 bags of warp and 0.48 bags of weft a day. Six such looms for 12 days use 48.6 warp bags and 34.4 weft bags — 49 and 35 bags to hold in stock — numbers the yarn store must have in stock before the beams are sized.</div></div>`});
+<div class="note">A 98" loom running this sheeting consumes about 0.68 bags of warp and 0.48 bags of weft a day. Six such looms for 12 days use 48.6 warp bags and 34.4 weft bags — 49 and 35 bags to hold in stock — numbers the yarn store must have in stock before the beams are sized.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/19-21-planning-i-ii-and-iii-orders-changeovers-and-yarn/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc19:1"></span></a><a href="/textile/weaving-calculations/19-21-planning-i-ii-and-iii-orders-changeovers-and-yarn/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc19:2"></span></a><a href="/textile/weaving-calculations/19-21-planning-i-ii-and-iii-orders-changeovers-and-yarn/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc19:3"></span></a><a href="/textile/weaving-calculations/19-21-planning-i-ii-and-iii-orders-changeovers-and-yarn/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc19:4"></span></a><a href="/textile/weaving-calculations/19-21-planning-i-ii-and-iii-orders-changeovers-and-yarn/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc19:5"></span></a></div></div>
+`});
 
 lecture({id:'wc22',course:'wc',n:'22',title:'Planning IV – Production Over Months',sub:'A day-by-day simulation: looms come on line one by one, stock builds up, and four shipments must be met on their dates.',chips:['Ramp-up','Cumulative stock','Shipments','Containers'],tags:'planning simulation shipments months ramp',body:()=>`
-<div class="card"><h2>The problem</h2>
+<div class="card"><h2>The problem</h2>${FIG('container','Each shipment must fit its box: a 20 ft container takes 40,000 m of 68" or 30,000 m of 98", and a 40 ft container takes double — the stock on the day must cover the load.')}${FIG('planning-gantt','Looms are released to the order one at a time, so the daily production line ramps up in steps before it levels off at the full loom count.')}
 <p>Two widths of 60×60/161×112 are to be woven for a customer: the 68" quality makes 230 m per loom per day and the 98" quality 170 m. Looms are released to the order gradually — one more every two days for the 68" and every two and a half days for the 98" — until all are running. Shipments are booked on 10 October, 25 October, 5 November and 30 November, and each ships in a container (a 20 ft container holds 40,000 m of 68" or 30,000 m of 98"; a 40 ft holds double). Will the stock be there on each date?</p>
 <p>The workbook runs a daily ledger from 1 September: looms × rate = production, cumulative stock minus shipments. The sheet below does the same with a loop, so you can change the ramp, the rates or the shipment programme and see at once which shipment slips.</p>
 ${S({title:'Ramp-up and shipment check (day 1 = 1 September)',cols:[260,110,110],rows:[
@@ -1709,17 +1797,19 @@ ${S({title:'Ramp-up and shipment check (day 1 = 1 September)',cols:[260,110,110]
 ...[1,2,3,4].map(i=>[{f:v=>v['d'+i],fx:'shipment day',fmt:'0'},{f:v=>sim(v,'a',i),fx:'cumulative production − cumulative shipments',fmt:'#,##0',tot:true},{f:v=>sim(v,'b',i),fx:'cumulative production − cumulative shipments',fmt:'#,##0',tot:true}]),
 ['Day on which the last shipment is fully covered',{f:v=>ready(v,'a'),fx:'first day with stock ≥ all shipments',fmt:'0'},{f:v=>ready(v,'b'),fx:'first day with stock ≥ all shipments',fmt:'0'}]
 ]})}
-<div class="note">With the lecture’s figures every shipment is covered for both qualities; the 98" quality has the thinner margin (about 18,500 m in hand after the first two shipments), so it is the one to watch if its looms are released more slowly. Containers: 40,000 m of 68" + 30,000 m of 98" fill one 40 ft box; the 5 November lot (20,000 + 15,000) fits a 20 ft box.</div></div>`});
+<div class="note">With the lecture’s figures every shipment is covered for both qualities; the 98" quality has the thinner margin (about 18,500 m in hand after the first two shipments), so it is the one to watch if its looms are released more slowly. Containers: 40,000 m of 68" + 30,000 m of 98" fill one 40 ft box; the 5 November lot (20,000 + 15,000) fits a 20 ft box.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/22-planning-iv-production-over-months/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc22:1"></span></a><a href="/textile/weaving-calculations/22-planning-iv-production-over-months/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc22:2"></span></a><a href="/textile/weaving-calculations/22-planning-iv-production-over-months/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc22:3"></span></a><a href="/textile/weaving-calculations/22-planning-iv-production-over-months/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc22:4"></span></a><a href="/textile/weaving-calculations/22-planning-iv-production-over-months/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc22:5"></span></a></div></div>
+`});
 function looms(v,q,t){return Math.min(v['m'+q],v['l'+q]+Math.floor((t-1)/v['k'+q]));}
 function sim(v,q,i){let stock=0,ship=0;const days=[1,2,3,4].map(j=>v['d'+j]);const T=v['d'+i];for(let t=1;t<=T;t++){stock+=looms(v,q,t)*v['r'+q];}for(let j=1;j<=i;j++)if(days[j-1]<=T)ship+=v['q'+q+j];return stock-ship;}
 function ready(v,q){const total=[1,2,3,4].reduce((a,j)=>a+v['q'+q+j],0);let stock=0;for(let t=1;t<=2000;t++){stock+=looms(v,q,t)*v['r'+q];if(stock>=total)return t;}return NaN;}
 
 lecture({id:'wc25',course:'wc',n:'25',title:'Set Size Planning',sub:'For every quality on the loom plan: beams per set, ends per beam, cone length, sets of warping required and bags of yarn to issue.',chips:['Sets','Ends per beam','Cone length','Bags'],tags:'set size warping sizing planning bags',body:()=>`
-<div class="card"><h2>What a “set” is</h2>
+<div class="card"><h2>What a “set” is</h2>${FIG('cone-size','The cone fixes the size of the set: 4.17 lb of Ne 20 holds 4.17 × 840 × 20 = 70,056 yd, and 2 % wastage leaves 68,655 yd to warp.')}${FIG('warping-creel','One set is one full creel: each cone feeds one end, and the creel is run off onto beam after beam until the cones are empty.')}
 <p>A set is one full creel of cones warped onto the required number of warper’s beams, then sized onto weaver’s beams. The size of the set is fixed by the cone: a 4.17 lb cone of Ne 20 holds 4.17 × 840 × 20 = 70,056 yd, less 2% wastage. Each loom gets a sized beam of a given length; multiply by looms and by beams per set to get the yardage the cones must supply, and divide by the yardage per cone to get the number of sets.</p>
 <div class="formula">length per cone = cone lb × 840 × Ne × (1 − wastage) &nbsp;&nbsp;·&nbsp;&nbsp; sets = beams × looms × sized length per beam ÷ length per cone &nbsp;&nbsp;·&nbsp;&nbsp; bags = ends per beam × sets ÷ 24</div>
 <p>How long a sized beam can be comes from the beam volume (Lecture 7) and the yarn diameter d = 1/(26√Ne) inches: the yarn cross-section × ends × length cannot exceed the beam’s volume.</p></div>
-<div class="card"><h2>Set size worksheet</h2>
+<div class="card"><h2>Set size worksheet</h2>${FIG('beams','The warper\'s beams of one set are combined on the sizing machine; the sized length each loom beam can hold is limited by the beam\'s volume.')}
 ${S({title:'Set size planning',cols:[170,60,60,60,60,60,70,80,80,80,80,90,90,90,70,70,80],rows:[
 [{h:'Quality'},{h:'Looms'},{h:'EPI'},{h:'Width'},{h:'Warp Ne'},{h:'Wastage'},{h:'T. ends'},{h:'Beams'},{h:'Ends/beam'},{h:'Yd / cone'},{h:'Yd / sized beam'},{h:'Yd to size'},{h:'Cone yd reqd'},{h:'Sets'},{h:'Sets used'},{h:'Bags'},{h:'Actual yd/beam'}],
 [{s:'Cone size (lb) → ',span:1},{in:'cone',v:4.17},{t:'Beam yarn volume (in³)'},null,{in:'vol',v:39100},null,null,null,null,null,null,null,null,null,null,null,null],
@@ -1736,10 +1826,12 @@ ${S({title:'Set size planning',cols:[170,60,60,60,60,60,70,80,80,80,80,90,90,90,
  {f:v=>Math.ceil(v['eb'+k]*v['su'+k]/24),fx:`=ROUNDUP(I${R}*O${R}/24,0)`,fmt:'0',tot:true},
  {f:v=>v['yc'+k]*v['su'+k]/v['bm'+k],fx:`=J${R}*O${R}/H${R}`,fmt:'#,##0'}];})
 ]})}
-<div class="note">A set that works out to 2.03 is rounded down to 2 (the 0.05 allowance) — the beams simply come out a little shorter. 24 cones of 4.17 lb make one 100 lb bag. The sized-beam length is computed from the beam volume; the lecture read the same figures (2,320 yd for 8,064 ends of Ne 20) from a maximum-volume table on its second sheet.</div></div>`});
+<div class="note">A set that works out to 2.03 is rounded down to 2 (the 0.05 allowance) — the beams simply come out a little shorter. 24 cones of 4.17 lb make one 100 lb bag. The sized-beam length is computed from the beam volume; the lecture read the same figures (2,320 yd for 8,064 ends of Ne 20) from a maximum-volume table on its second sheet.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/25-set-size-planning/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc25:1"></span></a><a href="/textile/weaving-calculations/25-set-size-planning/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc25:2"></span></a><a href="/textile/weaving-calculations/25-set-size-planning/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc25:3"></span></a><a href="/textile/weaving-calculations/25-set-size-planning/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc25:4"></span></a><a href="/textile/weaving-calculations/25-set-size-planning/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc25:5"></span></a></div></div>
+`});
 
 lecture({id:'wc27',course:'wc',n:'27–28',title:'Feasibility I & II – Costing a Weaving Plant',sub:'Variable cost and contribution per metre for local and export sale, then the investment, running cost and return of a 45-loom plant under three scenarios.',chips:['Variable cost','Contribution','Investment','Return %'],tags:'feasibility investment return contribution plant',body:()=>`
-<div class="card"><h2>Feasibility I — contribution per metre</h2>
+<div class="card"><h2>Feasibility I — contribution per metre</h2>${FIG('fabric-cost-stack','Variable cost per metre is built up from warp and weft consumption at their yarn prices, plus sizing on the warp weight; the export price lifts both the yarn cost and the margin.')}${FIG('contribution-margin','The selling price per metre is split into warp, weft, sizing, packing, electricity, commission and tax; whatever is left is the contribution that pays for fixed costs and profit.')}
 <p>The fabric is 20×16/128×60, 63", 3/1 twill. Warp and weft consumption per metre come from Lecture 14; prices and the selling price differ for the local and export markets. Commission and income tax are percentages of the sale price. What is left after all variable costs is the <b>unit contribution margin</b> (UCM), which, multiplied by the loom’s daily output, is what each loom earns per day towards fixed costs and profit.</p>
 ${S({title:'Variable cost per metre',cols:[280,110,110],rows:[
 [{h:''},{h:'Local'},{h:'Export'}],
@@ -1769,7 +1861,7 @@ ${S({title:'Variable cost per metre',cols:[280,110,110],rows:[
 ['Contribution per month (30 days)',{f:v=>v.c1*30,fx:'=B24*30',fmt:'#,##0'},{f:v=>v.c2*30,fx:'=C24*30',fmt:'#,##0'}]
 ]})}
 <div class="note">Local sale leaves Rs 4.35 per metre, export Rs 12. The same loom earns 1,873 or 5,166 rupees a day — a 45-loom shed makes about 2.5 million a month on local business and 7 million on export. These two figures and their average (a 50/50 mix, 4.75 million) are the “conservative / normal / aggressive” scenarios of Feasibility II.</div></div>
-<div class="card"><h2>Feasibility II — investment and return</h2>
+<div class="card"><h2>Feasibility II — investment and return</h2>${FIG('feasibility','Investment in looms, compressor, preparatory, building and yarn stock is set against monthly contribution less salaries, stores, overheads, administration and depreciation to give the return.')}
 <p>Three scenarios: conservative (local market only), normal (a mix) and aggressive (export). Each has its own view of what the plant costs to build and to run.</p>
 ${S({title:'Plant feasibility (Rs million)',cols:[300,110,110,110],rows:[
 [{h:''},{h:'Conservative'},{h:'Normal'},{h:'Aggressive'}],
@@ -1794,7 +1886,9 @@ ${S({title:'Plant feasibility (Rs million)',cols:[300,110,110,110],rows:[
 ['Annual return on investment',{f:v=>v.sv1/v.ti1*12,fx:'=B19*12',fmt:'0.00%',tot:true},{f:v=>v.sv2/v.ti2*12,fx:'=C19*12',fmt:'0.00%',tot:true},{f:v=>v.sv3/v.ti3*12,fx:'=D19*12',fmt:'0.00%',tot:true}],
 ['Annual return ignoring depreciation (cash)',{f:v=>(v.sv1+v.dp1)/v.ti1*12,fx:'=(B18+B16)/B8*12',fmt:'0.00%'},{f:v=>(v.sv2+v.dp2)/v.ti2*12,fx:'=(C18+C16)/C8*12',fmt:'0.00%'},{f:v=>(v.sv3+v.dp3)/v.ti3*12,fx:'=(D18+D16)/D8*12',fmt:'0.00%'}]
 ]})}
-<div class="note">The lecture’s conclusion: a plant that sells only locally loses money (about −9% a year), a mixed plant earns a modest 4%, and an export-oriented plant about 19% — 28% on a cash basis. The decision is not whether to build the plant but what market it must be built for.</div></div>`});
+<div class="note">The lecture’s conclusion: a plant that sells only locally loses money (about −9% a year), a mixed plant earns a modest 4%, and an export-oriented plant about 19% — 28% on a cash basis. The decision is not whether to build the plant but what market it must be built for.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/weaving-calculations/27-28-feasibility-i-and-ii-costing-a-weaving-plant/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc27:1"></span></a><a href="/textile/weaving-calculations/27-28-feasibility-i-and-ii-costing-a-weaving-plant/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc27:2"></span></a><a href="/textile/weaving-calculations/27-28-feasibility-i-and-ii-costing-a-weaving-plant/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc27:3"></span></a><a href="/textile/weaving-calculations/27-28-feasibility-i-and-ii-costing-a-weaving-plant/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc27:4"></span></a><a href="/textile/weaving-calculations/27-28-feasibility-i-and-ii-costing-a-weaving-plant/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc27:5"></span></a></div></div>
+`});
 
 /* ===================== FABRIC DESIGN ===================== */
 const gen=(w,h,fn)=>{const r=[];for(let p=0;p<h;p++){const row=[];for(let e=0;e<w;e++)row.push(fn(e,p)?1:0);r.push(row);}return r;};
@@ -1812,20 +1906,20 @@ function toHex(rows){return rows.map(r=>{const bits=r.join('').padStart(Math.cei
 const IND='#4338ca',IND2='#e0e7ff';
 
 lecture({id:'fd01',course:'fd',n:'01',title:'Introduction to Weaving and Fabric Construction',sub:'The three motions of a loom, the common weaving defects, and how a fabric construction is written and read.',chips:['Shedding','Picking','Beating-up','Construction notation'],tags:'introduction loom defects construction',body:()=>`
-<div class="card"><h2>What a loom does, three times a pick</h2>
+<div class="card"><h2>What a loom does, three times a pick</h2>${FIG('loom','Follow the warp from beam to cloth roller: the healds open the shed, the weft crosses it, and the reed beats the new pick up to the fell before let-off and take-up move everything on.')}
 <div class="grid3">
 <div class="card" style="margin:0;background:${IND2}"><h3>1 · Shedding</h3><p>The warp ends are divided into two sheets — some raised, some lowered — to open a <b>shed</b>. Which ends rise on which pick is the <em>design</em>, and that is what this course is about.</p></div>
 <div class="card" style="margin:0;background:${IND2}"><h3>2 · Picking</h3><p>The weft is carried through the shed: by shuttle, projectile, rapier, or a jet of air or water.</p></div>
 <div class="card" style="margin:0;background:${IND2}"><h3>3 · Beating-up</h3><p>The reed pushes the new pick against the fell of the cloth, fixing the picks per inch.</p></div></div>
 <p>Let-off (feeding warp from the beam) and take-up (winding the cloth) keep the process continuous.</p></div>
-<div class="card"><h2>Common defects and what they tell you</h2>
+<div class="card"><h2>Common defects and what they tell you</h2>${FIG('reed','The reed sets the ends per inch; crowd too many ends into one dent for the yarn and the cloth carries warp-way reed marks it will never lose.')}
 <table class="plain"><tr><th>Defect</th><th>What you see</th><th>Usual cause</th></tr>
 <tr><td>Missing pick / missing end</td><td>A thin line across (pick) or along (end) the fabric</td><td>Weft break not detected; warp break with stop motion failing</td></tr>
 <tr><td>Double pick / half pick</td><td>A thick weft bar, or a pick that stops part-way across</td><td>Two picks in one shed; pick breaking during insertion</td></tr>
 <tr><td>Floats</td><td>Threads skipping over several others</td><td>Ends stuck together or a late shed</td></tr>
 <tr><td>Crack (starting mark)</td><td>A band of lower pick density</td><td>Loom stopped and restarted without correcting the fell</td></tr>
 <tr><td>Reed marks</td><td>Warp-way streaks</td><td>Too many ends per dent for the yarn</td></tr></table></div>
-<div class="card"><h2>Reading a construction</h2>
+<div class="card"><h2>Reading a construction</h2>${FIG('fabric-weight','A construction is a recipe: warp count × weft count, ends × picks per inch, width and weave together fix how much yarn goes into every square metre of cloth.')}
 <p>Yarn count in the English system is <b>hanks (leas of 840 yd) per pound</b>. A construction such as <b>20 × 16 / 128 × 60, 63", 3/1</b> gives warp count × weft count, ends × picks per inch, width and weave.</p>
 ${S({title:'Construction arithmetic',cols:[260,120],rows:[
 ['Warp count Ne',{in:'wc',v:20}],['Weft count Ne',{in:'fc',v:16}],['Ends per inch',{in:'epi',v:128}],['Picks per inch (finished)',{in:'ppi',v:60}],['Width (in)',{in:'w',v:63}],['Length contraction after the loom',{in:'lc',v:0.08,fmt:'0%'}],
@@ -1834,10 +1928,12 @@ ${S({title:'Construction arithmetic',cols:[260,120],rows:[
 ['Yards of warp yarn per yard of fabric',{f:v=>v.epi*v.w*1.1,fx:'=B7*(1+10% crimp)',fmt:'#,##0'}],
 ['Rough weight, GSM ≈ (EPI/Ne + PPI/Ne) × 25',{f:v=>(v.epi/v.wc+v.ppi/v.fc)*25,fx:'=(B3/B1+B4/B2)*25',fmt:'0'}]
 ]})}
-<div class="note">Because the fabric contracts in length when it leaves the loom, fewer picks are inserted per inch on the loom than are counted in the finished cloth — the lecture sets 55 picks on the loom for a 60-pick fabric.</div></div>`});
+<div class="note">Because the fabric contracts in length when it leaves the loom, fewer picks are inserted per inch on the loom than are counted in the finished cloth — the lecture sets 55 picks on the loom for a 60-pick fabric.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/01-introduction-to-weaving-and-fabric-construction/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd01:1"></span></a><a href="/textile/fabric-design/01-introduction-to-weaving-and-fabric-construction/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd01:2"></span></a><a href="/textile/fabric-design/01-introduction-to-weaving-and-fabric-construction/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd01:3"></span></a><a href="/textile/fabric-design/01-introduction-to-weaving-and-fabric-construction/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd01:4"></span></a><a href="/textile/fabric-design/01-introduction-to-weaving-and-fabric-construction/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd01:5"></span></a></div></div>
+`});
 
 lecture({id:'fd02',course:'fd',n:'02',title:'Weight of Fabric',sub:'The quick GSM estimate and the exact calculation, shared with Weaving Calculations Lecture 5.',chips:['GSM','oz/yd²'],tags:'weight gsm',body:()=>`
-<div class="card"><h2>Two ways to weigh a cloth before it is woven</h2>
+<div class="card"><h2>Two ways to weigh a cloth before it is woven</h2>${FIG('crimp','The yarn in a cloth is longer than the cloth itself because it bends over and under; the quick rule hides this inside its constant by assuming about 10 % crimp.')}${FIG('fabric-weight','Every square metre of cloth holds a known length of warp and weft; divide the thread density by the yarn count and you have the weight before a single pick is woven.')}
 <p>The quick rule: for Ne counts, <span class="formula">GSM ≈ ( EPI / Ne<sub>warp</sub> + PPI / Ne<sub>weft</sub> ) × 25</span>. It assumes about 10% crimp and ignores width effects, but it is close enough to sort constructions into sheeting, poplin, drill and canvas.</p>
 ${S({title:'Quick weight estimate',cols:[220,110,110,110],rows:[
 [{h:''},{h:'Sheeting'},{h:'Drill'},{h:'Your fabric'}],
@@ -1848,24 +1944,28 @@ ${S({title:'Quick weight estimate',cols:[220,110,110,110],rows:[
 ['GSM (approx.)',{f:v=>(v.c1/v.a1+v.d1/v.b1)*25,fx:'=(B4/B2+B5/B3)*25',fmt:'0',tot:true},{f:v=>(v.c2/v.a2+v.d2/v.b2)*25,fx:'=(C4/C2+C5/C3)*25',fmt:'0',tot:true},{f:v=>(v.c3/v.a3+v.d3/v.b3)*25,fx:'=(D4/D2+D5/D3)*25',fmt:'0',tot:true}],
 ['oz / yd² (GSM ÷ 33.9)',{f:v=>(v.c1/v.a1+v.d1/v.b1)*25/33.9,fx:'=B6/33.9',fmt:'0.00'},{f:v=>(v.c2/v.a2+v.d2/v.b2)*25/33.9,fx:'=C6/33.9',fmt:'0.00'},{f:v=>(v.c3/v.a3+v.d3/v.b3)*25/33.9,fx:'=D6/33.9',fmt:'0.00'}]
 ]})}
-<p>For the exact method — contraction, width, pounds per linear yard — open <a data-go="wc05">Weaving Calculations Lecture 5</a>, which is the same worksheet the Fabric Design course used.</p></div>`});
+<p>For the exact method — contraction, width, pounds per linear yard — open <a data-go="wc05">Weaving Calculations Lecture 5</a>, which is the same worksheet the Fabric Design course used.</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/02-weight-of-fabric/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd02:1"></span></a><a href="/textile/fabric-design/02-weight-of-fabric/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd02:2"></span></a><a href="/textile/fabric-design/02-weight-of-fabric/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd02:3"></span></a><a href="/textile/fabric-design/02-weight-of-fabric/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd02:4"></span></a><a href="/textile/fabric-design/02-weight-of-fabric/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd02:5"></span></a></div></div>
+`});
 
 lecture({id:'fd03',course:'fd',n:'03',title:'Shedding Mechanisms and Point Paper',sub:'Tappet, dobby and jacquard shedding — what each can weave — and the point-paper convention for drawing a weave.',chips:['Tappet','Dobby','Jacquard','Point paper'],tags:'shedding tappet dobby jacquard point paper',body:()=>`
-<div class="card"><h2>Three shedding mechanisms</h2>
+<div class="card"><h2>Three shedding mechanisms</h2>${FIG('shedding','Tappet, dobby and jacquard all do the same job, lifting chosen ends to open the shed; they differ in how many different end movements they can control.')}
 <table class="plain"><tr><th>Mechanism</th><th>Heald frames controlled</th><th>Typical weaves</th></tr>
 <tr><td>Tappet (cam)</td><td>6–8</td><td>plain, twills, sateens, simple ribs — repeats up to 8 picks</td></tr>
 <tr><td>Dobby</td><td>14–20 (up to 28)</td><td>any weave whose repeat fits the frames: cords, piqué, honeycomb, huckaback, small figures</td></tr>
 <tr><td>Jacquard</td><td>every end individually (hooks)</td><td>figured fabrics, damask, brocade, large motifs</td></tr></table>
 <p>The number of <em>different</em> end movements in a design decides how many heald frames it needs (Lecture 8). A design that needs more frames than the loom has must go to a dobby or jacquard.</p></div>
-<div class="card"><h2>Point paper</h2>
+<div class="card"><h2>Point paper</h2>${FIG('plain-weave','Plain weave is the smallest repeat of all, two ends by two picks; the second pick is the exact opposite of the first, and the block tiles the whole cloth.')}${FIG('point-paper','Read point paper like a map of the cloth: each column is an end, each row a pick, and a filled square says the end is lifted over that pick.')}
 <p>Each column of squares is a warp end, each row a pick; the first pick is at the bottom and the first end on the left. A filled square means the end is <b>lifted</b> over that pick (warp on the face); an empty square means the pick lies over the end. A weave is drawn as one <b>repeat</b> — the smallest block that tiles the whole cloth.</p>
 <div class="grid2">
 ${W({rows:PLAIN(8,8),title:'Plain weave 1/1',size:18,colors:[IND,'#f1f5f9'],caption:'Every end alternates over and under; the second pick is the opposite of the first. One repeat is only 2 × 2 but is drawn on 8 × 8 here to show the tiling.'})}
 ${W({rows:TWILL('3,1',8,8),title:'3/1 twill',size:18,colors:[IND,'#f1f5f9'],caption:'Each end is up for 3 picks and down for 1; every pick shifts the pattern one end to the right, producing the diagonal.'})}
-</div></div>`});
+</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/03-shedding-mechanisms-and-point-paper/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd03:1"></span></a><a href="/textile/fabric-design/03-shedding-mechanisms-and-point-paper/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd03:2"></span></a><a href="/textile/fabric-design/03-shedding-mechanisms-and-point-paper/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd03:3"></span></a><a href="/textile/fabric-design/03-shedding-mechanisms-and-point-paper/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd03:4"></span></a><a href="/textile/fabric-design/03-shedding-mechanisms-and-point-paper/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd03:5"></span></a></div></div>
+`});
 
 lecture({id:'fd04',course:'fd',n:'04',title:'Twill Weaves',sub:'Regular, irregular and steep twills, cavalry twill, and the pointed twill — all built from one rule.',chips:['2/1','2/2','3/1','Steep 63°','Pointed'],tags:'twill cavalry pointed steep irregular',body:()=>`
-<div class="card"><h2>The twill rule</h2>
+<div class="card"><h2>The twill rule</h2>${FIG('twill-weaves','Write one end\'s lifting order as up/down numbers and shift it one end to the right on every pick: 2/1, 3/1 and 2/2 all come from that single rule, and the diagonal is the result.')}
 <p>Write the lifting order of one end as <b>up/down</b> numbers — 2/1 means two up, one down — and move it one end to the right on each successive pick. The repeat is the sum of the numbers on both ends and picks; the diagonal runs at 45° when the step is one end per pick.</p>
 <div class="grid3">
 ${W({rows:TWILL('2,1',6,6),title:'2/1 twill (warp-faced)',size:20,colors:[IND,'#f1f5f9']})}
@@ -1879,13 +1979,15 @@ ${W({rows:TWILL('2,1,1,2',6,6),title:'Irregular twill 2/1/1/2',size:20,colors:[I
 ${W({rows:TWILL('3,1,2,2',8,8,2),title:'Steep twill (63°) — cavalry twill',size:20,colors:[IND,'#f1f5f9'],caption:'The lifting order advances two ends per pick, so the diagonal rises at 63°; a pronounced double ridge is typical of cavalry twill.'})}
 ${W({rows:TWILL('2,2',8,8,1,-1),title:'2/2 twill, S direction',size:20,colors:[IND,'#f1f5f9'],caption:'Shifting to the left gives an S twill; Z and S twills alternate in herringbones (Lecture 7).'})}
 </div></div>
-<div class="card"><h2>Pointed twill</h2>
+<div class="card"><h2>Pointed twill</h2>${FIG('draft-peg-plan','The draft 1-2-3-4-3-2 shows why a 6-end pointed twill needs only 4 healds: ends 5 and 6 simply repeat the movements of ends 3 and 2.')}${FIG('twill-derivatives','Turn the draft back on itself and the twill line turns with it, forming warp-way points; herringbone and broken twills play the same trick in other directions.')}
 <p>Reverse the draft at the end of the repeat — thread the ends 1-2-3-4-3-2 — and the twill line turns back on itself, forming points (chevrons) warp-way. The weave below is a 2/2 twill pointed on 6 ends.</p>
 ${W({rows:POINT(TWILL('2,2',4,8)),title:'Pointed 2/2 twill',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2,caption:'Note the draft: only 4 healds are needed although the repeat is 6 ends wide, because ends 5 and 6 repeat the movement of ends 3 and 2.'})}
-</div>`});
+</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/04-twill-weaves/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd04:1"></span></a><a href="/textile/fabric-design/04-twill-weaves/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd04:2"></span></a><a href="/textile/fabric-design/04-twill-weaves/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd04:3"></span></a><a href="/textile/fabric-design/04-twill-weaves/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd04:4"></span></a><a href="/textile/fabric-design/04-twill-weaves/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd04:5"></span></a></div></div>
+`});
 
 lecture({id:'fd05',course:'fd',n:'05',title:'Satin and Sateen',sub:'Smooth, lustrous weaves built by distributing single interlacings with a move number.',chips:['Move number','5-end','8-end','Satinette','Striped satin'],tags:'satin sateen move number lustre',body:()=>`
-<div class="card"><h2>Satin (warp-faced) and sateen (weft-faced)</h2>
+<div class="card"><h2>Satin (warp-faced) and sateen (weft-faced)</h2>${FIG('satin-sateen','In the 5-end satin each end is down on only one pick; in the sateen each end is up on only one pick. The move number scatters those single interlacings so that no two touch.')}
 <p>In a satin each end is down on only one pick of the repeat; in a sateen each end is <em>up</em> on only one pick. The single interlacings are scattered so that no two touch — that is what the <b>move number</b> does: on each pick the interlacing moves a fixed number of ends along. The move number must share no factor with the repeat, and must not be 1 or repeat − 1 (those give a twill).</p>
 <table class="plain"><tr><th>Repeat</th><th>Possible move numbers</th><th>Note</th></tr>
 <tr><td>4</td><td>—</td><td>no true satin; 4-end satinette (an irregular arrangement) is used</td></tr>
@@ -1894,7 +1996,7 @@ lecture({id:'fd05',course:'fd',n:'05',title:'Satin and Sateen',sub:'Smooth, lust
 <tr><td>7</td><td>2, 3, 4, 5</td><td></td></tr>
 <tr><td>8</td><td>3, 5</td><td>7/1 satin — damask, satin stripes</td></tr>
 <tr><td>10</td><td>3, 7</td><td></td></tr></table></div>
-<div class="card"><h2>Drawings</h2>
+<div class="card"><h2>Drawings</h2>${FIG('hex-notation','The 4-end satinette written as $8 $4 $1 $2 −4: one lift per pick, read from the bottom pick upward, so the lifts fall on ends 1, 2, 4, 3 and form a broken 1/3 twill.')}${FIG('float-length','A 4/1 satin end floats over four picks before it interlaces once; in the 7/1 satin the float grows to seven, which is where the lustre of damask comes from.')}
 <div class="grid3">
 ${W({rows:SATIN(5,2,'weft'),title:'1/4 sateen, 5-end, move 2',size:22,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({rows:SATIN(5,3,'warp'),title:'4/1 satin, 5-end, move 3',size:22,colors:[IND,'#f1f5f9'],tile:2})}
@@ -1902,10 +2004,12 @@ ${W({rows:SATIN(8,3,'warp'),title:'7/1 satin, 8-end, move 3',size:20,colors:[IND
 ${W({hex:['$8','$4','$1','$2'],w:4,title:'4-end satinette',size:22,colors:[IND,'#f1f5f9'],tile:3,caption:'Hex $8 $4 $1 $2 — one lift per pick (1 up, 3 down), so the lifts form a broken 1/3 twill (Lecture 10 notation).'})}
 ${W({rows:SATIN(8,5,'weft'),title:'1/7 sateen, 8-end, move 5',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({rows:(()=>{const a=SATIN(5,3,'warp',5,10),b=SATIN(5,2,'weft',5,11).slice(1);return a.map((r,p)=>[...r,...b[p]]);})(),title:'Striped satin (satin + sateen stripes)',size:20,colors:[IND,'#f1f5f9'],tile:2,caption:'Five ends of 4/1 satin beside five ends of 1/4 sateen: the warp-faced stripe looks dark, the weft-faced one light, from the same yarns.'})}
-</div></div>`});
+</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/05-satin-and-sateen/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd05:1"></span></a><a href="/textile/fabric-design/05-satin-and-sateen/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd05:2"></span></a><a href="/textile/fabric-design/05-satin-and-sateen/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd05:3"></span></a><a href="/textile/fabric-design/05-satin-and-sateen/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd05:4"></span></a><a href="/textile/fabric-design/05-satin-and-sateen/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd05:5"></span></a></div></div>
+`});
 
 lecture({id:'fd06',course:'fd',n:'06',title:'Rib and Hopsack Weaves',sub:'Plain-weave derivatives: extend the interlacing warp-way for a warp rib, weft-way for a weft rib, both ways for a hopsack.',chips:['Warp rib','Weft rib','Hopsack','Basket'],tags:'rib hopsack basket matt panama',body:()=>`
-<div class="card"><h2>Derived from plain weave</h2>
+<div class="card"><h2>Derived from plain weave</h2>${FIG('cover-factor','Because ribs and hopsacks interlace less often than plain weave, the threads must be set closer (higher cover factor) before the cloth looks and feels firm.')}${FIG('plain-weave','Start from the plain-weave repeat of 2 ends × 2 picks; every rib and hopsack is this interlacing with the threads working in groups instead of singly.')}${FIG('rib-hopsack','Warp rib, weft rib and 2/2 hopsack are all plain weave with the interlacing stretched over two threads: warp-way, weft-way, or both ways at once.')}
 <p>Take plain weave and let each interlacing cover more than one thread. If every end moves over two picks at a time you get a <b>warp rib</b> (ridges run weft-way, the weft is hidden — warp crimp is high, see Weaving Calculations 15). If every pick covers two ends it is a <b>weft rib</b>. Extend both ways and it is a <b>hopsack</b> (matt, panama, basket).</p>
 <div class="grid3">
 ${W({rows:gen(8,8,(e,p)=>(e+Math.floor(p/2))%2===0),title:'2/2 warp rib',size:20,colors:[IND,'#f1f5f9'],caption:'Each end lifts for two picks, down for two: 2 healds, repeat 2 ends × 4 picks.'})}
@@ -1915,10 +2019,12 @@ ${W({rows:gen(12,12,(e,p)=>(Math.floor(e/3)+Math.floor(p/3))%2===0),title:'3/3 h
 
 ${W({rows:gen(10,10,(e,p)=>{const E=[0,0,0,1,1,2,2,2,3,3][e],P=[0,0,0,1,1,2,2,2,3,3][p];return (E+P)%2===0;}),title:'Fancy basket 3-2',size:18,colors:[IND,'#f1f5f9'],caption:'Unequal groups (3 and 2) give the irregular basket used in shirtings and upholstery.'})}
 </div>
-<div class="note">Rib and hopsack weaves interlace less often than plain weave and their floats show equally on both sides (they are reversible), so they need higher sett than plain weave to look firm; the cover-factor divisors (Weaving Calculations 12) are 1.26 for warp rib, 1.5 for weft rib and 1.4 for panama.</div></div>`});
+<div class="note">Rib and hopsack weaves interlace less often than plain weave and their floats show equally on both sides (they are reversible), so they need higher sett than plain weave to look firm; the cover-factor divisors (Weaving Calculations 12) are 1.26 for warp rib, 1.5 for weft rib and 1.4 for panama.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/06-rib-and-hopsack-weaves/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd06:1"></span></a><a href="/textile/fabric-design/06-rib-and-hopsack-weaves/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd06:2"></span></a><a href="/textile/fabric-design/06-rib-and-hopsack-weaves/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd06:3"></span></a><a href="/textile/fabric-design/06-rib-and-hopsack-weaves/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd06:4"></span></a><a href="/textile/fabric-design/06-rib-and-hopsack-weaves/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd06:5"></span></a></div></div>
+`});
 
 lecture({id:'fd07',course:'fd',n:'07',title:'Twill Derivatives',sub:'Waved, herringbone, broken and curved twills — ways of turning or interrupting the twill line.',chips:['Herringbone','Broken twill','Waved','Curved'],tags:'herringbone broken waved curved twill zigzag',body:()=>`
-<div class="card"><h2>Turning the twill line</h2>
+<div class="card"><h2>Turning the twill line</h2>${FIG('draft-peg-plan','A pointed twill is made by turning the draft back on itself while the peg plan stays an ordinary twill; a broken twill instead re-orders the picks in the peg plan.')}${FIG('twill-weaves','Keep the base twill in mind: in a 2/2 twill each end lifts two, sinks two and moves one pick along, which is the diagonal every derivative plays with.')}${FIG('twill-derivatives','Pointed, herringbone and broken twills all start from an ordinary twill and then reverse, cut or re-order the diagonal so the line turns or breaks.')}
 <p>A <b>pointed (waved) twill</b> reverses the draft, so the diagonal meets itself point to point. A <b>herringbone</b> reverses the direction <em>and</em> breaks the join by shifting the second half two picks, so the twill lines do not meet — the cut gives the typical fish-bone. A <b>broken twill</b> interrupts the line every few ends (crow’s foot). A <b>curved twill</b> changes the step gradually — 1, 1, 2, 2, 3 ends per pick — so the line bends.</p>
 <div class="grid2">
 ${W({rows:POINT(TWILL('2,2',4,4)).map(r=>r),title:'Waved (pointed) 2/2 twill',size:20,colors:[IND,'#f1f5f9'],tile:2})}
@@ -1926,10 +2032,12 @@ ${W({rows:HERRING(TWILL('2,2',4,4),4),title:'Herringbone 2/2',size:20,colors:[IN
 ${W({rows:HERRING(TWILL('3,1',4,4),4),title:'Herringbone 3/1',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$C','$3','$6','$9'],w:4,title:'Broken 2/2 twill (crow’s foot)',size:20,colors:[IND,'#f1f5f9'],tile:3,caption:'The picks of a 2/2 twill are re-ordered 1, 3, 2, 4 so the diagonal never runs more than two ends.'})}
 ${W({rows:gen(20,10,(e,p)=>[1,1,1,0,0][mod(e-[0,1,2,3,4,5,7,9,11,13][p],5)]),title:'Curved twill (changing step)',size:16,colors:[IND,'#f1f5f9'],effect:false,caption:'A 3/2 twill whose lifting order advances one end per pick for five picks, then two ends per pick for five picks, so the twill line changes angle and bends.'})}
-</div></div>`});
+</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/07-twill-derivatives/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd07:1"></span></a><a href="/textile/fabric-design/07-twill-derivatives/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd07:2"></span></a><a href="/textile/fabric-design/07-twill-derivatives/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd07:3"></span></a><a href="/textile/fabric-design/07-twill-derivatives/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd07:4"></span></a><a href="/textile/fabric-design/07-twill-derivatives/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd07:5"></span></a></div></div>
+`});
 
 lecture({id:'fd08',course:'fd',n:'08',title:'Draft, Peg Plan and Denting',sub:'From design to loom: which heald carries each end, which healds lift on each pick, and how many ends go through each reed dent.',chips:['Draft','Peg plan','Healds','Denting'],tags:'draft peg plan lifting denting reed healds',body:()=>`
-<div class="card"><h2>Three drawings for every weave</h2>
+<div class="card"><h2>Three drawings for every weave</h2>${FIG('shedding','Each row of the draft is one heald frame; when the peg plan lifts that frame, every end drawn on it rises together to open the shed.')}${FIG('draft-peg-plan','Design, draft and peg plan sit together on one sheet: the draft says which heald carries each end, the peg plan says which healds rise on each pick.')}
 <ol class="steps">
 <li><b>Design</b> — the point paper: ends across, picks up.</li>
 <li><b>Draft</b> — one row per heald frame: ends that move identically go on the same heald. The number of different end movements = number of healds.</li>
@@ -1938,24 +2046,26 @@ lecture({id:'fd08',course:'fd',n:'08',title:'Draft, Peg Plan and Denting',sub:'F
 ${W({rows:TWILL('3,1',8,8),title:'3/1 twill — straight draft',size:20,colors:[IND,'#f1f5f9'],draft:true,effect:false,caption:'4 healds for 8 ends: end 5 moves like end 1, so both go on heald 1. Threading 1 2 3 4 1 2 3 4.'})}
 ${W({rows:POINT(TWILL('2,2',4,8)),title:'Pointed twill — pointed draft',size:20,colors:[IND,'#f1f5f9'],draft:true,effect:false,caption:'Threading 1 2 3 4 3 2: the draft turns back, the peg plan stays a plain 2/2 twill.'})}
 </div>
-<div class="card"><h2>Denting</h2>
+<div class="card"><h2>Denting</h2>${FIG('reed','Reed count follows from the sett: ends per inch divided by ends per dent gives the dents per inch the reed must have.')}${FIG('denting','Ends pass through the reed in groups of 2, 3 or 4 per dent, chosen to fit the weave repeat so that no dent has all its ends lifting together.')}
 <p>Ends are drawn through the reed in groups — 2, 3 or 4 per dent — chosen so that the group matches the weave repeat (or divides it) and the ends in a dent are not all lifting together, which would leave reed marks.</p>
 <table class="plain"><tr><th>Weave</th><th>Ends per dent</th><th>Why</th></tr>
 <tr><td>Plain 1/1</td><td>2</td><td>one up, one down in each dent</td></tr>
 <tr><td>2/1 twill</td><td>3</td><td>whole repeat per dent</td></tr>
 <tr><td>3/1 twill, 2/2 twill</td><td>4</td><td>whole repeat per dent</td></tr>
 <tr><td>5-end satin</td><td>2, 3 alternately (2.5 avg)</td><td>repeat does not divide by 2 or 4</td></tr></table>
-<p>Reed count then follows from EPI ÷ ends per dent (Weaving Calculations 11).</p></div>`});
+<p>Reed count then follows from EPI ÷ ends per dent (Weaving Calculations 11).</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/08-draft-peg-plan-and-denting/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd08:1"></span></a><a href="/textile/fabric-design/08-draft-peg-plan-and-denting/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd08:2"></span></a><a href="/textile/fabric-design/08-draft-peg-plan-and-denting/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd08:3"></span></a><a href="/textile/fabric-design/08-draft-peg-plan-and-denting/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd08:4"></span></a><a href="/textile/fabric-design/08-draft-peg-plan-and-denting/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd08:5"></span></a></div></div>
+`});
 
 lecture({id:'fd10',course:'fd',n:'10',title:'Number Systems and Hexadecimal Weave Notation',sub:'Decimal, binary and hexadecimal, and the compact way of writing any weave as one hex number per pick.',chips:['Binary','Hexadecimal','Nibble','$9 $C $6 $3'],tags:'binary hexadecimal number system notation',body:()=>`
-<div class="card"><h2>Why a weaver needs binary</h2>
+<div class="card"><h2>Why a weaver needs binary</h2>${FIG('number-systems','One pick of a weave is a row of ones and zeros; the same row can be read as a binary number, a decimal value or, in groups of four bits, a short hexadecimal code.')}
 <p>A pick of a weave is a row of ends that are either lifted (1) or not (0) — a binary number. Binary is long to write, so group the bits in fours (a <b>nibble</b>) and write each group as one hexadecimal digit 0–9, A–F. A whole weave becomes a short list of hex numbers, one per pick, which a CAD system or an electronic dobby can read directly.</p>
 <table class="plain"><tr><th>Binary</th><th>Hex</th><th>Dec</th><th>Binary</th><th>Hex</th><th>Dec</th><th>Binary</th><th>Hex</th><th>Dec</th><th>Binary</th><th>Hex</th><th>Dec</th></tr>
 <tr><td>0000</td><td>0</td><td>0</td><td>0100</td><td>4</td><td>4</td><td>1000</td><td>8</td><td>8</td><td>1100</td><td>C</td><td>12</td></tr>
 <tr><td>0001</td><td>1</td><td>1</td><td>0101</td><td>5</td><td>5</td><td>1001</td><td>9</td><td>9</td><td>1101</td><td>D</td><td>13</td></tr>
 <tr><td>0010</td><td>2</td><td>2</td><td>0110</td><td>6</td><td>6</td><td>1010</td><td>A</td><td>10</td><td>1110</td><td>E</td><td>14</td></tr>
 <tr><td>0011</td><td>3</td><td>3</td><td>0111</td><td>7</td><td>7</td><td>1011</td><td>B</td><td>11</td><td>1111</td><td>F</td><td>15</td></tr></table></div>
-<div class="card"><h2>Converter</h2>
+<div class="card"><h2>Converter</h2>${FIG('point-paper','Each filled square on the point paper is a 1 and each empty square a 0, so a row of the design is already a binary number waiting to be converted.')}
 <p>Type a number in any one base; the others are computed. Examples from the lecture: 1101101₂ = 109 = $6D; $24A9E = 150,174; 1010001001100₂ = $144C.</p>
 ${S({title:'Base conversion',cols:[200,200],legend:false,rows:[
 ['Base of the number you type',{in:'base',v:'Binary',opts:['Binary','Decimal','Hexadecimal']}],
@@ -1966,7 +2076,7 @@ ${S({title:'Base conversion',cols:[200,200],legend:false,rows:[
 ['Bits in groups of four',{f:v=>isNaN(v.dec)?'–':v.dec.toString(2).padStart(Math.ceil(v.dec.toString(2).length/4)*4,'0').replace(/(.{4})/g,'$1 ').trim(),fx:'nibbles',fmt:'txt'}]
 ]})}
 <div class="warn">The “Number” cell is read as text; type the digits without spaces (hex with or without the leading $).</div></div>
-<div class="card"><h2>Weaves in hexadecimal</h2>
+<div class="card"><h2>Weaves in hexadecimal</h2>${FIG('hex-notation','Group each pick\'s ends in fours from the left, write one hex digit per group, and a whole weave shrinks to one code per pick plus its width.')}
 <p>Convention: write the picks from the bottom of the point paper upward, one hex number per pick, the most significant bit on the left end; append “−n” to say how many ends wide the design is. If the width is not a multiple of 4, idle (zero) ends are added on the <em>right</em> of each pick before grouping, and they are dropped again when decoding: $8 $4 $2 −3 is 100<i>0</i>, 010<i>0</i>, 001<i>0</i>. (This is different from writing a plain number, where zeros are added on the left — as in the converter above — because they do not change its value.) <b>$9 $C $6 $3 −4</b> is 1001, 1100, 0110, 0011 — a 2/2 twill.</p>
 <div class="grid2">
 ${W({hex:['$9','$C','$6','$3'],w:4,title:'$9 $C $6 $3 −4 → 2/2 twill',size:22,colors:[IND,'#f1f5f9'],tile:2})}
@@ -1977,10 +2087,12 @@ ${W({hex:['$F80','$8B8','$8B8','$8B8','$F80','$07C','$744','$744','$744','$07C']
 <h3>Try your own</h3>
 <p>Edit the codes, change the width, press Draw. The draft and peg plan are generated too — so you can see how many healds your idea needs.</p>
 ${HEXBOX('$9 $C $6 $3',4)}
-</div>`});
+</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/10-number-systems-and-hexadecimal-weave-notation/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd10:1"></span></a><a href="/textile/fabric-design/10-number-systems-and-hexadecimal-weave-notation/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd10:2"></span></a><a href="/textile/fabric-design/10-number-systems-and-hexadecimal-weave-notation/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd10:3"></span></a><a href="/textile/fabric-design/10-number-systems-and-hexadecimal-weave-notation/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd10:4"></span></a><a href="/textile/fabric-design/10-number-systems-and-hexadecimal-weave-notation/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd10:5"></span></a></div></div>
+`});
 
 lecture({id:'fd12',course:'fd',n:'12',title:'Fabric Analysis II – Yarn Diameter',sub:'Estimating the diameter of a yarn from its count and specific volume — the number behind every cover and crimp calculation.',chips:['Specific volume','d = √tex / 26.7','d = 0.9 / √Ne'],tags:'diameter specific volume analysis',body:()=>`
-<div class="card"><h2>From count to diameter</h2>
+<div class="card"><h2>From count to diameter</h2>${FIG('cover-factor','When touching yarns fill an inch, the cover factor per direction reaches its ceiling of about 28; every real cloth is set somewhere below that limit.')}${FIG('yarn-count','Tex is a direct count (grams per 1,000 m) and Ne an indirect one (hanks per pound); the diameter formula needs the yarn\'s mass per metre, which tex gives at once.')}${FIG('yarn-diameter','Treat the yarn as a cylinder: its weight per metre (from the count) and its specific volume fix the cross-section, and from that the diameter follows.')}
 <p>Treat the yarn as a cylinder of specific volume v (cm³ per gram; about 1.1 for a cotton yarn in cloth). One metre of yarn of N tex weighs N/1000 g and occupies N·v/1000 cm³; equate that to the cylinder volume π d² l / 4 and solve:</p>
 <div class="formula">d = √( 4 v N / (1000 π l) ), l = 100 cm &nbsp;&nbsp;⇒&nbsp;&nbsp; d (mm) = √tex ÷ 26.7 &nbsp;&nbsp;·&nbsp;&nbsp; d (mm) = 0.9 ÷ √Ne &nbsp;&nbsp;·&nbsp;&nbsp; d (in) ≈ 1 ÷ (28 √Ne)</div>
 ${S({title:'Yarn diameter',cols:[260,120,120,120],rows:[
@@ -1993,10 +2105,12 @@ ${S({title:'Yarn diameter',cols:[260,120,120,120],rows:[
 ['Diameter, 0.9 ÷ √Ne (mm)',{f:v=>0.9/Math.sqrt(v.a),fx:'=0.9/SQRT(B2)',fmt:'0.000'},{f:v=>0.9/Math.sqrt(v.b),fx:'=0.9/SQRT(C2)',fmt:'0.000'},{f:v=>0.9/Math.sqrt(v.c),fx:'=0.9/SQRT(D2)',fmt:'0.000'}],
 ['Threads per inch if touching (25.4 ÷ d)',{f:v=>25.4/(0.9/Math.sqrt(v.a)),fx:'=25.4/B7',fmt:'0.0'},{f:v=>25.4/(0.9/Math.sqrt(v.b)),fx:'=25.4/C7',fmt:'0.0'},{f:v=>25.4/(0.9/Math.sqrt(v.c)),fx:'=25.4/D7',fmt:'0.0'}]
 ]})}
-<div class="note">An Ne 20 yarn is about 0.2 mm across: 126 of them touching fill an inch, which is why the maximum cover factor per direction is about 28 (126 ÷ √20). A 1 cm³/g assumption makes the yarn 5% thinner; real cotton yarns in cloth are flattened and cover more than the circular model predicts.</div></div>`});
+<div class="note">An Ne 20 yarn is about 0.2 mm across: 126 of them touching fill an inch, which is why the maximum cover factor per direction is about 28 (126 ÷ √20). A 1 cm³/g assumption makes the yarn 5% thinner; real cotton yarns in cloth are flattened and cover more than the circular model predicts.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/12-fabric-analysis-ii-yarn-diameter/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd12:1"></span></a><a href="/textile/fabric-design/12-fabric-analysis-ii-yarn-diameter/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd12:2"></span></a><a href="/textile/fabric-design/12-fabric-analysis-ii-yarn-diameter/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd12:3"></span></a><a href="/textile/fabric-design/12-fabric-analysis-ii-yarn-diameter/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd12:4"></span></a><a href="/textile/fabric-design/12-fabric-analysis-ii-yarn-diameter/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd12:5"></span></a></div></div>
+`});
 
 lecture({id:'fd13',course:'fd',n:'13',title:'Crepe, Spot and Honeycomb Weaves',sub:'Weaves built on sateen bases — crepes from added marks, superimposed sateens, and the cellular honeycomb.',chips:['Crepe','Sateen base','Superimposed','Honeycomb'],tags:'crepe honeycomb sateen base superimposed spot',body:()=>`
-<div class="card"><h2>Crepe weaves on a sateen base</h2>
+<div class="card"><h2>Crepe weaves on a sateen base</h2>${FIG('spot-figure','Spots on a plain ground are small groups of marks placed in sateen order so that no row of spots lines up, keeping the all-over, non-directional look.')}${FIG('satin-sateen','The crepes in this lecture start from a sateen skeleton: one mark per end, scattered by a move number, to which extra marks are added or a second sateen is superimposed.')}
 <p>A crepe weave has an all-over pebbled, non-directional look. The classic way to construct one is to start with a sateen base and add one or more marks to every base mark in a fixed arrangement, or to superimpose two sateens. The hex codes below are the lecture’s own designs.</p>
 <div class="grid2">
 ${W({hex:['$A1','$D1','$9C','$56','$6C','$4E','$2B','$33'],w:8,title:'8-end sateen base + 2 marks',size:20,colors:[IND,'#f1f5f9'],tile:2})}
@@ -2008,15 +2122,17 @@ ${W({hex:['$C8','$5C','$13','$62','$8C','$C5','$31','$26'],w:8,title:'8-end sate
 ${W({hex:['$80','$20','$08','$40','$04','$10'],w:6,title:'Irregular 6-end sateen',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$8A8','$64C','$193','$632','$8C9','$544','$931','$22A','$88A','$454','$151','$326'],w:12,title:'4-end and 6-end sateens superimposed (12 × 12)',size:18,colors:[IND,'#f1f5f9']})}
 </div></div>
-<div class="card"><h2>Honeycomb</h2>
+<div class="card"><h2>Honeycomb</h2>${FIG('draft-peg-plan','The 8-end honeycomb is threaded 1 2 3 4 5 4 3 2: ends 6, 7 and 8 return down the same healds as 4, 3 and 2, so an 8-end repeat needs only 5 healds.')}${FIG('honeycomb','A pointed draft and a pointed lifting plan build diamond cells: the ridges are long floats and the hollows are tightly interlaced, which is what makes the cloth trap water.')}
 <p>A pointed draft and a pointed lifting plan produce diamond-shaped cells whose ridges are long floats and whose hollows are tightly interlaced — a towelling weave that traps water. The 8-end version is the ordinary honeycomb; the 16-end version is the same ordinary honeycomb on a larger cell.</p>
 <div class="grid2">
 ${W({hex:['$80','$41','$A2','$D5','$EB','$D5','$A2','$41'],w:8,title:'Honeycomb, 8 ends',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2})}
 ${W({hex:['$4001','$A002','$5005','$A80A','$D415','$EA2B','$F557','$FAAF','$FD5F','$FAAF','$F557','$EA2B','$D415','$A80A','$5005','$A002'],w:16,title:'Honeycomb, 16 ends',size:16,colors:[IND,'#f1f5f9'],tile:2})}
-</div></div>`});
+</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/13-crepe-spot-and-honeycomb-weaves/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd13:1"></span></a><a href="/textile/fabric-design/13-crepe-spot-and-honeycomb-weaves/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd13:2"></span></a><a href="/textile/fabric-design/13-crepe-spot-and-honeycomb-weaves/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd13:3"></span></a><a href="/textile/fabric-design/13-crepe-spot-and-honeycomb-weaves/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd13:4"></span></a><a href="/textile/fabric-design/13-crepe-spot-and-honeycomb-weaves/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd13:5"></span></a></div></div>
+`});
 
 lecture({id:'fd14',course:'fd',n:'14',title:'Bedford Cord',sub:'Warp-way cords of plain or twill face separated by cutting lines, with stuffer ends for a rounder cord.',chips:['Cutting ends','Stuffer ends','Plain face','Twill face'],tags:'bedford cord stuffer cutting',body:()=>`
-<div class="card"><h2>Structure</h2>
+<div class="card"><h2>Structure</h2>${FIG('point-paper','On point paper the cutting ends show as plain-weave columns on every pick, while each cord alternates between a weaving pick and a pick on which all its ends are lifted over the floating weft.')}${FIG('draft-peg-plan','The 24-end plain-face cord needs only six healds — two for the cutting ends and two for each cord — so it is the lifting plan, not the draft, that carries the design.')}${FIG('bedford-cord','Each cord is a strip of plain or twill face; the weft floats loosely on the back under the neighbouring cord and that float pulls the face up into a rounded warp-way rib.')}
 <p>A Bedford cord shows rounded warp-way ribs. Alternate picks (or pairs of picks) change over: on one pick the weft weaves plain (or twill) with the ends of cord A and floats loosely under cord B; on the next it does the reverse. The floats on the back pull each cord into a ridge. Between cords a pair of <b>cutting ends</b> weaves plain with every pick, making a sunk line. <b>Stuffer ends</b> — coarse ends lying straight between the face and the floats — make the cords fuller.</p>
 <div class="grid2">
 ${W({hex:['$AAABFF','$7FF555','$955BFF','$7FF6AA'],w:24,title:'Plain-face Bedford cord, 24 ends',size:16,colors:[IND,'#f1f5f9'],draft:true,caption:'Ends 1–2 and 13–14 are the cutting ends (plain on every pick). Odd picks weave plain with the left cord and float under the right one; even picks do the reverse.'})}
@@ -2024,10 +2140,12 @@ ${W({hex:['$BFEAAA','$7FF555','$AAABFF','$5557FF'],w:24,title:'Weft floating on 
 ${W({hex:['$ADB7FC','$7FEDB4','$B6D7FC','$7FEED8','$9B77FC','$7FEB6C'],w:22,title:'Twill-face Bedford cord, 22 ends',size:16,colors:[IND,'#f1f5f9'],caption:'The cord face is a 2/1 twill; six picks complete the repeat.'})}
 ${W({hex:['$A92AFFF','$7FFDA4A','$9296FFF','$7FFD4A5'],w:28,title:'With stuffer ends, 28 ends',size:14,colors:[IND,'#f1f5f9'],caption:'The extra ends in the middle of each cord are lifted on the floating picks and lowered on the weaving picks, so they lie straight inside the cord.'})}
 </div>
-<div class="note">Colour effect: weave the two pick-pairs in red and green and each cord shows a solid colour because only its own weaving picks are on its face — a two-colour cord from one warp.</div></div>`});
+<div class="note">Colour effect: weave the two pick-pairs in red and green and each cord shows a solid colour because only its own weaving picks are on its face — a two-colour cord from one warp.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/14-bedford-cord/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd14:1"></span></a><a href="/textile/fabric-design/14-bedford-cord/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd14:2"></span></a><a href="/textile/fabric-design/14-bedford-cord/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd14:3"></span></a><a href="/textile/fabric-design/14-bedford-cord/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd14:4"></span></a><a href="/textile/fabric-design/14-bedford-cord/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd14:5"></span></a></div></div>
+`});
 
 lecture({id:'fd16',course:'fd',n:'16',title:'Piqué',sub:'Weft-way or figured cords made with a stitching back warp: welt, loose-back and fast-back piqué, wadding picks and waved piqué.',chips:['Welt','Stitching ends','Wadding','Waved piqué'],tags:'pique welt wadding stitching',body:()=>`
-<div class="card"><h2>Two warps, one cloth</h2>
+<div class="card"><h2>Two warps, one cloth</h2>${FIG('hex-notation','The wadding pick $B4 reads 1011 0100: face ends 1, 3, 4 and 6 are lifted and stitching ends 2 and 5 stay down, so the thick pick slides in between the face and the back.')}${FIG('draft-peg-plan','The 6-end welt is drafted 1 2 3 1 2 3: the face ends sit on healds 1 and 3 and both stitching ends on heald 2, so the peg plan alone decides on which picks the furrow is stitched.')}${FIG('pique','The slack face warp weaves plain with the face picks; the tight stitching ends are lifted only on the stitching picks, dragging the face down into a furrow between one cord and the next.')}
 <p>A piqué (welt) has a face warp weaving plain with the face picks and a <b>stitching warp</b> — usually one stitching end for every two face ends — held at high tension. On the stitching picks the back ends are lifted over the face, pulling it down into a furrow; between furrows the face bulges into a cord. <b>Wadding picks</b> are thick picks laid between face and back to fill the cords.</p>
 <div class="grid2">
 ${W({hex:['$90','$24','$90','$24','$D8','$6C'],w:6,title:'Welt (plain piqué)',size:22,colors:[IND,'#f1f5f9'],draft:true,tile:2,caption:'Ends 2 and 5 are stitching ends, down on all face picks and lifted on picks 5–6 (the indent).'})}
@@ -2035,10 +2153,12 @@ ${W({hex:['$90','$24','$B4','$B4','$90','$24','$D8','$6C'],w:6,title:'Loose-back
 ${W({hex:['$90','$24','$F4','$BC','$90','$24','$D8','$6C'],w:6,title:'Fast-back welt',size:22,colors:[IND,'#f1f5f9'],tile:2,caption:'The stitching ends also interlace with the wadding picks, locking the back.'})}
 ${W({hex:['$934924','$259249','$9A6924','$2CB249','$D34D24','$659649','$9A6924','$2CB249','$934924','$259249','$B6DB6D','$B6DB6D','$924934','$249259','$9249A6','$2492CB','$D24D34','$649659','$9249A6','$2492CB','$924934','$249259','$B6DB6D','$B6DB6D'],w:24,title:'Waved piqué with wadding picks',size:14,colors:[IND,'#f1f5f9'],caption:'The stitching points move diagonally, so the furrow waves instead of running straight across.'})}
 ${W({hex:['$936D2490','$25B64924','$DA49A690','$6C92CB24','$936D2490','$25B64924','$B6DB6DB4','$B6DB6DB4','$924926D8','$24924B6C','$DA493490','$6C925924','$924926D8','$24924B6C','$B6DB6DB4','$B6DB6DB4'],w:30,title:'Another waved piqué, with wadding',size:13,colors:[IND,'#f1f5f9']})}
-</div></div>`});
+</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/16-piqu/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd16:1"></span></a><a href="/textile/fabric-design/16-piqu/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd16:2"></span></a><a href="/textile/fabric-design/16-piqu/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd16:3"></span></a><a href="/textile/fabric-design/16-piqu/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd16:4"></span></a><a href="/textile/fabric-design/16-piqu/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd16:5"></span></a></div></div>
+`});
 
 lecture({id:'fd17',course:'fd',n:'17',title:'Stripe and Check Designs',sub:'Combining weaves side by side (stripes) and in both directions (checks); the 36-end turned-twill check and the warp/weft-face combination.',chips:['Stripe','Check','Twill turned','Face combination'],tags:'stripe check combination twill',body:()=>`
-<div class="card"><h2>Rules for combining weaves</h2>
+<div class="card"><h2>Rules for combining weaves</h2>${FIG('twill-weaves','Turning a 2/2 twill from Z to S at the join lets the warp floats of one stripe meet the weft floats of the other, which is what makes a clean cut line between them.')}${FIG('stripe-check','A stripe changes the weave across the ends only; a check changes it across the picks as well, so each quarter of the repeat can carry its own weave or twill direction.')}
 <p>Weaves can be placed side by side when they have the same number of picks in the repeat (or a common multiple) and interlace with similar frequency, so that the fabric does not pucker. At the join, warp floats of one weave should meet weft floats of the other to make a clean cut. A <b>stripe</b> changes weave across the ends; a <b>check</b> changes it across picks as well.</p>
 <div class="grid2">
 ${W({rows:gen(16,8,(e,p)=>e<8?TWILL('2,2',8,8)[p][e]:TWILL('2,2',8,8,1,-1)[p][e-8]),title:'Stripe: 2/2 twill Z beside 2/2 twill S',size:18,colors:[IND,'#f1f5f9'],tile:2})}
@@ -2046,13 +2166,15 @@ ${W({rows:gen(16,16,(e,p)=>{const i=e<8?0:1,j=p<8?0:1,ph=[1,0,3,0][i*2+j];return
 ${W({rows:gen(32,32,(e,p)=>{const inA=(e%16)<8,inB=(p%16)<8;return inA^inB?PLAIN(2,2)[p%2][e%2]:TWILL('3,1',4,4)[p%4][e%4];}),title:'Plain / 3-1 twill check, 32 × 32',size:11,colors:[IND,'#f1f5f9'],effect:true,tile:1,caption:'Plain squares look flat and light, twill squares dense and lustrous — the lecture’s 32 × 32 table drawn as a weave.'})}
 ${W({hex:['$AAB1C','$AA8E3','$5531C','$550E3','$5531C','$AA8E3','$AAB1C','$AA8E3','$5531C','$550E3','$C72AA','$38EAA','$C7155','$38D55','$C7155','$38EAA','$C72AA','$38EAA','$C7155','$38D55'],w:20,title:'Warp-face / weft-face combination, 20 ends',size:14,colors:[IND,'#f1f5f9'],caption:'Plain-weave squares alternate with squares in which the ends work in groups of two and three (a rib-type weave), so a check appears in one colour of yarn.'})}
 </div></div>
-<div class="card"><h2>The 36-end twill check</h2>
+<div class="card"><h2>The 36-end twill check</h2>${FIG('point-paper','The 36 × 36 check turns a 3/3 twill in blocks of 24 and 12 ends and picks; both block sizes are multiples of the six-thread twill repeat, so every block holds whole repeats.')}
 <p>The lecture’s large example turns a 3/3 twill in blocks of 24 and 12 ends and 24 and 12 picks on a 36 × 36 repeat. The codes are reproduced exactly:</p>
 ${W({hex:['$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338E','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338F','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E38E338E','$C71C7171C','$E38E38E38','$71C71CC71','$38E38E8E3','$1C71C71C7','$8E383E38E','$71C71CC71','$E38E38E38','$C71C7171C','$8E38E338E','$1C71C71C7','$38E38E8E3','$71C71CC71','$E38E38E38','$C71C7171C','$8E38E338E','$1C71C71C7','$38E38E8E3'],w:36,title:'36-end check of 3/3 twill, turned',size:11,colors:[IND,'#f1f5f9'],tile:1})}
-</div>`});
+</div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/17-stripe-and-check-designs/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd17:1"></span></a><a href="/textile/fabric-design/17-stripe-and-check-designs/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd17:2"></span></a><a href="/textile/fabric-design/17-stripe-and-check-designs/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd17:3"></span></a><a href="/textile/fabric-design/17-stripe-and-check-designs/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd17:4"></span></a><a href="/textile/fabric-design/17-stripe-and-check-designs/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd17:5"></span></a></div></div>
+`});
 
 lecture({id:'fd19',course:'fd',n:'19',title:'Colour and Weave Effects',sub:'The same weave with coloured ends and picks: hairlines, hound’s tooth, bird’s eye — pattern made by colour order, not by weave.',chips:['Hairline','Hound’s tooth','Bird’s eye','Colour order'],tags:'colour weave effect houndstooth hairline',body:()=>`
-<div class="card"><h2>How a colour-and-weave effect arises</h2>
+<div class="card"><h2>How a colour-and-weave effect arises</h2>${FIG('plain-weave','Plain weave coloured 1 dark 1 light in both directions gives hairlines: shift the weft order by one pick and the lines turn from warp-way to weft-way without touching the peg plan.')}${FIG('colour-weave','The weave never changes: a 2/2 twill with ends and picks coloured 4 dark, 4 light gives hound\'s tooth, because the face shows warp colour where the end is up and weft colour where the pick is on top.')}
 <p>On the face of the cloth you see the warp colour wherever the end is lifted and the weft colour wherever the pick is on top. Arrange the warp and weft colours in an order (1 dark 1 light, 2 and 2, 4 and 4 …) and a plain weave or a twill produces patterns that the weave alone would never show. Below, the warp colour order runs across and the weft order up; the weave is the dark/white point paper on the left and the resulting cloth is on the right.</p>
 <div class="grid2">
 ${W({rows:PLAIN(8,8),title:'Plain, 1 & 1 colouring — vertical hairlines',size:18,colors:[['#111827','#e5e7eb'],['#e5e7eb','#111827']],tile:2,caption:'Warp dark-light, weft light-dark: wherever the dark end is down, the pick on top is also dark → dark lines warp-way.'})}
@@ -2062,10 +2184,12 @@ ${W({rows:PLAIN(8,8),title:'Plain, 2 & 2 colouring — bird’s eye / step',size
 ${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 2 & 2 — weft-way hairlines',size:18,colors:[['#111827','#111827','#e5e7eb','#e5e7eb'],['#111827','#111827','#e5e7eb','#e5e7eb']],tile:2})}
 ${W({rows:TWILL('2,2',8,8),title:'2/2 twill, 1 & 1 — small step effect',size:18,colors:[['#111827','#e5e7eb'],['#111827','#e5e7eb']],tile:2})}
 </div>
-<div class="note">The lecture encoded hound’s tooth as hex with the colour order in the first row ($3C0 … −10 and $0F0 … −10). In this companion the colour order is given separately and the weave stays a plain 2/2 twill, which is how CAD systems treat colour-and-weave effects.</div></div>`});
+<div class="note">The lecture encoded hound’s tooth as hex with the colour order in the first row ($3C0 … −10 and $0F0 … −10). In this companion the colour order is given separately and the weave stays a plain 2/2 twill, which is how CAD systems treat colour-and-weave effects.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/19-colour-and-weave-effects/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd19:1"></span></a><a href="/textile/fabric-design/19-colour-and-weave-effects/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd19:2"></span></a><a href="/textile/fabric-design/19-colour-and-weave-effects/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd19:3"></span></a><a href="/textile/fabric-design/19-colour-and-weave-effects/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd19:4"></span></a><a href="/textile/fabric-design/19-colour-and-weave-effects/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd19:5"></span></a></div></div>
+`});
 
 lecture({id:'fd20',course:'fd',n:'20',title:'Cover Factor',sub:'Relative cover from diameter and spacing, cloth cover, and the Ne cover factor — the design view of Weaving Calculations 12.',chips:['d/p','K = n√tex','Cloth cover'],tags:'cover factor density',body:()=>`
-<div class="card"><h2>Cover in design terms</h2>
+<div class="card"><h2>Cover in design terms</h2>${FIG('weave-cover','Cloth cover C₁ + C₂ − C₁C₂ counts the area covered by either thread set only once; what is left, 1 − C, is the open area through which air and light pass.')}${FIG('yarn-diameter','The yarn is taken as a circle of diameter d = √tex ÷ 26.7 mm, so quadrupling the tex only doubles the diameter — which is why √tex, not tex, appears in the cover factor.')}${FIG('cover-factor','Cover factor K = n√tex says how closely a thread set is packed: a coarser count at the same density, or the same count set closer, fills more of each square of cloth.')}
 <p>Relative cover of one thread set is d/p — how much of the spacing the yarn fills. With d = √tex ÷ 26.7 mm, cover = (threads per 100 mm × √tex) ÷ 2670; the product n√tex is the cover factor K and 2670 is its maximum. Cloth cover combines warp and weft: C = C₁ + C₂ − C₁C₂.</p>
 ${S({title:'Cover factor from count and density',cols:[260,120,120],rows:[
 [{h:''},{h:'Warp'},{h:'Weft'}],
@@ -2078,35 +2202,41 @@ ${S({title:'Cover factor from count and density',cols:[260,120,120],rows:[
 ['Cloth cover C₁ + C₂ − C₁C₂',{f:v=>v.c1+v.c2-v.c1*v.c2,fx:'=B7+C7-B7*C7',fmt:'0.00',tot:true},null],
 ['Equivalent Ne cover factor (EPI/√Ne)',{f:v=>v.n1*0.254/Math.sqrt(590.67/v.t1),fx:'=B3*0.254/SQRT(590.67/B2)',fmt:'0.0'},{f:v=>v.n2*0.254/Math.sqrt(590.67/v.t2),fx:'=C3*0.254/SQRT(590.67/C2)',fmt:'0.0'}]
 ]})}
-<div class="note">The lecture’s example: 25 tex at 267/100 mm covers 0.50, 36 tex at 334/100 mm covers 0.75, and the cloth is 0.88 covered — the remaining 12% is the open area that lets air (and light) through. For weavability limits and weave corrections see <a data-go="wc12">Weaving Calculations 12–13</a>.</div></div>`});
+<div class="note">The lecture’s example: 25 tex at 267/100 mm covers 0.50, 36 tex at 334/100 mm covers 0.75, and the cloth is 0.88 covered — the remaining 12% is the open area that lets air (and light) through. For weavability limits and weave corrections see <a data-go="wc12">Weaving Calculations 12–13</a>.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/20-cover-factor/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd20:1"></span></a><a href="/textile/fabric-design/20-cover-factor/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd20:2"></span></a><a href="/textile/fabric-design/20-cover-factor/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd20:3"></span></a><a href="/textile/fabric-design/20-cover-factor/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd20:4"></span></a><a href="/textile/fabric-design/20-cover-factor/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd20:5"></span></a></div></div>
+`});
 
 lecture({id:'fd22',course:'fd',n:'22',title:'Spot and Figured Designs',sub:'Distributing small motifs over a ground: the six methods and the sateen-base distribution over 30 ends × 40 picks.',chips:['Sateen base','Distribution','Motif','Plain ground'],tags:'spot figure distribution motif sateen base',body:()=>`
-<div class="card"><h2>Placing spots</h2>
+<div class="card"><h2>Placing spots</h2>${FIG('point-paper','On point paper the 30 × 40 repeat is read as ends across and picks up; each spot centre sits on a sateen position scaled by the 6-end and 8-pick intervals.')}${FIG('satin-sateen','The 5-end sateen is the favourite base for spotting: its five lifts fall on no straight line, so spots laid on it spread evenly without visible rows.')}${FIG('spot-figure','A spot design repeats a small motif on a plain ground; between spots the figuring thread floats on the back, so the motif must be placed where it continues the plain order.')}
 <p>A spot design repeats a small motif at regular intervals on a plain (or other) ground. The lecture lists six methods of arrangement, A to F: in straight rows, in alternate (half-drop) rows, on a twill base, on a sateen base, reversed in alternate positions, and in a diamond (pointed) order. The sateen base is the most useful because it spreads the spots evenly with no obvious lines.</p>
 <p>Below, a 5-end sateen base with intervals of 6 ends and 8 picks spreads five spots over a 30 × 40 repeat; each spot is a small diamond motif and the ground is plain weave. The blue squares are motif lifts, the grey ones the plain ground.</p>
 ${W({rows:gen(30,40,(e,p)=>{const base=[0,2,4,1,3];let sp=false;for(let k=0;k<5;k++){const cx=base[k]*6+3,cy=k*8+4;const dx=e-cx,dy=p-cy;if((Math.abs(dx)<=2&&dy===0)||(Math.abs(dy)<=2&&dx===0)||(Math.abs(dx)===1&&Math.abs(dy)===1))sp=true;}return sp?1:(e+p)%2===0;}),marks:(()=>{const m={};const base=[0,2,4,1,3];for(let k=0;k<5;k++){const cx=base[k]*6+3,cy=k*8+4;for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){if((Math.abs(dx)<=2&&dy===0)||(Math.abs(dy)<=2&&dx===0)||(Math.abs(dx)===1&&Math.abs(dy)===1))m[(cy+dy)+','+(cx+dx)]=IND;}}return m;})(),title:'Spots on a 5-sateen base, 30 × 40',size:11,colors:[IND,'#f1f5f9'],effect:true,tile:1,caption:'Spot centres at ends 4, 16, 28, 10, 22 (move number 2 × 6 ends) and picks 5, 13, 21, 29, 37.'})}
-<div class="note">When the ground is plain weave, the motif must start on an end and pick where it continues the plain order, otherwise long floats appear at its edges — the lecture’s “plain basis, alternate order” rule.</div></div>`});
+<div class="note">When the ground is plain weave, the motif must start on an end and pick where it continues the plain order, otherwise long floats appear at its edges — the lecture’s “plain basis, alternate order” rule.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/22-spot-and-figured-designs/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd22:1"></span></a><a href="/textile/fabric-design/22-spot-and-figured-designs/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd22:2"></span></a><a href="/textile/fabric-design/22-spot-and-figured-designs/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd22:3"></span></a><a href="/textile/fabric-design/22-spot-and-figured-designs/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd22:4"></span></a><a href="/textile/fabric-design/22-spot-and-figured-designs/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd22:5"></span></a></div></div>
+`});
 
 lecture({id:'fd23',course:'fd',n:'23',title:'Huckaback and Mock Leno',sub:'Open, absorbent weaves: huckaback for towels and mock leno imitating the gauze of a true leno.',chips:['Huckaback','Mock leno','Floats','Open structure'],tags:'huckaback mock leno towel open',body:()=>`
-<div class="card"><h2>Huckaback</h2>
+<div class="card"><h2>Huckaback</h2>${FIG('draft-peg-plan','Huckaback 1 needs only four healds: ends 1–5 are threaded 1 2 1 2 1 and ends 6–10 are threaded 3 4 3 4 3, so each half of the repeat has its own pair of healds.')}${FIG('huckaback','Huckaback alternates blocks of firm plain weave with blocks of short floats; the floats stand proud of the ground and soak up water, which is why towels use it.')}
 <p>A huckaback alternates blocks of plain weave with blocks where ends (and picks) float over three or more threads. The floats stand out from the plain ground and make a rough, absorbent surface for towels and glass cloths.</p>
 <div class="grid2">
 ${W({hex:['$554','$FA8','$554','$AA8','$57C','$AA8'],w:10,title:'Huckaback 1',size:20,colors:[IND,'#f1f5f9'],draft:true,tile:2})}
 ${W({hex:['$554','$FA8','$554','$FA8','$554','$AA8','$57C','$AA8','$57C','$AA8'],w:10,title:'Huckaback 2',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 </div></div>
-<div class="card"><h2>Mock leno</h2>
+<div class="card"><h2>Mock leno</h2>${FIG('float-length','A mock leno has no crossing ends; floats and plain interlacings are grouped so that threads crowd together in places and leave open gaps elsewhere, imitating true leno gauze.')}
 <p>A true leno crosses the ends over each other with a doup heald; a mock leno imitates the open, perforated look with an ordinary dobby by grouping ends and picks so that they crowd together in some places and leave gaps in others.</p>
 <div class="grid2">
 ${W({hex:['$555','$E38','$555','$AAA','$1C7','$AAA','$555','$E38','$555','$AAA','$1C7','$AAA'],w:12,title:'Mock leno A — 12 ends',size:18,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$69','$F0','$F0','$69','$96','$0F','$0F','$96'],w:8,title:'Mock leno B — 8 ends',size:20,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$B568','$5AB4','$B568','$E01C','$5AB4','$B568','$5AB4','$B568','$5AB4','$B568','$0FC0','$5AB4','$B568','$5AB4'],w:14,title:'Mock leno C — 14 ends',size:16,colors:[IND,'#f1f5f9'],tile:2})}
 ${W({hex:['$AAAA','$594D','$A88A','$5005','$A80A','$5005','$A88A','$594D','$AAAA','$4D59','$8AA8','$0550','$0AA8','$0550','$8AA8','$4D58'],w:16,title:'Mock leno D — 16 ends',size:16,colors:[IND,'#f1f5f9'],tile:2})}
-</div></div>`});
+</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/23-huckaback-and-mock-leno/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd23:1"></span></a><a href="/textile/fabric-design/23-huckaback-and-mock-leno/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd23:2"></span></a><a href="/textile/fabric-design/23-huckaback-and-mock-leno/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd23:3"></span></a><a href="/textile/fabric-design/23-huckaback-and-mock-leno/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd23:4"></span></a><a href="/textile/fabric-design/23-huckaback-and-mock-leno/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd23:5"></span></a></div></div>
+`});
 
 lecture({id:'fd24',course:'fd',n:'24',title:'Fabric Analysis – Guidelines',sub:'How to take a sample apart: finding the face, the warp direction and the repeat before counting threads.',chips:['Face side','Warp direction','Repeat'],tags:'analysis guidelines face warp sample',body:()=>`
-<div class="card"><h2>Which side is the face?</h2>
+<div class="card"><h2>Which side is the face?</h2>${FIG('satin-sateen','In a warp-faced weave such as satin the warp floats lie on the face, so the side showing the long, lustrous warp floats is the face of the cloth.')}
 <p>The face is usually the side with more lustre and a clearer, better-defined weave; printed or finished fabrics show the finish on the face; warp-faced weaves (satin, twill drills) show the warp floats on the face.</p></div>
-<div class="card"><h2>Which way is the warp?</h2>
+<div class="card"><h2>Which way is the warp?</h2>${FIG('crimp','Pull a thread from each direction and straighten it: in a dense cloth the set that was wavier and longer has more crimp and is usually the warp.')}
 <dl class="def">
 <dt>Selvedge</dt><dd>If a selvedge is present the warp runs parallel to it.</dd>
 <dt>Size and feel</dt><dd>Warp yarns are sized, so they feel harsher and stiffer and are harder to unravel; weft is softer.</dd>
@@ -2114,24 +2244,28 @@ lecture({id:'fd24',course:'fd',n:'24',title:'Fabric Analysis – Guidelines',sub
 <dt>Crimp</dt><dd>The set with more crimp (wavier when pulled out) is usually the warp in dense fabrics — though in weft-faced cloths it can be the reverse.</dd>
 <dt>Folded yarns</dt><dd>If one set is two-fold and the other single, the folded yarn is almost always the warp.</dd>
 <dt>Yarn quality</dt><dd>Warp yarns are generally finer, stronger and more uniform.</dd></dl></div>
-<div class="card"><h2>Then analyse</h2>
+<div class="card"><h2>Then analyse</h2>${FIG('draft-peg-plan','The analysis is complete only when the weave, draft, peg plan and denting are all written down, because together they let the mill reproduce the fabric.')}${FIG('fabric-analysis','Count ends and picks under a pick glass in several places and average them, then unravel threads and record each interlacing on point paper until the repeat appears.')}
 <ol class="steps">
 <li>Count ends and picks per inch (or cm) in several places and average.</li>
 <li>Unravel a few picks and ends; note the interlacing of each end over the picks on point paper until the pattern repeats.</li>
 <li>Measure crimp: straightened length ÷ cloth length − 1 (Lecture 25).</li>
 <li>Weigh a measured length of unravelled ends and picks to determine the counts; confirm with the fabric weight formula (Lecture 2).</li>
-<li>Record the weave, draft, peg plan and denting so the fabric can be reproduced.</li></ol></div>`});
+<li>Record the weave, draft, peg plan and denting so the fabric can be reproduced.</li></ol></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/24-fabric-analysis-guidelines/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd24:1"></span></a><a href="/textile/fabric-design/24-fabric-analysis-guidelines/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd24:2"></span></a><a href="/textile/fabric-design/24-fabric-analysis-guidelines/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd24:3"></span></a><a href="/textile/fabric-design/24-fabric-analysis-guidelines/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd24:4"></span></a><a href="/textile/fabric-design/24-fabric-analysis-guidelines/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd24:5"></span></a></div></div>
+`});
 
 lecture({id:'fd25',course:'fd',n:'25',title:'Crimp',sub:'Peirce’s geometry of crimp, repeated here for the design course; the calculator lives in Weaving Calculations 15–16.',chips:['Crimp %','θ, p, l','Jammed'],tags:'crimp peirce geometry',body:()=>`
-<div class="card"><h2>What crimp does to a design</h2>
+<div class="card"><h2>What crimp does to a design</h2>${FIG('weave-cover','Fewer interlacings mean less bending: a 2/2 twill needs only 13.1 % crimp against 20.9 % for jammed plain weave, so it can be set denser from the same yarns.')}${FIG('peirce-geometry','Peirce\'s geometry links yarn diameters d, thread spacing p, crimp angle θ and modular length l; in a jammed plain weave of equal yarns p₂ = 1.732 d₁ and crimp is 20.9 %.')}${FIG('crimp','A yarn in cloth is longer than the cloth it lies in because it bends over and under the crossing threads; that extra length divided by the cloth length is the crimp.')}
 <p>Crimp is the waviness a yarn takes as it bends over the crossing threads: crimp % = (straightened length − cloth length) ÷ cloth length. It decides how much yarn a design consumes, how thick and how extensible the cloth is, and how dense it can be set. In a jammed plain weave of equal yarns the crimp is 20.9% in both directions; a 2/2 twill needs only 13.1%; a warp rib may take 57% in the warp and none in the weft.</p>
 <div class="grid2">
 <div>${crimpSVG(1,1,'Plain, equal yarns')}</div>
 <div>${crimpSVG(1,2,'Plain, weft twice the warp diameter')}</div></div>
-<p>Open <a data-go="wc14">Weaving Calculations 15–16</a> for the full derivation and the live calculator (θ, spacing, cover factor and crimp for any pair of diameters).</p></div>`});
+<p>Open <a data-go="wc14">Weaving Calculations 15–16</a> for the full derivation and the live calculator (θ, spacing, cover factor and crimp for any pair of diameters).</p></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/25-crimp/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd25:1"></span></a><a href="/textile/fabric-design/25-crimp/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd25:2"></span></a><a href="/textile/fabric-design/25-crimp/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd25:3"></span></a><a href="/textile/fabric-design/25-crimp/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd25:4"></span></a><a href="/textile/fabric-design/25-crimp/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd25:5"></span></a></div></div>
+`});
 
 lecture({id:'fd26',course:'fd',n:'26',title:'Double Cloth',sub:'Two cloths woven at once: face and back warps and wefts, and the rule that keeps them apart.',chips:['Face / back','Self-stitched','Plain + twill'],tags:'double cloth face back stitching',body:()=>`
-<div class="card"><h2>The one rule</h2>
+<div class="card"><h2>The one rule</h2>${FIG('hex-notation','Each row of a double-cloth design can be written in hex: a face pick of plain/plain reads 88, a back pick EE, because the four face ends are all lifted on a back pick.')}${FIG('point-paper','On the design paper ends alternate face, back, face, back and picks do the same; a face pick row shows only the face weave, a back pick row shows every face end up plus the back weave.')}${FIG('double-cloth','Two cloths are woven at once: on every back pick all the face ends are lifted out of the way, so the back weft passes beneath the whole face layer and the two cloths stay apart.')}
 <p>A double cloth has a top (face) warp and weft and a bottom (back) warp and weft. The top layer must sit on the bottom, so <b>every top end is lifted on every back pick, and no back end is lifted on a face pick</b>. Within each layer the threads weave their own structure. Left unstitched this makes a tube or a bag; stitching points (a back end lifted over a face pick, or a face end dropped under a back pick) tie the layers and give a thick, bulky cloth.</p>
 <p>In the drawings the ends alternate face (T), back (B) and the picks alternate the same way. Dark squares are the layers’ own weave; <span class="sw" style="background:#f59e0b"></span> orange squares are the face ends lifted out of the way on back picks.</p>
 <div class="grid2">
@@ -2139,7 +2273,9 @@ ${(()=>{const mk=(fw,bw,w,h,title)=>{const rows=[],marks={};for(let p=0;p<h;p++)
 const pl=(e,p)=>(e+p)%2===0,t31=(e,p)=>mod(e-p,4)<3,t21=(e,p)=>mod(e-p,3)<2;
 return mk(pl,pl,8,8,'Plain / plain double cloth')+mk(pl,t31,16,16,'Plain face, 3/1 twill back')+mk(pl,t21,12,12,'Plain face, 2/1 twill back')+mk(t31,t31,16,16,'3/1 twill both layers');})()}
 </div>
-<div class="note">Read any face pick (rows 1, 3, 5 …): only face ends (columns 1, 3, 5 …) are lifted, in the face weave. Read any back pick (rows 2, 4 …): every face end is up (orange) and the back ends follow the back weave. Add a stitch by lifting one back end on a face pick between two face ends that are also lifted, so the face warp on either side hides it.</div></div>`});
+<div class="note">Read any face pick (rows 1, 3, 5 …): only face ends (columns 1, 3, 5 …) are lifted, in the face weave. Read any back pick (rows 2, 4 …): every face end is up (orange) and the back ends follow the back weave. Add a stitch by lifting one back end on a face pick between two face ends that are also lifted, so the face warp on either side hides it.</div></div>
+<div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a href="/textile/fabric-design/26-double-cloth/quiz-1/"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd26:1"></span></a><a href="/textile/fabric-design/26-double-cloth/quiz-2/"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd26:2"></span></a><a href="/textile/fabric-design/26-double-cloth/quiz-3/"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd26:3"></span></a><a href="/textile/fabric-design/26-double-cloth/quiz-4/"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd26:4"></span></a><a href="/textile/fabric-design/26-double-cloth/quiz-5/"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd26:5"></span></a></div></div>
+`});
 
 
 (function(){
@@ -2151,3 +2287,7 @@ var b0=buildNav;buildNav=function(){b0();linkify();};
 window.removeEventListener('hashchange',window.__hc);
 })();
 buildNav();render();
+
+    /* ---- best quiz scores from localStorage, shown on the lecture page ---- */
+    function quizBest(){document.querySelectorAll('.quizzes .best').forEach(el=>{try{const v=JSON.parse(localStorage.getItem(el.dataset.k)||'null');el.textContent=v&&v.best!=null?`Best ${v.best}%`:'Not attempted';}catch(e){el.textContent='';}});}
+    
