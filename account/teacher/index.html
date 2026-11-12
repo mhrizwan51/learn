@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" data-rza-always><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teacher dashboard | Rizwan Zubair — Learn</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/assets/account.css">
+</head>
+<body>
+<style>.rzbar{position:relative;z-index:60;display:flex;align-items:center;gap:6px 18px;padding:.55rem 1.1rem;background:#0C2D55;font:500 14px Inter,system-ui,-apple-system,"Segoe UI",sans-serif;direction:ltr;line-height:1.5}.rzbar .b{color:#fff;font-weight:700;font-size:16px;text-decoration:none;white-space:nowrap}.rzbar nav{display:flex;gap:16px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.rzbar nav::-webkit-scrollbar{display:none}.rzbar nav a{color:rgba(255,255,255,.85);text-decoration:none}.rzbar nav a:hover{color:#C8AF72}.rzgo{display:block;margin:0;padding:.6rem 1.1rem;background:#C8AF72;color:#0C2D55;font:600 14.5px Inter,system-ui,sans-serif;text-decoration:none;text-align:center;line-height:1.6}.rzgo:hover{background:#d8c28c}.rzgo.ur{font-family:"Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;font-size:18px;font-weight:400}@media(max-width:640px){.rzbar{flex-direction:column;align-items:flex-start}.rzbar nav{max-width:100%}}</style><header class="rzbar"><a class="b" href="https://www.rizwanzubair.net/">Rizwan Zubair</a><nav aria-label="rizwanzubair.net"><a href="https://www.rizwanzubair.net/">Home</a><a href="https://www.rizwanzubair.net/textile-lectures">Textile Lectures</a><a href="https://www.rizwanzubair.net/quran-arabic-grammar/quran-tafseer">Quran Tafsir</a><a href="https://www.rizwanzubair.net/quran-arabic-grammar/quranic-grammar">Arabic Grammar</a><a href="https://www.rizwanzubair.net/quran-arabic-grammar/quranic-root-words">Root Words</a><a href="https://www.rizwanzubair.net/quran-arabic-grammar/namaz-translation">Namaz Translation</a><a href="https://www.rizwanzubair.net/islamic-banking">Islamic Banking</a><a href="https://www.rizwanzubair.net/contact-me">Contact</a></nav></header>
+<main class="acct wide">
+  <div id="msg" class="card"><p>Loading…</p></div>
+  <section id="dash" hidden>
+    <div class="card">
+      <h1>Teacher dashboard</h1>
+      <p class="mut">Students who are signed in and have sharing switched on (the default). Students who switched sharing off do not appear.</p>
+      <div class="filters">
+        <label>Course <select id="fc"><option value="">All courses</option><option value="tc">Textile Costing</option><option value="fd">Fabric Design</option><option value="wc">Weaving Calculations</option></select></label>
+        <label>Lecture <select id="fl"><option value="">All lectures</option></select></label>
+        <label>Student <input id="fs" placeholder="Name or email"></label>
+        <button id="csv" class="btn">Download CSV</button>
+        <button id="reload" class="btn">Refresh</button>
+      </div>
+    </div>
+    <div class="card"><div id="summary" class="stats"></div></div>
+    <div class="card"><div class="tw" id="table"></div></div>
+  </section>
+</main>
+<script>var CATALOG=[["tc01","tc","01","Financial Accounting – Introduction","/textile/textile-costing/01-financial-accounting-introduction/"],["tc02","tc","02","Financial Statements","/textile/textile-costing/02-financial-statements/"],["tc03","tc","03","Current Assets & Liabilities","/textile/textile-costing/03-current-assets-and-liabilities/"],["tc04","tc","04","Fixed Assets","/textile/textile-costing/04-fixed-assets/"],["tc05","tc","05","Managerial Accounting – Introduction","/textile/textile-costing/05-managerial-accounting-introduction/"],["tc06","tc","06","Unit Costing","/textile/textile-costing/06-unit-costing/"],["tc07","tc","07","Cost-Volume-Profit Relationship","/textile/textile-costing/07-cost-volume-profit-relationship/"],["tc08","tc","08","CVP in Textiles","/textile/textile-costing/08-cvp-in-textiles/"],["tc09","tc","09","Costing Systems I — Job Costing","/textile/textile-costing/09-costing-systems-i-job-costing/"],["tc10","tc","10","Costing Systems II — Process Costing","/textile/textile-costing/10-costing-systems-ii-process-costing/"],["tc11","tc","11","Advanced Costing Systems — Activity Based Costing","/textile/textile-costing/11-advanced-costing-systems-activity-based-costing/"],["tc12","tc","12","ABC Uses in Textiles","/textile/textile-costing/12-abc-uses-in-textiles/"],["tc13","tc","13","Budgets & Variances","/textile/textile-costing/13-budgets-and-variances/"],["tc14","tc","14","Budgeting in Textiles — Price & Efficiency Variances","/textile/textile-costing/14-budgeting-in-textiles-price-and-efficiency-variances/"],["tc15","tc","15","Review of Spinning Calculations","/textile/textile-costing/15-review-of-spinning-calculations/"],["tc16","tc","16","Simple Yarn Costing","/textile/textile-costing/16-simple-yarn-costing/"],["tc17","tc","17","Optimal Yarn Mix","/textile/textile-costing/17-optimal-yarn-mix/"],["tc18","tc","18","Review of Weaving Calculations I","/textile/textile-costing/18-review-of-weaving-calculations-i/"],["tc19","tc","19","Review of Weaving Calculations II","/textile/textile-costing/19-review-of-weaving-calculations-ii/"],["tc20","tc","20","Simple Fabric Costing","/textile/textile-costing/20-simple-fabric-costing/"],["tc21","tc","21","Simple Dyed Fabric Costing","/textile/textile-costing/21-simple-dyed-fabric-costing/"],["tc22","tc","22","Concept of Routes","/textile/textile-costing/22-concept-of-routes/"],["tc23","tc","23","Plant Machinery Analysis","/textile/textile-costing/23-plant-machinery-analysis/"],["tc24","tc","24","Final Dyeing Costing","/textile/textile-costing/24-final-dyeing-costing/"],["tc25","tc","25","Stitching Costing I — Linear Rating","/textile/textile-costing/25-stitching-costing-i-linear-rating/"],["tc26","tc","26","Stitching Costing II — Order Costing","/textile/textile-costing/26-stitching-costing-ii-order-costing/"],["wc00","wc","00","Course Outline – Weaving Calculations (TX-416)","/textile/weaving-calculations/00-course-outline-weaving-calculations-tx-416/"],["wc01","wc","01","Counting Systems","/textile/weaving-calculations/01-counting-systems/"],["wc02","wc","02","Multiple Counts I – Yarns Together or Twisted","/textile/weaving-calculations/02-multiple-counts-i-yarns-together-or-twisted/"],["wc03","wc","03","Multiple Counts II – Yarns in Proportion","/textile/weaving-calculations/03-multiple-counts-ii-yarns-in-proportion/"],["wc04","wc","04","Multiple Counts III – Proportions and Cost","/textile/weaving-calculations/04-multiple-counts-iii-proportions-and-cost/"],["wc05","wc","05","Weight of Fabric","/textile/weaving-calculations/05-weight-of-fabric/"],["wc06","wc","06","Sett Calculations – Beams and Warping Production","/textile/weaving-calculations/06-sett-calculations-beams-and-warping-production/"],["wc07","wc","07","Beam Calculations","/textile/weaving-calculations/07-beam-calculations/"],["wc08","wc","08","Breakages and Sized Count","/textile/weaving-calculations/08-breakages-and-sized-count/"],["wc09","wc","09","Cone Size","/textile/weaving-calculations/09-cone-size/"],["wc10","wc","10","Warping Speed and Preparatory Capacity","/textile/weaving-calculations/10-warping-speed-and-preparatory-capacity/"],["wc11","wc","11","Reed Calculations","/textile/weaving-calculations/11-reed-calculations/"],["wc12","wc","12–13","Cover Factor I & II","/textile/weaving-calculations/12-13-cover-factor-i-and-ii/"],["wc13","wc","14","Fabric Production","/textile/weaving-calculations/14-fabric-production/"],["wc14","wc","15–16","Crimp I & II – Peirce Geometry","/textile/weaving-calculations/15-16-crimp-i-and-ii-peirce-geometry/"],["wc17","wc","17","Blended Fabrics – Fibre Composition","/textile/weaving-calculations/17-blended-fabrics-fibre-composition/"],["wc18","wc","18","Sizing Cost Analysis","/textile/weaving-calculations/18-sizing-cost-analysis/"],["wc19","wc","19–21","Planning I, II & III – Orders, Changeovers and Yarn","/textile/weaving-calculations/19-21-planning-i-ii-and-iii-orders-changeovers-and-yarn/"],["wc22","wc","22","Planning IV – Production Over Months","/textile/weaving-calculations/22-planning-iv-production-over-months/"],["wc25","wc","25","Set Size Planning","/textile/weaving-calculations/25-set-size-planning/"],["wc27","wc","27–28","Feasibility I & II – Costing a Weaving Plant","/textile/weaving-calculations/27-28-feasibility-i-and-ii-costing-a-weaving-plant/"],["fd01","fd","01","Introduction to Weaving and Fabric Construction","/textile/fabric-design/01-introduction-to-weaving-and-fabric-construction/"],["fd02","fd","02","Weight of Fabric","/textile/fabric-design/02-weight-of-fabric/"],["fd03","fd","03","Shedding Mechanisms and Point Paper","/textile/fabric-design/03-shedding-mechanisms-and-point-paper/"],["fd04","fd","04","Twill Weaves","/textile/fabric-design/04-twill-weaves/"],["fd05","fd","05","Satin and Sateen","/textile/fabric-design/05-satin-and-sateen/"],["fd06","fd","06","Rib and Hopsack Weaves","/textile/fabric-design/06-rib-and-hopsack-weaves/"],["fd07","fd","07","Twill Derivatives","/textile/fabric-design/07-twill-derivatives/"],["fd08","fd","08","Draft, Peg Plan and Denting","/textile/fabric-design/08-draft-peg-plan-and-denting/"],["fd10","fd","10","Number Systems and Hexadecimal Weave Notation","/textile/fabric-design/10-number-systems-and-hexadecimal-weave-notation/"],["fd12","fd","12","Fabric Analysis II – Yarn Diameter","/textile/fabric-design/12-fabric-analysis-ii-yarn-diameter/"],["fd13","fd","13","Crepe, Spot and Honeycomb Weaves","/textile/fabric-design/13-crepe-spot-and-honeycomb-weaves/"],["fd14","fd","14","Bedford Cord","/textile/fabric-design/14-bedford-cord/"],["fd16","fd","16","Piqué","/textile/fabric-design/16-piqu/"],["fd17","fd","17","Stripe and Check Designs","/textile/fabric-design/17-stripe-and-check-designs/"],["fd19","fd","19","Colour and Weave Effects","/textile/fabric-design/19-colour-and-weave-effects/"],["fd20","fd","20","Cover Factor","/textile/fabric-design/20-cover-factor/"],["fd22","fd","22","Spot and Figured Designs","/textile/fabric-design/22-spot-and-figured-designs/"],["fd23","fd","23","Huckaback and Mock Leno","/textile/fabric-design/23-huckaback-and-mock-leno/"],["fd24","fd","24","Fabric Analysis – Guidelines","/textile/fabric-design/24-fabric-analysis-guidelines/"],["fd25","fd","25","Crimp","/textile/fabric-design/25-crimp/"],["fd26","fd","26","Double Cloth","/textile/fabric-design/26-double-cloth/"]];var COURSE_NAMES={tc:'Textile Costing',fd:'Fabric Design',wc:'Weaving Calculations'};</script>
+<script src="/assets/account.js"></script>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')};
+  var LEC={};CATALOG.forEach(function(l){LEC[l[0]]=l;});
+  var STUDENTS=[],ROWS=[],HEAD=[];
+  function msg(h){$('msg').innerHTML=h;$('msg').hidden=false;$('dash').hidden=true;}
+  function fmt(ts){if(!ts)return '';var d=typeof ts==='number'?new Date(ts):(ts.toDate?ts.toDate():new Date(ts));return d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}
+  function ms(ts){if(!ts)return 0;return typeof ts==='number'?ts:(ts.toMillis?ts.toMillis():+new Date(ts));}
+  function fillLectures(){
+    var c=$('fc').value,cur=$('fl').value;
+    $('fl').innerHTML='<option value="">All lectures</option>'+CATALOG.filter(function(l){return !c||l[1]===c}).map(function(l){return '<option value="'+l[0]+'">'+esc(COURSE_NAMES[l[1]].split(' ')[0]+' '+l[2]+' · '+l[3])+'</option>'}).join('');
+    if(LEC[cur]&&(!c||LEC[cur][1]===c))$('fl').value=cur;
+  }
+  function load(){
+    msg('<p>Loading students…</p>');
+    var fb=RZA.fb(),F=fb.F;
+    F.getDocs(F.query(F.collection(fb.db,'users'),F.where('shareWithTeacher','==',true))).then(function(s){
+      var us=[];s.forEach(function(d){us.push({uid:d.id,p:d.data()});});
+      return Promise.all(us.map(function(u){
+        return Promise.all([F.getDocs(F.collection(fb.db,'users',u.uid,'quiz')),F.getDocs(F.collection(fb.db,'users',u.uid,'visits'))]).then(function(r){
+          u.quiz=[];u.visits=[];r[0].forEach(function(d){u.quiz.push(d.data());});r[1].forEach(function(d){u.visits.push(d.data());});return u;
+        });
+      }));
+    }).then(function(us){
+      STUDENTS=us.sort(function(a,b){return (a.p.name||'').localeCompare(b.p.name||'')});
+      $('msg').hidden=true;$('dash').hidden=false;draw();
+    }).catch(function(e){msg('<p class="err">Could not load student data: '+esc(e.code||e.message)+'</p>');});
+  }
+  function draw(){
+    var c=$('fc').value,l=$('fl').value,f=$('fs').value.trim().toLowerCase();
+    var st=STUDENTS.filter(function(u){return !f||((u.p.name||'')+' '+(u.p.email||'')).toLowerCase().indexOf(f)>=0});
+    var inScope=function(x){return l?x.lecture===l:(!c||x.course===c)};
+    var h='',taken=0,sum=0,active=0;HEAD=[];ROWS=[];
+    if(l){
+      HEAD=['Student','Email','Opened','Times opened','Quiz 1','Quiz 2','Quiz 3','Quiz 4','Quiz 5','Last activity'];
+      st.forEach(function(u){
+        var v=u.visits.filter(inScope)[0],q={};u.quiz.filter(inScope).forEach(function(x){q[x.idx]=x;taken++;sum+=x.best||0;});
+        var last=Math.max(v?ms(v.last):0,Math.max.apply(null,[0].concat(Object.keys(q).map(function(k){return q[k].when||0}))));
+        if(v||Object.keys(q).length)active++;
+        ROWS.push([u.p.name,u.p.email,v?fmt(v.last):'',v?v.count:0].concat([1,2,3,4,5].map(function(i){return q[i]?q[i].best:''})).concat([last?fmt(last):'']));
+      });
+    }else{
+      HEAD=['Student','Email','Lectures opened','Quizzes taken','Average best','Lowest best','Last activity','Joined'];
+      st.forEach(function(u){
+        var vs=u.visits.filter(inScope),qs=u.quiz.filter(inScope);
+        var avg=qs.length?Math.round(qs.reduce(function(a,x){return a+(x.best||0)},0)/qs.length):'';
+        var low=qs.length?qs.reduce(function(a,x){return x.best<a.best?x:a}):null;
+        var last=Math.max.apply(null,[0].concat(vs.map(function(v){return ms(v.last)})).concat(qs.map(function(x){return x.when||0})));
+        taken+=qs.length;sum+=qs.reduce(function(a,x){return a+(x.best||0)},0);if(vs.length||qs.length)active++;
+        ROWS.push([u.p.name,u.p.email,vs.length,qs.length,avg===''?'':avg,low?low.best+' ('+low.lecture+' Q'+low.idx+')':'',last?fmt(last):'',fmt(u.p.created)]);
+      });
+    }
+    $('summary').innerHTML='<div><b>'+st.length+'</b><span>students sharing</span></div><div><b>'+active+'</b><span>active in this selection</span></div><div><b>'+taken+'</b><span>quizzes taken</span></div><div><b>'+(taken?Math.round(sum/taken)+'%':'—')+'</b><span>average best score</span></div>';
+    if(!ROWS.length){$('table').innerHTML='<p class="mut">No students yet. Students appear here after they sign in on the learn site.</p>';return;}
+    var pct=function(i){return l?(i>=4&&i<=8):(i===4)};
+    h='<table><thead><tr>'+HEAD.map(function(x){return '<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+ROWS.map(function(r){return '<tr>'+r.map(function(x,i){
+      if(pct(i)&&x!==''){var n=+x;return '<td class="sc"><span class="g'+(n>=80?'a':n>=60?'b':'c')+'">'+n+'%</span></td>';}
+      return '<td>'+esc(x)+'</td>';}).join('')+'</tr>'}).join('')+'</tbody></table>';
+    $('table').innerHTML=h;
+  }
+  $('fc').onchange=function(){fillLectures();draw();};$('fl').onchange=draw;$('fs').oninput=draw;$('reload').onclick=load;
+  $('csv').onclick=function(){
+    var q=function(x){x=String(x==null?'':x);return /[",\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x};
+    var csv=[HEAD].concat(ROWS).map(function(r){return r.map(q).join(',')}).join('\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv'}));
+    a.download='student-progress'+($('fl').value?'-'+$('fl').value:$('fc').value?'-'+$('fc').value:'')+'.csv';a.click();
+  };
+  fillLectures();
+  var started=false;
+  RZA.onChange(function(u,p){
+    if(!RZA.ready()||(u&&!p))return;
+    if(!u){msg('<h1>Teacher dashboard</h1><p>Please <a href="/account/?from=/account/teacher/">sign in</a> with the teacher account.</p>');started=false;return;}
+    if((u.email||'').toLowerCase()!==RZA.TEACHER){msg('<h1>Teacher dashboard</h1><p>This page is only for the teacher account. You are signed in as '+esc(u.email)+'. <a href="/account/">Go to My progress</a>.</p>');return;}
+    if(!started){started=true;load();}
+  });
+})();
+</script>
+</body></html>
