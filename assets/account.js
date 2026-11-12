@@ -171,6 +171,7 @@
     var a = document.getElementById('rza-link');
     if (!a) { a = document.createElement('a'); a.id = 'rza-link'; a.style.cssText = 'color:#C8AF72;font-weight:600'; nav.appendChild(a); }
     var from = encodeURIComponent(location.pathname + location.search);
+    if (/^\/account\//.test(location.pathname)) from = encodeURIComponent(new URLSearchParams(location.search).get('from') || '/');
     if (user) { a.textContent = 'My progress'; a.href = '/account/'; }
     else { a.textContent = 'Sign in'; a.href = '/account/?from=' + from; a.title = 'Sign in to save your quiz scores and lecture history'; }
   }

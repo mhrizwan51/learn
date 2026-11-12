@@ -2088,7 +2088,7 @@ async function openQuiz(lid,n){
   var tabs=bank.quizzes.map(function(q){return '<a data-quiz="'+lid+':'+q.n+'"'+(q.n===n?' class="on"':'')+'>Quiz '+q.n+' · '+esc(q.title)+'</a>';}).join('');
   page.innerHTML='<div class="lhead qhead"><div class="kicker">'+c.name+' · Lecture '+l.n+' · Quiz '+n+' of 5</div><h1>'+esc(z.title)+'</h1><div class="sub">'+esc(l.title)+'</div><div class="qtabs">'+tabs+'</div><div id="qbest"></div></div>'
    +'<div class="card"><p class="qintro">'+esc(z.intro||'')+'</p>'+(z.sketch?'<div id="qsketch"></div>':'')+'<div id="quiz"></div></div>'
-   +'<div class="card"><p>Finished? <a data-go="'+lid+'">Back to the lecture</a>'+(n<5?' · <a data-quiz="'+lid+':'+(n+1)+'">On to Quiz '+(n+1)+'</a>':'')+'.</p></div>';
+   +'<div class="card"><p>Finished? <a data-go="'+lid+'">Back to the lecture</a>'+(n<5?' · <a data-quiz="'+lid+':'+(n+1)+'">On to Quiz '+(n+1)+'</a>':'')+'.</p><p style="font-size:14px;color:var(--mut);margin-bottom:0">Scores here are kept in this browser only. To save your scores and lecture history to your account, <a href="https://learn.rizwanzubair.net/account/?from='+encodeURIComponent(QURL[lid]+'quiz-'+n+'/')+'" target="_blank" rel="noopener">sign in on learn.rizwanzubair.net ↗</a> and take the quizzes there.</p></div>';
   document.getElementById('crumb').innerHTML='<a data-go="" style="color:var(--mut);text-decoration:none">Home</a> › <a data-go="'+l.course+'" style="color:'+c.color+';text-decoration:none">'+c.name+'</a> › <a data-go="'+lid+'" style="color:var(--mut);text-decoration:none">Lecture '+l.n+'</a> › <b>Quiz '+n+'</b>';
   var pb=document.getElementById('prevbtn'),nb=document.getElementById('nextbtn');
   pb.style.visibility='visible';pb.onclick=function(){if(n>1)openQuiz(lid,n-1);else go(lid);};
