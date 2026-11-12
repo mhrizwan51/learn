@@ -2096,3 +2096,8 @@ async function openQuiz(lid,n){
   window.scrollTo(0,0);document.getElementById('side').classList.remove('open');
   window.runQuiz({lecture:{id:lid,course:l.course,title:l.title,n:l.n,url:''},idx:n,quiz:z,nav:{},embed:true});
 }
+(function(){var t=document.getElementById('top'),sp=t&&t.querySelector('.spacer');if(!t||document.getElementById('rzsign'))return;
+var a=document.createElement('a');a.id='rzsign';a.href='https://learn.rizwanzubair.net/account/';a.target='_blank';a.rel='noopener';
+a.textContent='Sign in to save progress ↗';a.title='Save your quiz scores and lecture history to your account on learn.rizwanzubair.net';
+a.style.cssText='margin:0 10px;padding:5px 12px;border-radius:999px;background:#0C2D55;color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap';
+if(sp&&sp.nextSibling)t.insertBefore(a,sp.nextSibling);else t.appendChild(a);})();
