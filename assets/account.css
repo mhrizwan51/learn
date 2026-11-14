@@ -1,4 +1,5 @@
 :root{--bg:#f4f6f9;--panel:#fff;--ink:#1c2433;--mut:#5b6678;--line:#dde3ec;--acc:#0C2D55;--gold:#C8AF72}
+[hidden]{display:none!important}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 a{color:#0f5fa8}
