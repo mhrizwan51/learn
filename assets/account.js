@@ -172,13 +172,20 @@
     if (!a) { a = document.createElement('a'); a.id = 'rza-link'; a.style.cssText = 'color:#C8AF72;font-weight:600'; nav.appendChild(a); }
     var from = encodeURIComponent(location.pathname + location.search);
     if (/^\/account\//.test(location.pathname)) from = encodeURIComponent(new URLSearchParams(location.search).get('from') || '/');
-    if (user) { a.textContent = 'My progress'; a.href = '/account/'; }
+    if (user || (!ready && ls.raw(FLAG)) || (!fb && ls.raw(FLAG))) { a.textContent = 'My progress'; a.href = '/account/'; a.removeAttribute('title'); }
     else { a.textContent = 'Sign in'; a.href = '/account/?from=' + from; a.title = 'Sign in to save your quiz scores and lecture history'; }
   }
 
   /* called by quiz.js when a quiz finishes */
   function quizDone(key, rec) {
     if (user) { saveQuiz(key, rec); return; }
+    if (ls.raw(FLAG)) {            // signed in on this device, account still loading: wait, then save
+      load().then(function () { var n = 0, t = setInterval(function () { if (user && profile) { clearInterval(t); saveQuiz(key, rec); } else if (++n > 40 || (ready && !user)) { clearInterval(t); if (!user) nudge(); } }, 250); }).catch(nudge);
+      return;
+    }
+    nudge();
+  }
+  function nudge() {
     var box = document.getElementById('qresult'); if (!box || document.getElementById('rza-nudge')) return;
     var p = document.createElement('p'); p.id = 'rza-nudge'; p.style.cssText = 'margin:12px 0 0;font-size:14px;color:#5b6678';
     p.innerHTML = 'This score is saved on this device only. <a href="/account/?from=' + encodeURIComponent(location.pathname) + '">Sign in</a> to keep your scores and lecture history in your account.';
