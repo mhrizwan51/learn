@@ -107,7 +107,7 @@ body.ur{font-size:20px}
 .h2{color:var(--navy);font-size:22px;border-bottom:2px solid var(--thread);margin:1.4rem 0 .6rem;padding-bottom:.2rem}
 .sc .ar{font-family:var(--arabic-font);font-size:24px;color:var(--teal);float:right;line-height:1.2}
 .topic{font-size:18px;color:var(--teal);font-weight:600;margin:.2rem 0 .8rem}
-.vid{position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;cursor:pointer;margin:.6rem 0}
+.vid{position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;cursor:pointer;margin:.6rem 0;max-width:720px}
 .vid img{width:100%;height:100%;object-fit:cover;display:block;opacity:.9}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .vid .play{position:absolute;left:50%;top:50%;width:72px;height:50px;margin:-25px 0 0 -36px;background:#c00;border-radius:12px}
