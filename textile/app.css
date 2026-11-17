@@ -147,7 +147,7 @@ body.wc .lhead{background:linear-gradient(135deg,#b45309,#78350f)}
 @media print{#side,#top{display:none}#page{max-width:none}}
 /* plain-language help */
 .words dl{display:grid;grid-template-columns:minmax(140px,210px) 1fr;gap:12px 20px;margin:4px 0 0}
-.words dt{font-weight:650;color:var(--tc)}
+.words dt{font-weight:650;color:var(--acc)}
 .words dd{margin:0}
 .words .eg{display:block;color:var(--mut);font-size:14px;margin-top:2px}
 .simple{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:0 10px 10px 0;padding:10px 14px;margin:6px 0 16px;font-size:15px}
