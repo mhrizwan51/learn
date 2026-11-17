@@ -14,6 +14,7 @@ body.ur{font-family:var(--urdu-font);font-size:17px;line-height:2.15}
 .latin{font-family:var(--latin)}
 a{color:var(--teal)}
 .ar{font-family:var(--arabic-font)}
+.aq{font-family:var(--arabic-font);font-size:1.12em;line-height:1.7;unicode-bidi:isolate}
 
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:.7rem 1.2rem;background:#fff;border-bottom:1px solid var(--border);direction:ltr}
 .top .brand{font-weight:600;color:var(--navy);text-decoration:none;font-size:17px}
