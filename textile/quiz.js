@@ -20,7 +20,7 @@ function runQuiz(Q) {
     const root = document.getElementById('quiz'); let h = '';
     h += `<div class="qbar"><div class="qprog"><div class="qfill" id="qfill"></div></div><div class="qscore" id="qscore">0 / ${n} answered</div></div>`;
     qs.forEach((q, i) => {
-      h += `<div class="qcard" id="qc${i}"><div class="qnum">Question ${i + 1} of ${n}<span class="qtype">${q.type === 'mc' ? 'Multiple choice' : q.type === 'tf' ? 'True or false' : 'Calculate'}</span></div><div class="qtext">${q.q}</div>${figHTML(q.sketch)}`;
+      h += `<div class="qcard" id="qc${i}"><div class="qnum">Question ${i + 1} of ${n}<span class="qtype">${q.type === 'mc' ? 'Multiple choice' : q.type === 'tf' ? 'True or false' : 'Calculate'}</span></div><div class="qtext">${q.q}</div>${Q.quiz.case&&i>0?`<details class="qcase"><summary>Show the case again</summary><div>${esc(Q.quiz.case)}</div></details>`:''}${figHTML(q.sketch)}`;
       if (q.type === 'mc') h += `<div class="qopts">${order[i].map(oi => `<button class="qopt" data-q="${i}" data-o="${oi}">${esc(q.options[oi])}</button>`).join('')}</div>`;
       else if (q.type === 'tf') h += `<div class="qopts tf"><button class="qopt" data-q="${i}" data-o="1">True</button><button class="qopt" data-q="${i}" data-o="0">False</button></div>`;
       else h += `<div class="qnum-in"><input type="text" inputmode="decimal" id="qin${i}" placeholder="Your answer"><span class="unit">${esc(q.unit || '')}</span><button class="qcheck" data-q="${i}">Check</button></div>`;
@@ -68,7 +68,7 @@ function runQuiz(Q) {
     const p = Math.round(state.score / n * 100), [g, w] = grade(p);
     const prev = store.get() || {}; const best = Math.max(prev.best || 0, p); store.set({ best, last: p, when: Date.now() });
     const nx = Q.embed ? (Q.idx < 5 ? `<a class="qbtn primary" data-quiz="${Q.lecture.id}:${Q.idx + 1}">Next quiz →</a>` : `<a class="qbtn primary" data-go="${Q.lecture.id}">Back to the lecture</a>`)
-      : Q.nav.next ? `<a class="qbtn primary" href="${Q.nav.next}">Next quiz →</a>` : `<a class="qbtn primary" href="${Q.lecture.url}">Back to the lecture</a>`;
+      : Q.nav.next ? `<a class="qbtn primary" href="${Q.nav.next}">Next quiz →</a>` : `<a class="qbtn primary" href="${Q.lecture.url}">${Q.backLabel||'Back to the lecture'}</a>`;
     document.getElementById('qresult').innerHTML = `<div class="qgrade g${g}"><div class="big">${g}</div><div><div class="pct">${p}% — ${state.score} of ${n} correct</div><div class="word">${w}${best > p ? ` · best ${best}%` : ''}</div></div></div><div class="qactions"><button class="qbtn" id="qretry">Try again</button>${nx}</div>`;
     if (window.RZA && !Q.embed) window.RZA.quizDone(key, { best, last: p, when: Date.now() });
     document.getElementById('qretry').onclick = () => { runQuiz(Q); const t = document.getElementById('quiz'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
