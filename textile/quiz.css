@@ -154,6 +154,13 @@ body #page>.lhead,body #page>.hero,body.has-toc #page>.lhead{grid-column:1/-1}
 .figrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:18px 0}
 .figrow>.fig{margin:0;display:flex;flex-direction:column;justify-content:center}
 .figrow>.fig.lead{grid-column:1/-1}
+.figside{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,43%);gap:28px;align-items:start;margin:18px 0}
+.figside>.ft>:first-child{margin-top:0}
+.figside>.ft>:last-child{margin-bottom:0}
+.figside>.fig{margin:0;position:sticky;top:104px}
+.fig.solo{max-width:660px;margin-left:auto;margin-right:auto}
+@media (max-width:900px){.figside{display:block}.figside>.fig{position:static;margin:18px 0}}
+@media print{.figside>.fig{position:static}}
 .fig.zoomable{cursor:zoom-in}
 .fig.zoomable:hover{box-shadow:var(--sh);transform:translateY(-2px)}
 .fig.zoomable:after{content:"";position:absolute;right:12px;top:12px;width:26px;height:26px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314213a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5'/%3E%3C/svg%3E") center/14px no-repeat;border:1px solid var(--line2);opacity:0;transition:opacity .2s}

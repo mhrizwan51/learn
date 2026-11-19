@@ -975,7 +975,7 @@ ${S({title:'Stitching order costing — pillow case 20×32, 40×40/110×100',col
 
 /* ===================== WEAVING CALCULATIONS ===================== */
 const RUE=x=>Math.ceil(x/2)*2; // round up to even
-const TEXC=590.67; // tex × Ne constant
+const TEXC=590.54; // tex × Ne constant
 lecture({id:'wc00',course:'wc',n:'00',title:'Course Outline – Weaving Calculations (TX-416)',sub:'What the course covers, how it is graded and where each lecture sits in the 15-week plan.',chips:['Outline','Grading','15-week plan'],tags:'syllabus outline plan',body:()=>`
 <div class="card"><h2>Description</h2>${FIG('textile-chain','Weaving sits in the middle of the textile chain: yarn arrives from spinning, is prepared and woven, and the grey cloth goes on to dyeing, finishing and stitching.')}${FIG('course-map','The lectures follow the yarn through the mill, from counts and preparation to the loom, the fabric and finally planning and feasibility.')}
 <p>This course concentrates on the calculations that a weaving engineer performs every day: converting and combining yarn counts, estimating the weight and cover of a fabric, sizing the warping, sizing and beaming operations for an order, predicting loom production, planning deliveries, and finally judging the feasibility of a whole weaving plant.</p>
@@ -1014,20 +1014,21 @@ lecture({id:'wc01',course:'wc',n:'01',title:'Counting Systems',sub:'Direct and i
 <tr><td>Tex</td><td>grams per 1000 m</td><td>direct</td><td>universal (ISO)</td></tr>
 <tr><td>Decitex, dtex (grex)</td><td>grams per 10,000 m</td><td>direct</td><td>filament yarns</td></tr>
 <tr><td>Denier</td><td>grams per 9000 m</td><td>direct</td><td>silk, filament, Lycra</td></tr></table></div>
-<div class="card"><h2>Deriving the constant 590.67</h2>${FIG('cone-size','One hank of 840 yd is 768.1 m; at 1 Ne that length weighs 453.6 g, so 1,000 m weighs 590.67 g — the constant that turns Ne into tex.')}
+<div class="card"><h2>Deriving the constant 590.54</h2>${FIG('cone-size','One hank of 840 yd is 768.1 m; at 1 Ne that length weighs one pound, 453.59 g, so 1,000 m weighs 590.54 g — the constant that turns Ne into tex.')}
 <ol class="steps">
 <li>1 Ne means 840 yd weigh 1 lb, i.e. <b>1 lb per 840 yd</b>.</li>
-<li>1 lb = 453.6 g and 840 yd = 840 × 0.9144 m = 768.1 m, so 1 Ne = 453.6 g / 768.1 m.</li>
-<li>Per 1000 m that is 453.6 × 1000 / 768.1 = <b>590.67 g → 590.67 tex</b>.</li>
-<li>Denier is tex × 9, so 1 Ne = 5316 denier; and Nm = 1000 / tex = 1.693.</li></ol>
-<div class="formula">Ne × tex = 590.67 &nbsp;&nbsp;·&nbsp;&nbsp; denier = 9 × tex &nbsp;&nbsp;·&nbsp;&nbsp; dtex = 10 × tex &nbsp;&nbsp;·&nbsp;&nbsp; Nm = 1000 / tex</div>
-<div class="warn">The original worksheet divided by the denier figure in cell C15 (1458) when converting to Ne, which only happened to give the right answer for the first row. The converter below uses the correct constant 590.67.</div></div>
+<li>1 lb = 453.59 g and 840 yd = 840 × 0.9144 m = 768.1 m, so 1 Ne = 453.59 g / 768.1 m.</li>
+<li>Per 1000 m that is 453.59 × 1000 / 768.1 = <b>590.54 g → 590.54 tex</b>.</li>
+<li>Denier is tex × 9, so 1 Ne = 5315 denier; and Nm = 1000 / tex = 1.693.</li></ol>
+<div class="formula">Ne × tex = 590.54 &nbsp;&nbsp;·&nbsp;&nbsp; denier = 9 × tex &nbsp;&nbsp;·&nbsp;&nbsp; dtex = 10 × tex &nbsp;&nbsp;·&nbsp;&nbsp; Nm = 1000 / tex</div>
+<div class="note"><b>Why not 590.67?</b> Some notes and tables quote 590.67. That figure comes from the rounded factor Nm = 1.693 × Ne, because 1000 ÷ 1.693 = 590.67. The unrounded factor is 1.69336, and 1000 ÷ 1.69336 = 590.54 — the same answer as the pound-and-hank working above. For quick work 590.5 is close enough.</div>
+<div class="warn">The original worksheet divided by the denier figure in cell C15 (1458) when converting to Ne, which only happened to give the right answer for the first row. The converter below uses the correct constant 590.54.</div></div>
 <div class="card"><h2>Universal count converter</h2>${FIG('spreadsheet','Every conversion goes through tex: the known count is turned into tex first, and Ne, denier, Nm and dtex are all read off from that one number.')}${FIG('count-conversion','Tex is the natural centre of every conversion: the direct systems are simple multiples of it and the indirect ones divide into a constant.')}
 <p>Pick the system you know, type the value, and every other system is worked out through tex.</p>
 ${S({title:'Count conversion',cols:[200,120,60,200,120],rows:[
 [{h:'Known system'},{h:'Value'},null,{h:'Result'},{h:''}],
 ['System',{in:'sys',v:'Ne',opts:['Ne','Tex','Denier','Nm','Dtex']},null,'Tex (g / 1000 m)',{f:v=>{const x=v.val;return v.sys==='Ne'?TEXC/x:v.sys==='Tex'?x:v.sys==='Denier'?x/9:v.sys==='Nm'?1000/x:x/10;},n:'tex',fx:'= to tex first',fmt:'#,##0.00'}],
-['Value',{in:'val',v:30},null,'Ne (hanks / lb)',{f:v=>TEXC/v.tex,fx:'=590.67/tex',fmt:'#,##0.00'}],
+['Value',{in:'val',v:30},null,'Ne (hanks / lb)',{f:v=>TEXC/v.tex,fx:'=590.54/tex',fmt:'#,##0.00'}],
 [null,null,null,'Denier (g / 9000 m)',{f:v=>v.tex*9,fx:'=tex*9',fmt:'#,##0.00'}],
 [null,null,null,'Nm (m / g)',{f:v=>1000/v.tex,fx:'=1000/tex',fmt:'#,##0.00'}],
 [null,null,null,'Dtex (g / 10,000 m)',{f:v=>v.tex*10,fx:'=tex*10',fmt:'#,##0.00'}]
@@ -1035,9 +1036,9 @@ ${S({title:'Count conversion',cols:[200,120,60,200,120],rows:[
 <h3>Worked examples from the lecture</h3>
 <table class="plain"><tr><th>Given</th><th class="r">Tex</th><th class="r">Ne</th><th class="r">Denier</th><th class="r">Nm</th><th class="r">Dtex</th></tr>
 <tr><td>162 tex</td><td class="r">162</td><td class="r">3.65</td><td class="r">1458</td><td class="r">6.17</td><td class="r">1620</td></tr>
-<tr><td>Ne 30</td><td class="r">19.69</td><td class="r">30</td><td class="r">177.2</td><td class="r">50.79</td><td class="r">196.9</td></tr>
-<tr><td>150 denier</td><td class="r">16.67</td><td class="r">35.44</td><td class="r">150</td><td class="r">60</td><td class="r">166.7</td></tr>
-<tr><td>Nm 25</td><td class="r">40</td><td class="r">14.77</td><td class="r">360</td><td class="r">25</td><td class="r">400</td></tr></table>
+<tr><td>Ne 30</td><td class="r">19.68</td><td class="r">30</td><td class="r">177.2</td><td class="r">50.80</td><td class="r">196.8</td></tr>
+<tr><td>150 denier</td><td class="r">16.67</td><td class="r">35.43</td><td class="r">150</td><td class="r">60</td><td class="r">166.7</td></tr>
+<tr><td>Nm 25</td><td class="r">40</td><td class="r">14.76</td><td class="r">360</td><td class="r">25</td><td class="r">400</td></tr></table>
 <div class="note">Rule of thumb: Ne 20 ≈ 30 tex ≈ 266 denier; Ne 40 ≈ 15 tex. Lycra of 40 denier is 4.4 tex — about one-seventh of an Ne 20 yarn.</div></div>
 <div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a data-quiz="wc01:1"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:wc01:1"></span></a><a data-quiz="wc01:2"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:wc01:2"></span></a><a data-quiz="wc01:3"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:wc01:3"></span></a><a data-quiz="wc01:4"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:wc01:4"></span></a><a data-quiz="wc01:5"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:wc01:5"></span></a></div></div>
 `});
@@ -1896,7 +1897,7 @@ ${S({title:'Yarn diameter',cols:[260,120,120,120],rows:[
 [{h:''},{h:'Yarn A'},{h:'Yarn B'},{h:'Yarn C'}],
 ['Count Ne',{in:'a',v:20},{in:'b',v:30},{in:'c',v:40}],
 ['Specific volume (cm³/g)',{in:'va',v:1.1},{in:'vb',v:1.1},{in:'vc',v:1.1}],
-['Tex',{f:v=>590.67/v.a,n:'ta',fx:'=590.67/B2',fmt:'0.00'},{f:v=>590.67/v.b,n:'tb',fx:'=590.67/C2',fmt:'0.00'},{f:v=>590.67/v.c,n:'tc',fx:'=590.67/D2',fmt:'0.00'}],
+['Tex',{f:v=>590.54/v.a,n:'ta',fx:'=590.54/B2',fmt:'0.00'},{f:v=>590.54/v.b,n:'tb',fx:'=590.54/C2',fmt:'0.00'},{f:v=>590.54/v.c,n:'tc',fx:'=590.54/D2',fmt:'0.00'}],
 ['Diameter from v (mm)',{f:v=>Math.sqrt(4*v.va*v.ta/(Math.PI*1e5))*10,fx:'=SQRT(4*B3*B4/(PI()*100000))*10',fmt:'0.000',tot:true},{f:v=>Math.sqrt(4*v.vb*v.tb/(Math.PI*1e5))*10,fx:'=SQRT(4*C3*C4/(PI()*100000))*10',fmt:'0.000',tot:true},{f:v=>Math.sqrt(4*v.vc*v.tc/(Math.PI*1e5))*10,fx:'=SQRT(4*D3*D4/(PI()*100000))*10',fmt:'0.000',tot:true}],
 ['Diameter, √tex ÷ 26.7 (mm)',{f:v=>Math.sqrt(v.ta)/26.7,fx:'=SQRT(B4)/26.7',fmt:'0.000'},{f:v=>Math.sqrt(v.tb)/26.7,fx:'=SQRT(C4)/26.7',fmt:'0.000'},{f:v=>Math.sqrt(v.tc)/26.7,fx:'=SQRT(D4)/26.7',fmt:'0.000'}],
 ['Diameter, 0.9 ÷ √Ne (mm)',{f:v=>0.9/Math.sqrt(v.a),fx:'=0.9/SQRT(B2)',fmt:'0.000'},{f:v=>0.9/Math.sqrt(v.b),fx:'=0.9/SQRT(C2)',fmt:'0.000'},{f:v=>0.9/Math.sqrt(v.c),fx:'=0.9/SQRT(D2)',fmt:'0.000'}],
@@ -1997,7 +1998,7 @@ ${S({title:'Cover factor from count and density',cols:[260,120,120],rows:[
 ['Cover factor K = n √tex',{f:v=>v.n1*Math.sqrt(v.t1),fx:'=B3*SQRT(B2)',fmt:'#,##0'},{f:v=>v.n2*Math.sqrt(v.t2),fx:'=C3*SQRT(C2)',fmt:'#,##0'}],
 ['Relative cover d/p',{f:v=>v.d1/v.p1,n:'c1',fx:'=B4/B5',fmt:'0.00',tot:true},{f:v=>v.d2/v.p2,n:'c2',fx:'=C4/C5',fmt:'0.00',tot:true}],
 ['Cloth cover C₁ + C₂ − C₁C₂',{f:v=>v.c1+v.c2-v.c1*v.c2,fx:'=B7+C7-B7*C7',fmt:'0.00',tot:true},null],
-['Equivalent Ne cover factor (EPI/√Ne)',{f:v=>v.n1*0.254/Math.sqrt(590.67/v.t1),fx:'=B3*0.254/SQRT(590.67/B2)',fmt:'0.0'},{f:v=>v.n2*0.254/Math.sqrt(590.67/v.t2),fx:'=C3*0.254/SQRT(590.67/C2)',fmt:'0.0'}]
+['Equivalent Ne cover factor (EPI/√Ne)',{f:v=>v.n1*0.254/Math.sqrt(590.54/v.t1),fx:'=B3*0.254/SQRT(590.54/B2)',fmt:'0.0'},{f:v=>v.n2*0.254/Math.sqrt(590.54/v.t2),fx:'=C3*0.254/SQRT(590.54/C2)',fmt:'0.0'}]
 ]})}
 <div class="note">The lecture’s example: 25 tex at 267/100 mm covers 0.50, 36 tex at 334/100 mm covers 0.75, and the cloth is 0.88 covered — the remaining 12% is the open area that lets air (and light) through. For weavability limits and weave corrections see <a data-go="wc12">Weaving Calculations 12–13</a>.</div></div>
 <div class="card quizcard"><h2>Test yourself</h2><p>Five short quizzes on this lecture, ten questions each, marked as you answer. Start with Quiz 1 and work up to the Challenge review.</p><div class="quizzes"><a data-quiz="fd20:1"><b>Quiz 1</b>Key terms and ideas<span class="best" data-k="quiz:fd20:1"></span></a><a data-quiz="fd20:2"><b>Quiz 2</b>Formulas and relationships<span class="best" data-k="quiz:fd20:2"></span></a><a data-quiz="fd20:3"><b>Quiz 3</b>Worked calculations<span class="best" data-k="quiz:fd20:3"></span></a><a data-quiz="fd20:4"><b>Quiz 4</b>Applied in practice<span class="best" data-k="quiz:fd20:4"></span></a><a data-quiz="fd20:5"><b>Quiz 5</b>Challenge review<span class="best" data-k="quiz:fd20:5"></span></a></div></div>
