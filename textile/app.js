@@ -61,7 +61,7 @@ function mountSheet(id,spec){
   const fxb=document.getElementById(id+'_fx'),nb=document.getElementById(id+'_nb');
   function recalc(){
     el.querySelectorAll('[data-in]').forEach(i=>{const n=i.dataset.in;if(i.tagName==='SELECT'){v[n]=i.value;return;}let x=parseFloat(i.value.replace(/,/g,''));if(isNaN(x))x=0;if((i.dataset.fmt||'').endsWith('%'))x=x/100;v[n]=x;});
-    fxCells.forEach(({ri,c,cell})=>{let val;try{val=cell.f(v);}catch(e){val=NaN;}if(cell.n)v[cell.n]=val;const td=document.getElementById(`${id}_c${ri}_${c}`);td.textContent=fmt(val,cell.fmt);td.classList.toggle('neg',typeof val==='number'&&val<0);});
+    fxCells.forEach(({ri,c,cell})=>{let val;try{val=cell.f(v);}catch(e){val=NaN;}if(cell.n)v[cell.n]=val;const td=document.getElementById(`${id}_c${ri}_${c}`);td.textContent=fmt(val,cell.fmt);td.classList.toggle('neg',typeof val==='number'&&val<0);if(cell.max!==undefined){const o=typeof val==='number'&&val>cell.max+1e-9;td.classList.toggle('over',o);td.title=o?'Over the limit of '+cell.max:'';}});
     if(spec.onchange)spec.onchange(v);
   }
   el.addEventListener('input',recalc);
@@ -922,12 +922,12 @@ lecture({id:'tc17',course:'tc',n:'17',title:'Optimal Yarn Mix',sub:'Allocating 4
 <div class="simple"><b>In simple words</b>Do not choose the count that earns most per bag. Choose the one that earns most per frame, because frames are what you are short of. Then check that the total bags still fit within the shipping limit.</div>${FIG('ring-frame','The ring frame is the scarce resource: a coarse count fills many bags a day from one frame, a fine count only a few, so the same frame earns very different amounts.')}${FIG('ops-count','Ounces per spindle fall steeply as the count gets finer, which is why the same frame earns very different amounts on different counts.')}${FIG('contribution-margin','Each count\'s contribution per bag is price minus variable cost minus surcharge; multiplied by its bags per frame per day it becomes the contribution a frame earns on that count.')}
 ${S({title:'Yarn mix — contribution per frame per day',cols:[200,80,80,80,80,80,80,100],rows:[
 [{h:'Count (Ne)'},{h:'6'},{h:'8'},{h:'10'},{h:'12'},{h:'16'},{h:'20'},{h:'Total / limit'}],
-['Frames allotted',{in:'f0',v:6},{in:'f1',v:6},{in:'f2',v:6},{in:'f3',v:6},{in:'f4',v:6},{in:'f5',v:6},{f:v=>v.f0+v.f1+v.f2+v.f3+v.f4+v.f5,n:'ft',fx:'=SUM(B2:G2)  ≤ 46',fmt:'0'}],
+['Frames allotted',{in:'f0',v:6},{in:'f1',v:6},{in:'f2',v:6},{in:'f3',v:6},{in:'f4',v:6},{in:'f5',v:6},{f:v=>v.f0+v.f1+v.f2+v.f3+v.f4+v.f5,n:'ft',fx:'=SUM(B2:G2)  ≤ 46',fmt:'0',max:46}],
 ['Price (US$/kg)',{in:'p0',v:2},{in:'p1',v:2.05},{in:'p2',v:2.1},{in:'p3',v:2.15},{in:'p4',v:2.2},{in:'p5',v:2.3},{t:'Rs/$'}],
 ['Price per bag (Rs)',...[0,1,2,3,4,5].map(i=>({f:v=>v['p'+i]*v.fx/2.204*100,n:'pb'+i,fx:'=price×fx/2.204×100',fmt:'#,##0'})),{in:'fx',v:60}],
 ['OPS',{in:'o0',v:28.5},{in:'o1',v:26},{in:'o2',v:22},{in:'o3',v:17},{in:'o4',v:13.3},{in:'o5',v:10.3},{t:'bags/frame @1 OPS'}],
 ['Bags per frame per day',...[0,1,2,3,4,5].map(i=>({f:v=>v['o'+i]*v.b1,n:'bf'+i,fx:'=OPS×0.9',fmt:'0.00'})),{in:'b1',v:0.9}],
-['Total bags per day',...[0,1,2,3,4,5].map(i=>({f:v=>v['bf'+i]*v['f'+i],n:'tb'+i,fx:'=bags/frame×frames',fmt:'0.0'})),{f:v=>v.tb0+v.tb1+v.tb2+v.tb3+v.tb4+v.tb5,fx:'=SUM(B7:G7)  ≤ 780',fmt:'0.0'}],
+['Total bags per day',...[0,1,2,3,4,5].map(i=>({f:v=>v['bf'+i]*v['f'+i],n:'tb'+i,fx:'=bags/frame×frames',fmt:'0.0'})),{f:v=>v.tb0+v.tb1+v.tb2+v.tb3+v.tb4+v.tb5,fx:'=SUM(B7:G7)  ≤ 780',fmt:'0.0',max:780}],
 ['Variable cost per bag excl. EDS (Rs)',...[0,1,2,3,4,5].map(i=>({f:v=>v.vc,fx:'=H8',fmt:'#,##0'})),{in:'vc',v:4551.78}],
 ['Export development surcharge 0.25%',...[0,1,2,3,4,5].map(i=>({f:v=>0.0025*v['pb'+i],fx:'=0.25%×price/bag',fmt:'0.00'}))],
 ['Contribution per bag',...[0,1,2,3,4,5].map(i=>({f:v=>v['pb'+i]-v.vc-0.0025*v['pb'+i],n:'cb'+i,fx:'=B4-B8-B9',fmt:'#,##0'}))],
