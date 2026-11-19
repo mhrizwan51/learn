@@ -2372,6 +2372,90 @@ var r0=render;render=function(){r0();linkify();};
 var b0=buildNav;buildNav=function(){b0();linkify();};
 window.removeEventListener('hashchange',window.__hc);
 })();
+/* ---- theme v2: contents rail, figure rows, sketch draw-in, zoom, worksheet flash, reading thread ---- */
+(function(){
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+var figIO=null,spyIO=null;
+function slug(t,i){return 'sec-'+(i+1)+'-'+t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);}
+function prepFig(f){
+  var svg=f.querySelector('svg.sk');if(!svg||svg.hasAttribute('data-anim')||svg.querySelector('animate,animateTransform,set'))return false;
+  var els=[].filter.call(svg.querySelectorAll('path,line,polyline,polygon,rect,circle,ellipse,text'),function(e){return !e.closest('defs,marker');});
+  if(els.length&&els[0].tagName==='rect')els.shift();
+  if(els.length<3)return false;
+  var n=els.length;
+  els.forEach(function(e,i){
+    var t=e.tagName,fill=e.getAttribute('fill');
+    var isLine=(t==='path'||t==='line'||t==='polyline')&&(t==='line'||!fill||fill==='none')&&!e.getAttribute('stroke-dasharray')&&!e.getAttribute('marker-end')&&!e.getAttribute('marker-start');
+    e.style.setProperty('--i',(i/n*0.9).toFixed(3));
+    if(isLine){e.setAttribute('pathLength','1');e.classList.add('dl');}else e.classList.add('fd');
+  });
+  f.classList.add('pre');return true;
+}
+function doneFig(f){f.classList.remove('pre','go');f.querySelectorAll('.dl,.fd').forEach(function(e){e.classList.remove('dl','fd');e.removeAttribute('pathLength');e.style.removeProperty('--i');});}
+function zoom(f){
+  var o=document.createElement('div');o.className='figzoom';o.setAttribute('role','dialog');o.setAttribute('aria-label','Enlarged figure');
+  var c=f.cloneNode(true);c.classList.remove('zoomable','pre','go','lead');c.querySelectorAll('.dl,.fd').forEach(function(e){e.classList.remove('dl','fd');e.removeAttribute('pathLength');});
+  o.appendChild(c);document.body.appendChild(o);
+  function close(){o.remove();document.removeEventListener('keydown',key);}
+  function key(e){if(e.key==='Escape')close();}
+  o.addEventListener('click',close);document.addEventListener('keydown',key);
+}
+function enhance(){
+  var page=document.getElementById('page');if(!page)return;
+  if(figIO)figIO.disconnect();if(spyIO)spyIO.disconnect();
+  var old=page.querySelector('.toc');if(old)old.remove();
+  var lh=page.querySelector(':scope>.lhead');
+  var isLecture=!!lh&&!lh.classList.contains('qhead')&&typeof L!=='undefined'&&L.some(function(l){return l.id===CUR;});
+  if(lh){var m=/Lecture\s+([0-9]+)/.exec((lh.querySelector('.kicker')||{}).textContent||'');if(m&&isLecture)lh.setAttribute('data-n',m[1]);}
+  /* glossary pairs */
+  page.querySelectorAll('.words dl').forEach(function(dl){[].slice.call(dl.querySelectorAll(':scope>dt')).forEach(function(dt){var dd=dt.nextElementSibling;var w=document.createElement('div');w.className='wk';dl.insertBefore(w,dt);w.appendChild(dt);if(dd&&dd.tagName==='DD')w.appendChild(dd);});});
+  if(!isLecture)return;
+  /* contents rail */
+  var secs=[].filter.call(page.querySelectorAll(':scope>.card'),function(c){return c.querySelector(':scope>h2')&&!c.classList.contains('srcbox');});
+  if(secs.length>=3){
+    var nav=document.createElement('nav');nav.className='toc';nav.setAttribute('aria-label','On this page');
+    var h='<b>On this page</b>';
+    secs.forEach(function(c,i){var h2=c.querySelector(':scope>h2');var t=h2.textContent.trim();if(!c.id)c.id=slug(t,i);var q=c.classList.contains('quizcard');
+      var short=t.split(' — ')[0];if(short.length>44)short=short.slice(0,42).replace(/\s+\S*$/,'')+'…';
+      h+='<a href="#'+c.id+'"'+(q?' class="q"':'')+'>'+short.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</a>';});
+    nav.innerHTML=h;lh.after(nav);document.body.classList.add('has-toc');
+    nav.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;e.preventDefault();var el=document.getElementById(a.getAttribute('href').slice(1));if(el)el.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});});
+    if('IntersectionObserver' in window){
+      var links=nav.querySelectorAll('a');
+      spyIO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){var on=a.getAttribute('href')==='#'+e.target.id;a.classList.toggle('on',on);if(on&&nav.scrollWidth>nav.clientWidth)nav.scrollTo({left:a.offsetLeft-40,behavior:'smooth'});});}});},{rootMargin:'-20% 0px -70% 0px'});
+      secs.forEach(function(c){spyIO.observe(c);});
+    }
+  }
+  /* figure rows */
+  var figs=[].slice.call(page.querySelectorAll('figure.fig'));
+  var seen=new Set();
+  figs.forEach(function(f){
+    if(seen.has(f)||f.closest('.figrow'))return;
+    var run=[f],n=f.nextElementSibling;while(n&&n.matches&&n.matches('figure.fig')){run.push(n);n=n.nextElementSibling;}
+    run.forEach(function(x){seen.add(x);});
+    if(run.length<2)return;
+    var row=document.createElement('div');row.className='figrow';f.before(row);
+    run.forEach(function(x){row.appendChild(x);});
+    if(run.length%2===1){var lead=run.find(function(x){return x.querySelector('svg[data-anim]');})||run[0];lead.classList.add('lead');row.insertBefore(lead,row.firstChild);}
+  });
+  /* zoom + draw-in */
+  figs.forEach(function(f){var an=f.querySelector('svg[data-anim]');if(!an){f.classList.add('zoomable');f.setAttribute('title','Click to enlarge');}});
+  if(!RM&&'IntersectionObserver' in window){
+    figIO=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var f=e.target;figIO.unobserve(f);f.classList.add('go');setTimeout(function(){doneFig(f);},2200);});},{threshold:.12});
+    figs.forEach(function(f){if(prepFig(f))figIO.observe(f);});
+    setTimeout(function(){figs.forEach(function(f){if(f.classList.contains('pre')&&!f.classList.contains('go')){var r=f.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){f.classList.add('go');setTimeout(function(){doneFig(f);},2200);}}});},1500);
+  }
+  /* worksheet cells flash when a formula result changes */
+  if('MutationObserver' in window){
+    var ready=false;setTimeout(function(){ready=true;},800);
+    page.querySelectorAll('.xl').forEach(function(x){new MutationObserver(function(ms){if(!ready)return;ms.forEach(function(m){var td=m.target.nodeType===1?m.target:m.target.parentElement;td=td&&td.closest&&td.closest('td.fx');if(!td)return;td.classList.add('flash');requestAnimationFrame(function(){requestAnimationFrame(function(){td.classList.remove('flash');});});});}).observe(x,{subtree:true,childList:true,characterData:true});});
+  }
+}
+document.addEventListener('click',function(e){var f=e.target.closest&&e.target.closest('figure.fig.zoomable');if(f&&!e.target.closest('.figzoom')&&!e.target.closest('a'))zoom(f);});
+var tick=false;function thread(){tick=false;var d=document.documentElement,max=d.scrollHeight-innerHeight;var t=document.getElementById('top');if(t)t.style.setProperty('--read',max>0?Math.min(1,d.scrollTop/max).toFixed(4):0);}
+window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(thread);}},{passive:true});
+var r1=render;render=function(){r1();try{enhance();}catch(e){console.error(e);}thread();};
+})();
 buildNav();render();
 
     /* ---- best quiz scores from localStorage, shown on the lecture page ---- */
