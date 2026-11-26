@@ -443,3 +443,76 @@ table.plain th{background:var(--wash)}
 .card.takeaways li:first-child{border-top:0}
 .card.takeaways li:before{content:counter(tk);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--display);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
 @media(max-width:760px){.card.takeaways{padding:20px 18px;border-radius:16px}}
+
+/* ================= dark mode ================= */
+#themebtn{width:36px;height:34px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;flex:none;margin-right:2px}
+#themebtn:before{content:"";width:17px;height:17px;background:currentColor;-webkit-mask:var(--ti) center/contain no-repeat;mask:var(--ti) center/contain no-repeat;
+  --ti:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M20.4 14.6A8.5 8.5 0 0 1 9.4 3.6a.75.75 0 0 0-.95-.95A10 10 0 1 0 21.35 15.55a.75.75 0 0 0-.95-.95z'/%3E%3C/svg%3E")}
+html[data-theme=dark] #themebtn:before{--ti:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4.2' fill='black'/%3E%3Cpath d='M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6'/%3E%3C/svg%3E")}
+html[data-theme=dark]{color-scheme:dark;scrollbar-color:#3a4962 transparent;
+  --bg:#0d1420; --panel:#151e2e; --ink:#e7ecf4; --mut:#9ba8bb; --line:#243044; --line2:#34435c; --wash:#172133;
+  --gold:#d6bd7f; --gold-d:#d6bd7f;
+  --tc:#3fc7b8; --tc2:#11302d; --fd:#a9b4ff; --fd2:#1d2250; --wc:#f1ad52; --wc2:#33240f;
+  --sh:0 1px 2px rgba(0,0,0,.4),0 14px 34px -14px rgba(0,0,0,.7); --sh2:0 2px 4px rgba(0,0,0,.4),0 26px 60px -22px rgba(0,0,0,.8);
+  --paper:#1d1b16; --inv:invert(.9) hue-rotate(180deg)}
+html[data-theme=dark] body{background:var(--bg);color:var(--ink)}
+html[data-theme=dark] ::-webkit-scrollbar-thumb{background:#3a4962;border-color:var(--bg)}
+html[data-theme=dark] #top{background:rgba(13,20,32,.86);border-bottom-color:var(--line)}
+html[data-theme=dark] #top button,html[data-theme=dark] #top a.qnavbtn{background:var(--panel);color:var(--ink)}
+html[data-theme=dark] #top button:hover,html[data-theme=dark] #top a.qnavbtn:hover{background:var(--acc2)}
+html[data-theme=dark] .card.words{background:linear-gradient(180deg,var(--acc2),rgba(13,20,32,0) 115%)}
+html[data-theme=dark] .words .wk{background:var(--panel);border-color:var(--line);border-top-color:color-mix(in srgb,var(--acc) 60%,var(--panel))}
+html[data-theme=dark] .def dd{color:var(--ink)}
+html[data-theme=dark] .simple{background:linear-gradient(135deg,#152446,#131c33);box-shadow:inset 0 0 0 1px #263a6d}
+html[data-theme=dark] .simple b{color:#a9c0ff}
+html[data-theme=dark] .note{background:linear-gradient(135deg,var(--acc2),color-mix(in srgb,var(--acc2) 55%,var(--bg)))}
+html[data-theme=dark] .warn{background:linear-gradient(135deg,#3a2a0b,#2a2010);box-shadow:inset 0 0 0 1px #6b4e12;color:var(--ink)}
+html[data-theme=dark] .formula{background:linear-gradient(135deg,#182235,#141c2c)}
+html[data-theme=dark] .formula:before,html[data-theme=dark] .steps li:before,html[data-theme=dark] .card.takeaways li:before{background:var(--gold);color:#14213a}
+html[data-theme=dark] .card.takeaways{background:linear-gradient(135deg,#2a2311,#1a1912);border-color:#56471f}
+html[data-theme=dark] .card.takeaways li{border-top-color:#4a3d1c}
+/* drawings, charts and worksheets keep their own colours, turned for the dark page */
+html[data-theme=dark] .fig{background:var(--paper);border-color:#2b2f3a}
+html[data-theme=dark] .fig:hover{border-color:#4a4636}
+html[data-theme=dark] .fig figcaption{border-top-color:#343846;color:var(--mut)}
+html[data-theme=dark] .fig svg.sk,html[data-theme=dark] .fig>svg,html[data-theme=dark] .heroart svg,html[data-theme=dark] .outline.pics .th svg,html[data-theme=dark] svg.chart{filter:var(--inv)}
+html[data-theme=dark] .fig.photo{background:var(--panel);border-color:var(--line)}
+html[data-theme=dark] .fig.photo img{filter:brightness(.92)}
+html[data-theme=dark] .fig.zoomable:after{filter:invert(.92)}
+html[data-theme=dark] .fig .animpill{background:rgba(21,30,46,.92);border-color:var(--line2);color:var(--ink)}
+html[data-theme=dark] .fig .animpill:hover{background:var(--panel);border-color:var(--gold)}
+html[data-theme=dark] .heroart .pane{background:var(--paper);border-color:rgba(255,255,255,.14);box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 10px 24px -10px rgba(0,0,0,.6)}
+html[data-theme=dark] .outline.pics a .th{background:var(--paper);border-bottom-color:#2b2f3a}
+html[data-theme=dark] .chartbox{background:var(--paper);border-color:#2b2f3a}
+html[data-theme=dark] .xl{filter:var(--inv);box-shadow:none;border-color:#b9c2d0}
+html[data-theme=dark] .xl:focus-within{box-shadow:none}
+html[data-theme=dark] table.plain th{background:var(--wash)}
+html[data-theme=dark] .srcl a,html[data-theme=dark] .srcbox .srcl a,html[data-theme=dark] .pn a,html[data-theme=dark] .outline a{background:var(--panel);color:var(--ink);border-color:var(--line2)}
+html[data-theme=dark] .pn a:hover,html[data-theme=dark] .outline a:hover{border-color:var(--gold)}
+html[data-theme=dark] .srcl a:hover{background:var(--acc2);border-color:var(--acc)}
+html[data-theme=dark] #totop{background:rgba(21,30,46,.92);border-color:var(--line2)}
+html[data-theme=dark] .card.quizcard{background:#0a1626;box-shadow:inset 0 0 0 1px var(--line),var(--sh2)}
+html[data-theme=dark] .toc a.on{color:var(--ink)}
+html[data-theme=dark] ::selection{background:var(--gold);color:#14213a}
+html[data-theme=dark] .xl,html[data-theme=dark] svg.chart{--ink:#1c2433;--mut:#5b6678;--line:#dde3ec;--line2:#c5cedb;--panel:#fff;--wash:#f5f7fa;--bg:#fff;--gold:#c8af72;color:#1c2433}
+html[data-theme=dark] body .xl,html[data-theme=dark] body svg.sk,html[data-theme=dark] body .heroart svg,html[data-theme=dark] body svg.chart{--acc:#0f766e;--acc2:#e3f4f1}
+html[data-theme=dark] body.fd .xl,html[data-theme=dark] body.fd svg.sk,html[data-theme=dark] body.fd .heroart svg{--acc:#4338ca;--acc2:#e8eafc}
+html[data-theme=dark] body.wc .xl,html[data-theme=dark] body.wc svg.sk,html[data-theme=dark] body.wc .heroart svg{--acc:#b45309;--acc2:#fdf0d5}
+/* quiz pages */
+html[data-theme=dark] .qbar{background:rgba(13,20,32,.94)}
+html[data-theme=dark] .qprog{background:#263347}
+html[data-theme=dark] .qopt{background:var(--wash);color:var(--ink)}
+html[data-theme=dark] .qopt.right{background:#123a25;border-color:#22c55e}
+html[data-theme=dark] .qopt.wrong{background:#43181a;border-color:#ef4444}
+html[data-theme=dark] .qnum-in input{background:var(--wash);color:var(--ink);border-color:var(--line2)}
+html[data-theme=dark] .qbtn{background:var(--panel)}
+html[data-theme=dark] .qbtn.primary,html[data-theme=dark] .qcheck{background:var(--acc);color:#0d1420}
+html[data-theme=dark] .qfb.ok{background:#102c1d;color:#b7f0cd}
+html[data-theme=dark] .qfb.bad{background:#34161a;color:#fbc8c8}
+html[data-theme=dark] .qfb.hint{background:#332707;color:#f6dc9a}
+html[data-theme=dark] .qcasebox,html[data-theme=dark] .qcase div{background:#2a2311;border-color:#56471f}
+html[data-theme=dark] .qcasebox b{color:var(--gold)}
+html[data-theme=dark] .qtabs a{background:var(--panel)}
+html[data-theme=dark] .qhead .lv{background:rgba(255,255,255,.12);color:#fff}
+@media(max-width:1100px){html[data-theme=dark] .toc{background:rgba(13,20,32,.94)}html[data-theme=dark] .toc a.on{background:var(--gold);border-color:var(--gold);color:#14213a}}
+@media print{html[data-theme=dark]{--bg:#fff;--ink:#000}#themebtn{display:none}}

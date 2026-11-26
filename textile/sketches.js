@@ -7,3 +7,16 @@ function freeze(root){if(!still)return;(root.querySelectorAll?root.querySelector
 document.addEventListener('click',function(e){var s=e.target.closest&&e.target.closest('svg[data-anim]');if(!s)return;try{s.animationsPaused()?s.unpauseAnimations():s.pauseAnimations();}catch(err){}});
 if(still){freeze(document);new MutationObserver(function(){freeze(document);}).observe(document.documentElement,{childList:true,subtree:true});}
 })();
+/* light / dark: follows the device until the reader chooses; the choice is kept on this device */
+(function(){if(typeof document==='undefined')return;
+var K='rz-theme',d=document.documentElement;
+function get(){try{return localStorage.getItem(K);}catch(e){return null;}}
+function sys(){return window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+function apply(){var t=get()||sys();if(t==='dark')d.setAttribute('data-theme','dark');else d.removeAttribute('data-theme');var b=document.getElementById('themebtn');if(b){b.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');b.title=b.getAttribute('aria-label');}}
+apply();
+function btn(){var top=document.getElementById('top');if(!top||document.getElementById('themebtn'))return;var b=document.createElement('button');b.id='themebtn';b.type='button';
+ b.onclick=function(){var now=d.getAttribute('data-theme')==='dark'?'light':'dark';try{localStorage.setItem(K,now);}catch(e){}apply();};
+ var sp=top.querySelector('.spacer');if(sp)sp.after(b);else top.appendChild(b);apply();}
+btn();document.addEventListener('DOMContentLoaded',btn);
+if(window.matchMedia)try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',apply);}catch(e){}
+})();
