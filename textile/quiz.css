@@ -516,3 +516,26 @@ html[data-theme=dark] .qtabs a{background:var(--panel)}
 html[data-theme=dark] .qhead .lv{background:rgba(255,255,255,.12);color:#fff}
 @media(max-width:1100px){html[data-theme=dark] .toc{background:rgba(13,20,32,.94)}html[data-theme=dark] .toc a.on{background:var(--gold);border-color:var(--gold);color:#14213a}}
 @media print{html[data-theme=dark]{--bg:#fff;--ink:#000}#themebtn{display:none}}
+
+/* key to the letters in a formula */
+.fkey{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 22px;margin:10px 0 14px;max-width:74ch;font-size:15px}
+.fkey>div{display:flex;gap:10px;align-items:baseline;border-bottom:1px dashed var(--line);padding:3px 0}
+.fkey dt{font-weight:700;min-width:44px;font-variant-numeric:tabular-nums;color:var(--acc);margin:0}
+.fkey dd{margin:0;color:var(--ink)}
+
+/* abbreviations box */
+.toc .abbr{margin:22px 0 0;padding:14px 14px 10px;border:1px solid var(--line);border-radius:14px;background:var(--wash)}
+.toc .abbr b{margin:0 0 8px;color:var(--ink);font-size:13.5px}
+.abbr dl,.abbrm dl{margin:0}
+.abbr dl>div{padding:6px 0;border-top:1px dashed var(--line2);font-size:12.5px;line-height:1.4}
+.abbr dl>div:first-child{border-top:0}
+.abbr dt,.abbrm dt{font-weight:700;color:var(--acc);margin:0;font-variant-numeric:tabular-nums}
+.abbr dd,.abbrm dd{margin:1px 0 0;color:var(--ink)}
+.abbrm{grid-column:2;margin:-30px 0 44px;border:1px solid var(--line);border-radius:14px;background:var(--wash);padding:0 16px;font-size:14.5px}
+.abbrm summary{cursor:pointer;font-family:var(--display);font-weight:700;padding:12px 0;list-style-position:inside}
+.abbrm dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 22px;padding:0 0 14px}
+.abbrm dl>div{display:flex;gap:10px;align-items:baseline;border-top:1px dashed var(--line2);padding:5px 0}
+.abbrm dt{min-width:52px}
+@media(min-width:1101px){.abbrm:not(.always){display:none}}
+@media(max-width:1100px){.toc .abbr{display:none}}
+@media print{.abbrm{display:block}.abbrm dl{display:grid}}
