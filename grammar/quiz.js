@@ -60,10 +60,11 @@ function runQuiz(Q) {
     else { var nx = null; for (var k = 1; k <= n; k++) { var j = (i + k) % n; if (state.answered[j] === null) { nx = document.getElementById('qc' + j); break; } } if (nx) setTimeout(function () { nx.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 450); }
   }
   function finish() {
-    var p = Math.round(state.score / n * 100), g = grade(p);
+    var p = Math.round(state.score / n * 100), g = grade(p); if (Q.section && g[0] === 'F') g[1] = 'اس حصے کے اسباق دہرا لیجیے';
     var prev = store.get() || {}, best = Math.max(prev.best || 0, p), rec = { best: best, last: p, when: Date.now() }; store.set(rec);
-    var nx = Q.nav && Q.nav.next ? '<a class="qbtn primary" href="' + Q.nav.next + '">اگلا کوئز</a>' : '<a class="qbtn primary" href="' + Q.lecture.url + '">سبق پر واپس</a>';
-    document.getElementById('qresult').innerHTML = '<div class="qgrade g' + g[0] + '"><div class="big">' + g[0] + '</div><div><div class="pct">' + ud(p) + '٪ — ' + ud(n) + ' میں سے ' + ud(state.score) + ' درست</div><div class="word">' + g[1] + (best > p ? ' · بہترین ' + ud(best) + '٪' : '') + '</div></div></div><div class="qactions"><button class="qbtn" id="qretry">دوبارہ کوشش کیجیے</button>' + nx + '<a class="qbtn" href="' + Q.lecture.url + '">سبق کی ویڈیو</a></div>';
+    var nx = Q.nav && Q.nav.next ? '<a class="qbtn primary" href="' + Q.nav.next + '">اگلا کوئز</a>' : (Q.section ? '' : '<a class="qbtn primary" href="' + Q.lecture.url + '">سبق پر واپس</a>');
+    if (Q.section && nx) nx = nx.replace('اگلا کوئز', 'اگلے حصے کا کوئز');
+    document.getElementById('qresult').innerHTML = '<div class="qgrade g' + g[0] + '"><div class="big">' + g[0] + '</div><div><div class="pct">' + ud(p) + '٪ — ' + ud(n) + ' میں سے ' + ud(state.score) + ' درست</div><div class="word">' + g[1] + (best > p ? ' · بہترین ' + ud(best) + '٪' : '') + '</div></div></div><div class="qactions"><button class="qbtn" id="qretry">دوبارہ کوشش کیجیے</button>' + nx + (Q.section ? '<a class="qbtn" href="/grammar/quizzes/">تمام کوئز</a>' : '<a class="qbtn" href="' + Q.lecture.url + '">سبق کی ویڈیو</a>') + '</div>';
     if (window.RZA) try { window.RZA.quizDone(key, rec); } catch (e) { }
     document.getElementById('qretry').onclick = function () { runQuiz(Q); root.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     document.getElementById('qresult').scrollIntoView({ behavior: 'smooth', block: 'center' });
