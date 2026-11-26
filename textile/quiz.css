@@ -422,3 +422,13 @@ table.plain th{background:var(--wash)}
 @media(max-width:760px){.glance{gap:6px 16px;font-size:12.5px}.glance b{font-size:17px}.words dl{grid-template-columns:1fr}.simple,.note,.warn{padding-left:48px}#totop{right:14px;bottom:14px}}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.chartbox.draw svg.chart path{stroke-dashoffset:0}.chartbox.draw svg.chart circle{opacity:1}}
 @media print{.heroart,.glance,#totop,.animpill,.xlreset{display:none!important}.rv{opacity:1!important;transform:none!important}}
+
+/* photographs */
+.fig.photo{padding:0;overflow:hidden;background:#fff;border-color:var(--line)}
+.fig.photo img{display:block;width:100%;height:auto;max-width:var(--pw,100%);margin:0 auto}
+.fig.photo[style*="--pw"]{background:#f5f7fa}
+.fig.photo figcaption{border-top:0;margin:0 auto;padding:12px 16px 14px}
+.figrow>.fig.photo{justify-content:flex-start}
+.figrow>.fig.photo img{height:100%;max-height:340px;object-fit:cover}
+.figrow>.fig.photo[style*="--pw"] img{object-fit:contain}
+.figzoom .fig.photo img{max-height:78vh;width:auto;max-width:100%}
