@@ -539,7 +539,3 @@ html[data-theme=dark] .qhead .lv{background:rgba(255,255,255,.12);color:#fff}
 @media(min-width:1101px){.abbrm:not(.always){display:none}}
 @media(max-width:1100px){.toc .abbr{display:none}}
 @media print{.abbrm{display:block}.abbrm dl{display:grid}}
-
-/* key to the abbreviations used in a quiz question */
-.qtext .qkey{display:block;margin-top:8px;padding:6px 10px;border-left:3px solid var(--gold);background:var(--wash);border-radius:0 8px 8px 0;font-size:13.5px;font-weight:400;color:var(--mut);line-height:1.6}
-.qtext .qkey b{color:var(--acc);font-weight:700}
