@@ -63,7 +63,7 @@ function runQuiz(Q) {
     var p = Math.round(state.score / n * 100), g = grade(p); if (Q.section && g[0] === 'F') g[1] = 'اس حصے کے اسباق دہرا لیجیے';
     var prev = store.get() || {}, best = Math.max(prev.best || 0, p), rec = { best: best, last: p, when: Date.now() }; store.set(rec);
     var nx = Q.nav && Q.nav.next ? '<a class="qbtn primary" href="' + Q.nav.next + '">اگلا کوئز</a>' : (Q.section ? '' : '<a class="qbtn primary" href="' + Q.lecture.url + '">سبق پر واپس</a>');
-    if (Q.section && nx) nx = nx.replace('اگلا کوئز', 'اگلے حصے کا کوئز');
+    if (Q.section && nx && Q.nav.nextsec) nx = nx.replace('اگلا کوئز', 'اگلے حصے کا جائزہ');
     document.getElementById('qresult').innerHTML = '<div class="qgrade g' + g[0] + '"><div class="big">' + g[0] + '</div><div><div class="pct">' + ud(p) + '٪ — ' + ud(n) + ' میں سے ' + ud(state.score) + ' درست</div><div class="word">' + g[1] + (best > p ? ' · بہترین ' + ud(best) + '٪' : '') + '</div></div></div><div class="qactions"><button class="qbtn" id="qretry">دوبارہ کوشش کیجیے</button>' + nx + (Q.section ? '<a class="qbtn" href="/grammar/quizzes/">تمام کوئز</a>' : '<a class="qbtn" href="' + Q.lecture.url + '">سبق کی ویڈیو</a>') + '</div>';
     if (window.RZA) try { window.RZA.quizDone(key, rec); } catch (e) { }
     document.getElementById('qretry').onclick = function () { runQuiz(Q); root.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
@@ -79,5 +79,31 @@ window.quizBest = function () {
   });
 };
 window.quizBest();
+/* section review: how many lesson quizzes of the section are passed (60% or more) */
+(function () {
+  var PASS = 60;
+  function stat(L) {
+    var tot = 0, ok = 0, todo = [];
+    L.forEach(function (l) {
+      var miss = 0;
+      for (var i = 1; i <= 5; i++) { tot++; var v = null; try { v = JSON.parse(localStorage.getItem('quiz:' + l[0] + ':' + i) || 'null'); } catch (e) { } if (v && v.best >= PASS) ok++; else miss++; }
+      if (miss) todo.push(l);
+    });
+    return { tot: tot, ok: ok, todo: todo };
+  }
+  [].forEach.call(document.querySelectorAll('.secprog'), function (el) {
+    var L = JSON.parse(el.dataset.lessons), s = stat(L), done = s.ok === s.tot;
+    el.className = 'secprog ' + (done ? 'ok' : 'wait');
+    var bar = '<span class="spbar"><i style="width:' + Math.round(s.ok / s.tot * 100) + '%"></i></span>';
+    if (done) { el.innerHTML = '<b>✓ اس حصے کے تمام اسباق کے کوئز پاس ہو چکے ہیں۔</b> اب یہ جائزہ کوئز آزمائیے۔' + bar; return; }
+    var links = s.todo.slice(0, 6).map(function (l) { return '<a href="' + l[2] + '">سبق ' + ud(l[1]) + '</a>'; }).join('، ') + (s.todo.length > 6 ? ' …' : '');
+    el.innerHTML = '<b>آپ نے اس حصے کے ' + ud(s.tot) + ' میں سے ' + ud(s.ok) + ' سبق والے کوئز پاس کیے ہیں</b> (۶۰٪ یا زیادہ)۔ بہتر نتیجے کے لیے پہلے باقی کوئز کر لیجیے: ' + links + '۔ آپ چاہیں تو یہ جائزہ ابھی بھی آزما سکتے ہیں۔' + bar;
+  });
+  [].forEach.call(document.querySelectorAll('.secstat'), function (el) {
+    var s = stat(JSON.parse(el.dataset.lessons)), done = s.ok === s.tot;
+    el.className = 'secstat ' + (done ? 'ok' : 'wait');
+    el.textContent = done ? '✓ سب سبق پاس: جائزہ کھلا ہے' : 'سبق والے کوئز: ' + ud(s.tot) + ' میں سے ' + ud(s.ok) + ' پاس';
+  });
+})();
 if (window.QUIZ) runQuiz(window.QUIZ);
 })();
